@@ -1,0 +1,80 @@
+#header {
+    width: auto;
+    height: 40px;
+    padding: 10px 40px;
+    background: #000000;
+    line-height: 40px;
+    color: #9f9f9f;
+    overflow: hidden;
+}
+
+#header a {
+    color: #9f9f9f;
+}
+
+#header a:hover {
+    text-decoration: none;
+    color: #f0f3fc;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: #dbdbdb;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    text-align: left;
+    background: #575757;
+    color: #fff;
+}
+
+div.breadcrumbs {
+    background: #575757;
+    padding: 10px 40px;
+    border: none;
+    font-size: 14px;
+    color: #cecece;
+    text-align: left;
+}
+
+div.breadcrumbs a:hover {
+    color: #f2f2f2;
+}
+
+.selector-chosen h2 {
+    background: #575757!important;
+    color: #fff;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #dbdbdb;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: #767676;
+    cursor: pointer;
+}
+
+input[type=submit]:hover, input[type=button]:hover {
+    color: #000;
+    background: #9f9f9f !important;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    float: right;
+    border: none;
+    font-weight: 400;
+    background: #dbdbdb;
+}
+
+.object-tools a:focus, .object-tools a:hover {
+    background-color: #575757;
+    color: #e8e8e8;
+}
+
+#id_description {
+    height: 100px!important;
+}

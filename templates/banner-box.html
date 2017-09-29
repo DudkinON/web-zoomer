@@ -1,0 +1,18 @@
+{% load i18n %}
+{% get_available_languages as languages %}
+
+<h2 class="h3 text-success text-center">{% trans "Read also" %}</h2>
+{% if articles %}
+    {% for article in articles %}
+        <div class="thumbnail">
+            <div class="article-item">
+                <a href="{% url "articles" %}{{ article.id }}">
+                    <h2 class="h5 text-center">{{ article.title }}</h2>
+                    <img src="/media/{{ article.image.image }}" alt="{{ article.image.name }}"
+                         class="img-rounded img-text-left img-w-50">
+                    <p class="text-muted">{{ article.description|truncatechars_html:60 }}</p>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

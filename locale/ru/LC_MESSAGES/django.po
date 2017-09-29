@@ -1,0 +1,537 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-27 07:06+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: main/views.py:27
+#, fuzzy
+#| msgid "contacts"
+msgid "Contact"
+msgstr "контакты"
+
+#: templates/admin/404.html:4 templates/admin/404.html:8
+msgid "Page not found"
+msgstr ""
+
+#: templates/admin/404.html:10
+msgid "We're sorry, but the requested page could not be found."
+msgstr ""
+
+#: templates/admin/500.html:6 templates/admin/app_index.html:9
+#: templates/admin/auth/user/change_password.html:13
+#: templates/admin/base.html:65 templates/admin/change_form.html:18
+#: templates/admin/change_list.html:31
+#: templates/admin/delete_confirmation.html:14
+#: templates/admin/delete_selected_confirmation.html:14
+#: templates/admin/invalid_setup.html:6 templates/admin/object_history.html:6
+msgid "Home"
+msgstr ""
+
+#: templates/admin/500.html:7
+msgid "Server error"
+msgstr ""
+
+#: templates/admin/500.html:11
+msgid "Server error (500)"
+msgstr ""
+
+#: templates/admin/500.html:14
+msgid "Server Error <em>(500)</em>"
+msgstr ""
+
+#: templates/admin/500.html:15
+msgid ""
+"There's been an error. It's been reported to the site administrators via "
+"email and should be fixed shortly. Thanks for your patience."
+msgstr ""
+
+#: templates/admin/actions.html:4
+msgid "Run the selected action"
+msgstr ""
+
+#: templates/admin/actions.html:4
+msgid "Go"
+msgstr ""
+
+#: templates/admin/actions.html:10
+msgid "Click here to select the objects across all pages"
+msgstr ""
+
+#: templates/admin/actions.html:10
+#, python-format
+msgid "Select all %(total_count)s %(module_name)s"
+msgstr ""
+
+#: templates/admin/actions.html:12
+msgid "Clear selection"
+msgstr ""
+
+#: templates/admin/auth/user/add_form.html:6
+msgid ""
+"First, enter a username and password. Then, you'll be able to edit more user "
+"options."
+msgstr ""
+
+#: templates/admin/auth/user/add_form.html:8
+msgid "Enter a username and password."
+msgstr ""
+
+#: templates/admin/auth/user/change_password.html:17
+#: templates/admin/auth/user/change_password.html:55
+#: templates/admin/base.html:53
+msgid "Change password"
+msgstr "Изменить пароль"
+
+#: templates/admin/auth/user/change_password.html:28
+#: templates/admin/change_form.html:47 templates/admin/change_list.html:58
+#: templates/admin/login.html:21
+msgid "Please correct the error below."
+msgstr ""
+
+#: templates/admin/auth/user/change_password.html:28
+#: templates/admin/change_form.html:47 templates/admin/change_list.html:58
+#: templates/admin/login.html:21
+msgid "Please correct the errors below."
+msgstr ""
+
+#: templates/admin/auth/user/change_password.html:32
+#, python-format
+msgid "Enter a new password for the user <strong>%(username)s</strong>."
+msgstr ""
+
+#: templates/admin/base.html:39
+msgid "Welcome,"
+msgstr "Добро пожаловать,"
+
+#: templates/admin/base.html:44
+msgid "View site"
+msgstr ""
+
+#: templates/admin/base.html:49
+msgid "Documentation"
+msgstr "Документация"
+
+#: templates/admin/base.html:55
+msgid "Log out"
+msgstr "Выйти"
+
+#: templates/admin/base_site.html:3
+msgid "Django site admin"
+msgstr ""
+
+#: templates/admin/change_form.html:21 templates/admin/change_list.html:49
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin/change_form.html:33 templates/admin/object_history.html:10
+msgid "History"
+msgstr "История"
+
+#: templates/admin/change_form.html:35
+#: templates/admin/edit_inline/stacked.html:14
+#: templates/admin/edit_inline/tabular.html:36
+msgid "View on site"
+msgstr ""
+
+#: templates/admin/change_list.html:69
+msgid "Filter"
+msgstr "Фильтр"
+
+#: templates/admin/change_list_results.html:17
+msgid "Remove from sorting"
+msgstr ""
+
+#: templates/admin/change_list_results.html:18
+#, python-format
+msgid "Sorting priority: %(priority_number)s"
+msgstr ""
+
+#: templates/admin/change_list_results.html:19
+msgid "Toggle sorting"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:18
+#: templates/admin/related_widget_wrapper.html:24
+#: templates/admin/submit_line.html:6
+#: templates/admin/widgets/related_widget_wrapper.html:24
+msgid "Delete"
+msgstr "Удалить"
+
+#: templates/admin/delete_confirmation.html:24
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:31
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:38
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:40
+#: templates/admin/delete_selected_confirmation.html:39
+msgid "Objects"
+msgstr "Объекты"
+
+#: templates/admin/delete_confirmation.html:47
+#: templates/admin/delete_selected_confirmation.html:50
+msgid "Yes, I'm sure"
+msgstr "Да, я уверен"
+
+#: templates/admin/delete_confirmation.html:48
+#: templates/admin/delete_selected_confirmation.html:51
+msgid "No, take me back"
+msgstr ""
+
+#: templates/admin/delete_selected_confirmation.html:17
+msgid "Delete multiple objects"
+msgstr ""
+
+#: templates/admin/delete_selected_confirmation.html:23
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would result in deleting related "
+"objects, but your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+
+#: templates/admin/delete_selected_confirmation.html:30
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would require deleting the following "
+"protected related objects:"
+msgstr ""
+
+#: templates/admin/delete_selected_confirmation.html:37
+#, python-format
+msgid ""
+"Are you sure you want to delete the selected %(objects_name)s? All of the "
+"following objects and their related items will be deleted:"
+msgstr ""
+
+#: templates/admin/edit_inline/stacked.html:12
+#: templates/admin/edit_inline/tabular.html:34 templates/admin/index.html:37
+#: templates/admin/related_widget_wrapper.html:10
+#: templates/admin/widgets/related_widget_wrapper.html:10
+msgid "Change"
+msgstr "Изменить"
+
+#: templates/admin/edit_inline/tabular.html:20
+msgid "Delete?"
+msgstr "Удалить?"
+
+#: templates/admin/filter.html:2
+#, python-format
+msgid " By %(filter_title)s "
+msgstr ""
+
+#: templates/admin/includes/object_delete_summary.html:2
+msgid "Summary"
+msgstr "Резюме"
+
+#: templates/admin/index.html:20
+#, python-format
+msgid "Models in the %(name)s application"
+msgstr ""
+
+#: templates/admin/index.html:31 templates/admin/related_widget_wrapper.html:17
+#: templates/admin/widgets/related_widget_wrapper.html:17
+msgid "Add"
+msgstr "Добавить"
+
+#: templates/admin/index.html:47
+msgid "You don't have permission to edit anything."
+msgstr ""
+
+#: templates/admin/index.html:55
+msgid "Recent actions"
+msgstr ""
+
+#: templates/admin/index.html:56
+msgid "My actions"
+msgstr ""
+
+#: templates/admin/index.html:60
+msgid "None available"
+msgstr ""
+
+#: templates/admin/index.html:74
+msgid "Unknown content"
+msgstr ""
+
+#: templates/admin/invalid_setup.html:12
+msgid ""
+"Something's wrong with your database installation. Make sure the appropriate "
+"database tables have been created, and make sure the database is readable by "
+"the appropriate user."
+msgstr ""
+
+#: templates/admin/login.html:37
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+
+#: templates/admin/login.html:57
+msgid "Forgotten your password or username?"
+msgstr "Забыли ваше логин или пароль?"
+
+#: templates/admin/login.html:61
+msgid "Log in"
+msgstr "Войти"
+
+#: templates/admin/object_history.html:22
+msgid "Date/time"
+msgstr "Дата/время"
+
+#: templates/admin/object_history.html:23
+msgid "User"
+msgstr "Пользователь"
+
+#: templates/admin/object_history.html:24
+msgid "Action"
+msgstr ""
+
+#: templates/admin/object_history.html:38
+msgid ""
+"This object doesn't have a change history. It probably wasn't added via this "
+"admin site."
+msgstr ""
+
+#: templates/admin/pagination.html:10 templates/admin/search_form.html:9
+msgid "Show all"
+msgstr "Показать все"
+
+#: templates/admin/pagination.html:11 templates/admin/submit_line.html:3
+msgid "Save"
+msgstr "Сохранить"
+
+#: templates/admin/popup_response.html:3
+msgid "Popup closing..."
+msgstr "Закрытие всплывающих окон..."
+
+#: templates/admin/related_widget_wrapper.html:9
+#: templates/admin/widgets/related_widget_wrapper.html:9
+#, python-format
+msgid "Change selected %(model)s"
+msgstr "Изменить выбранную %(model)s"
+
+#: templates/admin/related_widget_wrapper.html:16
+#: templates/admin/widgets/related_widget_wrapper.html:16
+#, python-format
+msgid "Add another %(model)s"
+msgstr "Добавить %(model)s"
+
+#: templates/admin/related_widget_wrapper.html:23
+#: templates/admin/widgets/related_widget_wrapper.html:23
+#, python-format
+msgid "Delete selected %(model)s"
+msgstr "Удалить выбранную %(model)s"
+
+#: templates/admin/search_form.html:7
+msgid "Search"
+msgstr "Поиск"
+
+#: templates/admin/search_form.html:9
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/search_form.html:9
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr ""
+
+#: templates/admin/submit_line.html:8
+msgid "Save as new"
+msgstr "Сохранить как новый"
+
+#: templates/admin/submit_line.html:9
+msgid "Save and add another"
+msgstr "Сохранить и добавить еще"
+
+#: templates/admin/submit_line.html:10
+msgid "Save and continue editing"
+msgstr "Сохранить и продолжить редактирование"
+
+#: templates/banner-box.html:4
+msgid "Read also"
+msgstr "Смотрите так же"
+
+#: templates/header.html:14
+msgid "home"
+msgstr "главная"
+
+#: templates/header.html:15
+msgid "contacts"
+msgstr "контакты"
+
+#: templates/header.html:16
+msgid "about"
+msgstr "О нас"
+
+#: templates/header.html:43
+msgid "Language"
+msgstr "Язык"
+
+#: templates/main/about.html:6
+msgid "About us - Web Zoomer"
+msgstr "О нас - Web Zoomer"
+
+#: templates/main/index.html:4
+msgid "Highscores - home - Web Zoomer"
+msgstr "Рекорды - главная - Web Zoomer"
+
+#: templates/main/index.html:27
+msgid "Last articles"
+msgstr "Последние статьи"
+
+#: templates/main/index.html:39
+msgid "Read..."
+msgstr "Читать..."
+
+#: templates/sidebar.html:4
+msgid "Categories"
+msgstr "Категории"
+
+#: templates/users/login.html:51 templates/users/login.html:56
+#: templates/users/register.html:16 templates/users/register.html:21
+msgid "Email"
+msgstr "Емайл"
+
+#: templates/users/login.html:66 templates/users/login.html:72
+#: templates/users/register.html:61 templates/users/register.html:66
+msgid "Password"
+msgstr "Пароль"
+
+#: templates/users/login.html:79 users/views.py:24 users/views.py:31
+msgid "Sign in"
+msgstr "Войти"
+
+#: templates/users/login.html:81
+msgid "Sign up"
+msgstr "Регистрация"
+
+#: templates/users/register.html:31 templates/users/register.html:36
+msgid "First name"
+msgstr "Имя"
+
+#: templates/users/register.html:46 templates/users/register.html:51
+msgid "Last name"
+msgstr "Фамилия"
+
+#: templates/users/register.html:72 templates/users/register.html:77
+msgid "Confirm password"
+msgstr "Повторить пароль"
+
+#: templates/users/register.html:83
+msgid "send"
+msgstr "отправить"
+
+#: users/models.py:12
+msgid "email address"
+msgstr "Адрес электронной почты"
+
+#: users/models.py:13
+#, fuzzy
+#| msgid "Password"
+msgid "password"
+msgstr "Пароль"
+
+#: users/models.py:14
+msgid "first name"
+msgstr "имя"
+
+#: users/models.py:15
+msgid "last name"
+msgstr "фамилия"
+
+#: users/models.py:16
+msgid "date joined"
+msgstr "дата регистрации"
+
+#: users/models.py:17
+msgid "active"
+msgstr "активен"
+
+#: users/models.py:20
+msgid "staff status"
+msgstr "персонал"
+
+#: users/models.py:22
+msgid "Designates whether the user can log into this admin site"
+msgstr ""
+
+#: users/models.py:32
+msgid "user"
+msgstr "пользователь"
+
+#: users/models.py:33
+msgid "users"
+msgstr "пользователи"
+
+#: users/views.py:40
+msgid "You are login as {}"
+msgstr "Вы вошли как"
+
+#: users/views.py:44
+msgid "User does not found"
+msgstr "Пользователь не найден"
+
+#: users/views.py:60 users/views.py:67
+msgid "Create account"
+msgstr "Создать аккаунт"
+
+#: users/views.py:81
+msgid "Registration on Web Zoomer"
+msgstr "Регистрация на Web Zoomer"
+
+#: users/views.py:82
+msgid ""
+"You was registered on Web ZoomerFor activation yor account click follow "
+"link: {}/users/activate/{}"
+msgstr ""
+"Вы были зарегистрированы на Web Zoomer для активации акаунта нажмите "
+"эту ссылку: {}/users/activate/{}"
+#: w/settings.py:139
+msgid "English"
+msgstr "Английский"
+
+#: w/settings.py:140
+msgid "Russian"
+msgstr "Русский"
+
+#~ msgid "Remember me"
+#~ msgstr "Помнить меня"

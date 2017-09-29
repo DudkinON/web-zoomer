@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="h3 text-success text-center">{{ title }}</div>
+    {% for article in articles %}
+        <div class="article-border">
+            <h3 class="h4 text-color-gray">
+                <a href="{% url 'article' article.id %}">
+                   {{ article.title }}
+                </a>
+            </h3>
+            <div class="article-body">
+                <a href="{% url 'article' article.id %}">
+                    <img src="/media/{{ article.image.image }}" alt="{{ article.title }}" class="article-img">
+                </a>
+                <p>{{ article.description }}</p>
+            </div>
+            <hr class="hr-separator">
+            <div class="article-footer">
+                <div class="col-md-12 top-line p-10 text-color-grey">
+                    <div class="inline">
+                        <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                        <span>{{ article.date }}</span> |
+                    </div>
+                    <div class="inline">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span>{{ article.author }}</span> |
+                    </div>
+                    <div class="inline">
+                        <i class="fa fa-binoculars" aria-hidden="true"></i>
+                        <span>{{ article.views }}</span> |
+                    </div>
+                    <div class="inline" id="block-share">
+                        <div class="share-container thumbnail text-center" id="share-container">
+                            <div class="share-item inline">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                            </div>
+                            <div class="share-item inline">
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </div>
+                            <div class="share-item inline">
+                                <i class="fa fa-google-plus" aria-hidden="true"></i>
+                            </div>
+                            <div class="share-item inline">
+                                <i class="fa fa-vk" aria-hidden="true"></i>
+                            </div>
+                            <div class="share-item inline">
+                                <i class="fa fa-odnoklassniki" aria-hidden="true"></i>
+                            </div>
+                            <div class="share-item inline">
+                                <i class="fa fa-tumblr" aria-hidden="true"></i>
+                            </div>
+                            <div class="share-item inline">
+                                <i class="fa fa-telegram" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <i class="fa fa-share-alt" aria-hidden="true" id="share-parent"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

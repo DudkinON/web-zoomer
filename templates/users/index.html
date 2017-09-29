@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_available_languages as languages %}
+
+{% block user_menu %}
+    {% if username %}
+        {# show button logout #}
+        <li><a href="#">profile</a></li>
+        <li><a href="#">logout</a></li>
+    {% else %}
+        {# show button login #}
+        <li><a href="{% url 'users:login' %}">login</a></li>
+        <li><a href="#">register</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {# login form #}
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_available_languages as languages %}
+{% block title %}{% trans "Highscores - home - Web Zoomer" %}{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert
+                {% if message.tags == 'error' %} alert-danger
+                {% elif message.tags == 'warning' %} alert-warning
+                {% elif message.tags == 'info' %} alert-info
+                {% elif message.tags == 'success' %} alert-success
+                {% endif %}
+                alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if articles %}
+        <h1 class="h3 text-center text-success">{% trans "Last articles" %}</h1>
+
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <div class="article-item h-360">
+                            <h2 class="h4 text-center">{{ article.title }}</h2>
+                            <img src="/media/{{ article.image.image }}" alt="{{ article.image.name }}"
+                                 class="img-rounded">
+                            <p class="text-muted text-center">{{ article.description|truncatechars_html:110 }}</p>
+                            <div class="div-article-btn">
+                                <a href="{% url "articles" %}{{ article.id }}" class="btn btn-success btn-article-item">{% trans "Read..." %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
