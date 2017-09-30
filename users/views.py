@@ -47,7 +47,7 @@ class UsersLoginFormView(View):
                 return render(request, self.template_name, args)
 
         else:
-            print('errors: ', form.errors.as_data())
+            # print('errors: ', form.errors.as_data())
             return render(request, self.template_name, args)
 
 

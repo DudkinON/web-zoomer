@@ -1,14 +1,18 @@
 from django import forms
-# from .models import Category as Cats
+from .models import Message, Category as Cats
 
 
-# def get_contact_categories():
-#     contact_categories = Cats.objects.filter(is_active=True)
-#     cats = tuple()
-#     for i in contact_categories:
-#         cats += (i.title,)
-#     print(cats)
-#     return cats
+def get_contact_categories():
+    """Return tuple of contact categories
+
+    :return tuple:
+    """
+    contact_categories = Cats.objects.filter(is_active=True) or None
+    cats = tuple()
+    if contact_categories:
+        for i in contact_categories.title:
+            cats += (i.title,)
+    return cats
 
 
 class ContactForm(forms.Form):
@@ -16,4 +20,8 @@ class ContactForm(forms.Form):
     title = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=40)
     text = forms.CharField(max_length=250)
-    contact_category = forms.ChoiceField(choices=('main', 'other'))
+    contact_category = forms.ChoiceField(choices=get_contact_categories())
+
+    class Meta:
+        model = Message
+        fields = ['email', 'username', 'category', 'title', 'text']

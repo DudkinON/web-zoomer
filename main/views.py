@@ -7,6 +7,8 @@ from main.models import Pages, Category as Cats
 from main.forms import ContactForm
 from django.utils.translation import ugettext_lazy as _
 from re import findall, compile
+from django.contrib import messages
+
 app_name = 'main'
 
 
@@ -41,18 +43,23 @@ def contact(request):
     :param request:
     :return class:
     """
-    contact_categories = Cats.objects.all()
-    context = dict()
-    context['title'] = _('Contact')
-    context['categs'] = contact_categories
+    args = dict()
+    args['title'] = _('Contacts')
+    args['categs'] = Cats.objects.all() or None
 
-    if request.method == 'POST' and request.POST.is_valid():
+    if request.method == 'POST':
+        print(request.POST)
         form = ContactForm(request.POST)
+        args['form'] = form
         if form.is_valid():
-            return render(request, 'main/contact.html', context)
-    else:
-        context['form'] = ContactForm()
-        return render(request, 'main/contact.html', context)
+            messages.info(request, _("Your message was sent successfully!"))
+            return render(request, 'main/contact.html', args)
+        else:
+            print('errors: ', form.errors.as_data())
+            return render(request, 'main/contact.html', args)
+
+    args['form'] = ContactForm(None)
+    return render(request, 'main/contact.html', args)
 
 
 def select_lang(request, lang):

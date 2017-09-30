@@ -4,7 +4,9 @@
 
 
 <nav class="container navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url 'home' %}">WEB ZOOMER</a>
+    <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="/static/img/logo.png" alt="" width="50">
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent"
@@ -15,7 +17,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">{% trans "home" %}<span
+                <a class="nav-link"
+                   href="{% url 'home' %}">{% trans "home" %}<span
                         class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
@@ -27,40 +30,45 @@
                    href="{% url 'about' %}">{% trans "about" %}</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0 search-form mr-auto" action="{% url 'search' %}">
+        <form class="form-inline my-2 my-lg-0 search-form mr-auto"
+              action="{% url 'search' %}">
             <input class="form-control mr-sm-2" type="text"
                    placeholder="{% trans "Search" %}" aria-label="Search"
-                   name="q" id="search-input" >
+                   name="q" id="search-input">
         </form>
 
         <ul class="nav navbar-nav navbar-right">
-                {% if 'uid' in request.session %}
-                    <li><a href="#"><i class="fa fa-user"></i></a></li>
-                    <li>
-                        <a class="nav-link" href="{% url 'users:logout' %}">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                {% else %}
-                    <li>
-                        <a class="nav-link" href="{% url 'users:login' %}">
-                            <i class="fa fa-sign-in" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                {% endif %}
-
-                <li class="dropdown">
-                    <a class="nav-link" href="#" class="dropdown-toggle" data-toggle="dropdown"
-                       role="button" aria-haspopup="true"
-                       aria-expanded="false">{% trans 'Language' %} <span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'language' 'en' %}">english</a>
-                        </li>
-                        <li><a href="{% url 'language' 'ru' %}">русский</a>
-                        </li>
-                    </ul>
+            {% if 'uid' in request.session %}
+                <li><a href="#"><i class="fa fa-user"></i></a></li>
+                <li>
+                    <a class="nav-link" href="{% url 'users:logout' %}">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    </a>
                 </li>
-            </ul>
+            {% else %}
+                <li>
+                    <a class="nav-link" href="{% url 'users:login' %}">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="dropdown">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-dark dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        {% trans 'Language' %}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item"
+                           href="{% url 'language' 'en' %}">english</a>
+                        <a class="dropdown-item"
+                           href="{% url 'language' 'ru' %}">русский</a>
+                    </div>
+                </div>
+
+            </li>
+        </ul>
     </div>
 </nav>

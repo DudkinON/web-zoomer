@@ -4,23 +4,88 @@
 
 {% block content %}
     <div class="h3 text-success text-center">{{ title }}</div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert
+                {% if message.tags == 'error' %} alert-danger
+                {% elif message.tags == 'warning' %} alert-warning
+                {% elif message.tags == 'info' %} alert-info
+                {% elif message.tags == 'success' %} alert-success
+                {% endif %}
+                alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if form.email.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"
+                    aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span>{{ form.email.errors }}</span>
+        </div>
+    {% endif %}
+    {% if form.password.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"
+                    aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>{{ form.password.errors }}</strong>
+        </div>
+    {% endif %}
     <div class="text-center">
-        <form action="" method="post">{% csrf_token %}
-            <input type="email" placeholder="email" name="{{ form.email.html_name }}">
-            <input type="text" placeholder="your name" name="{{ form.username.html_name }}">
-            <input type="text" placeholder="subject" name="{{ form.title.html_name }}">
-            <textarea name="{{ form.text.html_name }}" id="" cols="60" rows="5"
-                      placeholder="Your message"></textarea>
+        <form action="{% url "contact" %}" method="post" class="mt-100">
+            {% csrf_token %}
+            <div class="form-group row justify-content-center">
+                <div class="col-5">
+                    <input type="email" placeholder="email"
+                           class="form-control"
+                           name="{{ form.email.html_name }}">
+                </div>
+                <div class="col-5">
+                    <input type="text" placeholder="your name"
+                           class="form-control"
+                           name="{{ form.username.html_name }}">
+                </div>
+            </div>
+            <div class="form-group row justify-content-center">
+                <div class="col-10">
+                    <input type="text" placeholder="subject"
+                           class="form-control"
+                           name="{{ form.title.html_name }}">
+                </div>
+            </div>
+            <div class="form-group row justify-content-center">
+                <div class="col-10">
+                    <textarea name="{{ form.text.html_name }}" id="" rows="5"
+                              placeholder="Your message"
+                              class="form-control"></textarea>
+                </div>
+            </div>
             {% if categs %}
-                <div class="">
-                    <select name="{{ form.category.html_name }}" id="">
-                        {% for category in categs %}
-                            <option value="{{ category.title }}">{{ category.title }}</option>
-                        {% endfor %}
-                    </select>
+                <div class="form-group row justify-content-center">
+                    <div class="col-10">
+                        <select class="form-control" name="{{ form.category.html_name }}" id="">
+                            {% for category in categs %}
+                                <option value="{{ category.title }}">{{ category.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
             {% endif %}
-            <input type="submit" name="submit" value="Send">
+            <div class="form-group row justify-content-center mt-50">
+                <div class="col-5">
+                    <input type="submit" name="submit" value="Send"
+                           class="btn btn-success button-full cursor-pointer">
+                </div>
+            </div>
         </form>
     </div>
 {% endblock %}
