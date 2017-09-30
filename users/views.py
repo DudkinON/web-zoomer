@@ -83,30 +83,45 @@ class RegisterUserView(View):
                     subject = _('Registration on Web Zoomer')
                     message = _("You was registered on Web Zoomer"
                                 "For activation yor account click follow link:"
-                                " {}/users/activate/{}".format(www, user_code))
+                                " {}/users/activate/{}/{}"
+                                "".format(www, new_user.id, user_code))
                     from_email = 'info@wzwz.ru'
                     try:
                         send_mail(subject, message, from_email, [email])
                         return redirect('/')
                     except BadHeaderError:
+                        messages.error(request, _("Sending an email for you, "
+                                                  "has failed. <a "
+                                                  "href='/contact/'>Contact"
+                                                  "</a> the administration"))
                         return render(request, self.template_name, args)
-
                 except Exception as e:
                     print(e)
-
             return render(request, self.template_name, args)
         else:
             return render(request, self.template_name, args)
-        # if new_user_form.save():
-        #     new_user = authenticate(email=email, password=password)
-        #     login(request, new_user)
-        #     return redirect('/')
-        # else:
-        #     args['form'] = form
-        #     return render(request, self.template_name, args)
+
+
+def user_activation(request, uid, code):
+    uid = int(uid) or None
+    if uid is not None:
+        user = User.objects.filter(id=uid).first()
+    else:
+        user = None
+    if user is not None:
+        user_code = hashed((user.email + user.password).encode('utf-8')
+                           ).hexdigest()
+        if user_code == code:
+            print(user.is_active)
+            user.is_active = True
+            print(user.is_active)
+        else:
+            messages.error(request, _("Invalid verification code"))
+    else:
+        messages.error(request, _("User doesn't found"))
+    return render(request, 'users/activate.html')
 
 
 def logout_view(request):
     logout(request)
     return redirect('/')
-

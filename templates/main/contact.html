@@ -40,6 +40,7 @@
             <strong>{{ form.password.errors }}</strong>
         </div>
     {% endif %}
+
     <div class="text-center">
         <form action="{% url "contact" %}" method="post" class="mt-100">
             {% csrf_token %}
