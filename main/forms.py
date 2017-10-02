@@ -20,7 +20,7 @@ class ContactForm(forms.Form):
     title = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=40)
     text = forms.CharField(max_length=250)
-    contact_category = forms.ChoiceField(choices=get_contact_categories())
+    contact_category = forms.ChoiceField(choices=(get_contact_categories()))
 
     class Meta:
         model = Message

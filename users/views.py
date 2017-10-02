@@ -7,7 +7,7 @@ from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
-from wzwz_ru.settings import SITE_URL as www
+from wzwz_ru.settings import SITE_URL
 
 from .forms import UserLoginForm, UserRegisterForm
 from .models import User
@@ -20,6 +20,9 @@ class UsersLoginFormView(View):
     template_name = 'users/login.html'
 
     def get(self, request):
+        if 'uid' in request.session:
+            messages.warning(request, _("You are already logged in"))
+            return redirect('/')
         args = dict()
         form = self.form_class(None)
         args['form'] = form
@@ -56,6 +59,9 @@ class RegisterUserView(View):
     template_name = 'users/register.html'
 
     def get(self, request):
+        if 'uid' in request.session:
+            messages.warning(request, _("You are already logged in"))
+            return redirect('/')
         args = {}
         form = self.form_class(None)
         args['form'] = form
@@ -83,8 +89,8 @@ class RegisterUserView(View):
                     subject = _('Registration on Web Zoomer')
                     message = _("You was registered on Web Zoomer"
                                 "For activation yor account click follow link:"
-                                " {}/users/activate/{}/{}"
-                                "".format(www, new_user.id, user_code))
+                                " {}/users/activate/{}/{}/"
+                                "".format(SITE_URL, new_user.id, user_code))
                     from_email = 'info@wzwz.ru'
                     try:
                         send_mail(subject, message, from_email, [email])
@@ -106,20 +112,34 @@ def user_activation(request, uid, code):
     uid = int(uid) or None
     if uid is not None:
         user = User.objects.filter(id=uid).first()
+        print(user)
     else:
         user = None
     if user is not None:
         user_code = hashed((user.email + user.password).encode('utf-8')
                            ).hexdigest()
         if user_code == code:
-            print(user.is_active)
-            user.is_active = True
-            print(user.is_active)
+            if user.is_active:
+                messages.warning(request, _("Your account is already active"))
+            else:
+                user.is_active = True
+                user.save(update_fields=['is_active'])
+                messages.info(request, _("Your account was activated"))
+            return redirect('/users/profile/')
         else:
             messages.error(request, _("Invalid verification code"))
     else:
         messages.error(request, _("User doesn't found"))
     return render(request, 'users/activate.html')
+
+
+class UserProfile(View):
+    template_name = 'users/profile.html'
+
+    def get(self, request):
+        args = dict()
+        args['title'] = _("Profile")
+        return render(request, self.template_name, args)
 
 
 def logout_view(request):

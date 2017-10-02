@@ -39,7 +39,9 @@
 
         <ul class="nav navbar-nav navbar-right">
             {% if 'uid' in request.session %}
-                <li><a href="#"><i class="fa fa-user"></i></a></li>
+                <li>
+                    <a class="nav-link" href="#"><i class="fa fa-user"></i></a>
+                </li>
                 <li>
                     <a class="nav-link" href="{% url 'users:logout' %}">
                         <i class="fa fa-sign-out" aria-hidden="true"></i>

@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'main',
     'blog',
-    'menu',
+    # 'menu',
     'users.apps.UsersConfig',
 
     # Django apps
@@ -83,10 +83,19 @@ WSGI_APPLICATION = 'wzwz_ru.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'wz_pg',
+        'USER': 'wz',
+        'PASSWORD': '12345',
+        'HOST': '127.0.0.1',
+        'PORT': '',
+    }
+
 }
 
 PASSWORD_HASHERS = [
@@ -157,4 +166,3 @@ SITE_URL = 'www.wzwz.ru'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
