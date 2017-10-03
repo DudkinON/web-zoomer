@@ -23,7 +23,7 @@ def home(request):
         "-date")[:3]
     context['categories'] = Category.objects.filter(is_active=True) or None
 
-    return render(request, 'main/index.html', context)
+    return render(request, 'main/home.html', context)
 
 
 def about(request):
@@ -98,11 +98,8 @@ def search(request):
     for word in query:
         q += '{} '.format(word)
     q = q.rstrip()
-    print(q)
     results_title = Blog.objects.filter(title=q).all() or None
     results_text = Blog.objects.filter(text=q).all() or None
-    print(results_text, results_text)
     args['title'] = _('Search results')
     args['results'] = [results_title, results_text]
-    # args['results'] = results
     return render(request, 'main/search.html', args)

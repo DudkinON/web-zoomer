@@ -5,7 +5,7 @@
 
 <nav class="container navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="/static/img/logo.png" alt="" width="50">
+        <img src="/static/img/logo.png" alt="" width="50px">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -40,7 +40,9 @@
         <ul class="nav navbar-nav navbar-right">
             {% if 'uid' in request.session %}
                 <li>
-                    <a class="nav-link" href="#"><i class="fa fa-user"></i></a>
+                    <a class="nav-link" href="{% url 'users:profile' request.session.uid %}">
+                        <i class="fa fa-user"></i>
+                    </a>
                 </li>
                 <li>
                     <a class="nav-link" href="{% url 'users:logout' %}">

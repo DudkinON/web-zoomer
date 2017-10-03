@@ -51,3 +51,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''
         from django.core.mail import send_mail
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+

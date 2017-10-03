@@ -34,7 +34,7 @@ class MainTest(TestCase):
         response = self.client.get(reverse('about'))
         self.assertEqual(response.status_code, 200)
 
-    def test_main_contact(self):
+    def test_main_contacts(self):
         data = {"email": "user@example.com",
                 "username": "John",
                 "title": "Test",

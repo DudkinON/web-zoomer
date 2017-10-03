@@ -50,7 +50,6 @@ class UsersLoginFormView(View):
                 return render(request, self.template_name, args)
 
         else:
-            # print('errors: ', form.errors.as_data())
             return render(request, self.template_name, args)
 
 
@@ -136,7 +135,7 @@ def user_activation(request, uid, code):
 class UserProfile(View):
     template_name = 'users/profile.html'
 
-    def get(self, request):
+    def get(self, request, uid):
         args = dict()
         args['title'] = _("Profile")
         return render(request, self.template_name, args)

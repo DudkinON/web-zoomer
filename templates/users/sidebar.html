@@ -1,0 +1,12 @@
+{% load i18n %}
+{% get_available_languages as languages %}
+<div class="">
+<h1 class="h3 text-success text-center">{% trans "Actions" %}</h1>
+    {% if actions %}
+        <ul class="list-unstyled m-l-20">
+            {% for item in actions %}
+                <li><a href="{{ item.slug }}"> {{ item.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
