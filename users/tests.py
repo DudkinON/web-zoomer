@@ -3,9 +3,7 @@ from __future__ import unicode_literals
 from django.test import TestCase, RequestFactory
 from django.core import mail
 from django.utils.six import text_type
-from django.urls import reverse
 from .views import *
-from .models import *
 
 
 class UsersTest(TestCase):

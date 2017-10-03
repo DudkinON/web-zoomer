@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import translation
 from blog.models import Blog, Category
-from main.models import Pages, Category as Cats
+from main.models import Pages, Message
 from main.forms import ContactForm
 from django.utils.translation import ugettext_lazy as _
 from re import findall, compile
@@ -19,7 +19,8 @@ def home(request):
     :return class:
     """
     context = dict()
-    context['articles'] = Blog.objects.filter(is_active=True).order_by("-date")[:3]
+    context['articles'] = Blog.objects.filter(is_active=True).order_by(
+        "-date")[:3]
     context['categories'] = Category.objects.filter(is_active=True) or None
 
     return render(request, 'main/index.html', context)
@@ -32,12 +33,12 @@ def about(request):
     :return class:
     """
     context = dict()
-    # context['about'] = Pages.objects.filter(title='About us').first()
+    context['about'] = Pages.objects.filter(title='About us').first() or None
     context['categories'] = Category.objects.filter(is_active=True)
     return render(request, 'main/about.html', context)
 
 
-def contact(request):
+def contacts(request):
     """The contact page
 
     :param request:
@@ -45,21 +46,24 @@ def contact(request):
     """
     args = dict()
     args['title'] = _('Contacts')
-    args['categs'] = Cats.objects.all() or None
 
     if request.method == 'POST':
-        print(request.POST)
         form = ContactForm(request.POST)
         args['form'] = form
         if form.is_valid():
+            message = Message(email=form.cleaned_data['email'],
+                              username=form.cleaned_data['username'],
+                              title=form.cleaned_data['title'],
+                              text=form.cleaned_data['text'])
             messages.info(request, _("Your message was sent successfully!"))
-            return render(request, 'main/contact.html', args)
+            message.save()
+            return redirect('/')
         else:
-            print('errors: ', form.errors.as_data())
-            return render(request, 'main/contact.html', args)
+            # print('errors: ', form.errors.as_data())
+            return render(request, 'main/contacts.html', args)
 
     args['form'] = ContactForm(None)
-    return render(request, 'main/contact.html', args)
+    return render(request, 'main/contacts.html', args)
 
 
 def select_lang(request, lang):
@@ -95,8 +99,9 @@ def search(request):
         q += '{} '.format(word)
     q = q.rstrip()
     print(q)
-    results_title = Blog.objects.filter(title=q) or None
-    results_text = Blog.objects.filter(text=q) or None
+    results_title = Blog.objects.filter(title=q).all() or None
+    results_text = Blog.objects.filter(text=q).all() or None
+    print(results_text, results_text)
     args['title'] = _('Search results')
     args['results'] = [results_title, results_text]
     # args['results'] = results

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pages, Message, Category
+from .models import Pages, Message
 
 
 class PageAdmin(admin.ModelAdmin):
@@ -12,20 +12,9 @@ class PageAdmin(admin.ModelAdmin):
 admin.site.register(Pages, PageAdmin)
 
 
-class CategoriesPagesAdmin(admin.ModelAdmin):
-    list_display = ["title"]
-
-    class Meta:
-        model = Category
-
-
-admin.site.register(Category, CategoriesPagesAdmin)
-
-
 class PagesAdmin(admin.ModelAdmin):
     list_display = ["title",
                     "email",
-                    "category",
                     "username",
                     "data"]
 

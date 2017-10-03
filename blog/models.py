@@ -43,7 +43,7 @@ class Blog(models.Model):
     key_words = models.CharField(max_length=255, blank=True, null=True, default=None)
     description = models.TextField(blank=True, null=True, default=None)
     text = models.TextField(blank=True, null=True, default=None)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True, blank=True)
     author = models.CharField(max_length=125, blank=True, null=True, default=None)
     is_active = models.BooleanField(default=True)
     views = models.IntegerField(default=0)

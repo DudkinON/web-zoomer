@@ -16,25 +16,12 @@ class Pages(models.Model):
         verbose_name_plural = 'Pages'
 
 
-class Category(models.Model):
-    title = models.CharField(max_length=65, blank=True, null=True, default=None)
-    is_active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return "Category: {}".format(self.title)
-
-    class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
-
-
 class Message(models.Model):
     username = models.CharField(max_length=64)
     title = models.CharField(max_length=100, blank=True, null=True, default=None)
     email = models.EmailField(max_length=40)
     text = models.CharField(max_length=250, default=None)
-    category = models.ForeignKey(Category, blank=True, null=True, default=None)
-    data = models.DateTimeField()
+    data = models.DateTimeField(auto_now_add=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
@@ -42,5 +29,6 @@ class Message(models.Model):
         return "{}".format(self.username)
 
     class Meta:
+        db_table = 'main_message'
         verbose_name = 'Message'
         verbose_name_plural = 'Messages'
