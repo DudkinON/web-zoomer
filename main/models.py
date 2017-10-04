@@ -22,7 +22,7 @@ class Message(models.Model):
     title = models.CharField(_("title"), max_length=100, blank=True, null=True, default=None)
     email = models.EmailField(_("email"), max_length=40)
     text = models.CharField(_("text"), max_length=250, default=None)
-    data = models.DateTimeField(_("data"), auto_now_add=True, blank=True)
+    date = models.DateTimeField(_("date"), auto_now=True)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 

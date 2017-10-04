@@ -40,7 +40,7 @@ class Blog(models.Model):
     category = models.ForeignKey(Category, blank=True, null=True, default=None)
     image = models.ForeignKey(ArticleImage, blank=True, null=True, default=None)
     title = models.CharField(_("title"), max_length=255, blank=True, null=False, default=None)
-    key_words = models.CharField(_("key_words"), max_length=255, blank=True, null=True, default=None)
+    key_words = models.CharField(_("key words"), max_length=255, blank=True, null=True, default=None)
     description = models.TextField(_("description"), blank=True, null=True, default=None)
     text = models.TextField(_("text"), blank=True, null=True, default=None)
     date = models.DateTimeField(_("date"), auto_now_add=True, blank=True)

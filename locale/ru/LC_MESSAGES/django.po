@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-04 02:17+0000\n"
+"POT-Creation-Date: 2017-10-04 03:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,15 +24,15 @@ msgstr ""
 #, fuzzy
 #| msgid "Last name"
 msgid "name"
-msgstr "Фамилия"
+msgstr "Имя"
 
 #: blog/models.py:13 main/models.py:10
 msgid "image"
-msgstr ""
+msgstr "Изображение"
 
 #: blog/models.py:14
 msgid "is main"
-msgstr ""
+msgstr "главное(ая)"
 
 #: blog/models.py:15 blog/models.py:29 users/models.py:17 users/models.py:79
 #, fuzzy
@@ -42,15 +42,15 @@ msgstr "активен"
 
 #: blog/models.py:23
 msgid "Photo"
-msgstr ""
+msgstr "Фото"
 
 #: blog/models.py:24
 msgid "Photos"
-msgstr ""
+msgstr "Фотографии"
 
 #: blog/models.py:28 blog/models.py:42 main/models.py:8 main/models.py:22
 msgid "title"
-msgstr ""
+msgstr "Название"
 
 #: blog/models.py:32 users/models.py:82
 #, fuzzy
@@ -69,48 +69,48 @@ msgid "Categories"
 msgstr "Категории"
 
 #: blog/models.py:43
-msgid "key_words"
-msgstr ""
+msgid "key words"
+msgstr "ключевые слова"
 
 #: blog/models.py:44
 msgid "description"
-msgstr ""
+msgstr "описание"
 
 #: blog/models.py:45 main/models.py:9 main/models.py:24
 msgid "text"
-msgstr ""
+msgstr "текст"
 
-#: blog/models.py:46
+#: blog/models.py:46 main/models.py:25
 msgid "date"
-msgstr ""
+msgstr "дата"
 
 #: blog/models.py:47
 msgid "author"
-msgstr ""
+msgstr "автор"
 
 #: blog/models.py:52 main/models.py:13
 msgid "Title: {}"
-msgstr ""
+msgstr "Название: {}"
 
 #: blog/models.py:55
 #, fuzzy
-#| msgid "Last articles"
+#| msgid "Аrticle"
 msgid "Article"
-msgstr "Последние статьи"
+msgstr "Статья"
 
 #: blog/models.py:56
 #, fuzzy
 #| msgid "Last articles"
 msgid "Articles"
-msgstr "Последние статьи"
+msgstr "Статьи"
 
 #: main/models.py:16
 msgid "Page"
-msgstr ""
+msgstr "Страница"
 
 #: main/models.py:17
 msgid "Pages"
-msgstr ""
+msgstr "Страницы"
 
 #: main/models.py:21
 #, fuzzy
@@ -124,17 +124,13 @@ msgstr "пользователь"
 msgid "email"
 msgstr "Емайл"
 
-#: main/models.py:25
-msgid "data"
-msgstr ""
-
 #: main/models.py:34
 msgid "Message"
-msgstr ""
+msgstr "Сообщение"
 
 #: main/models.py:35
 msgid "Messages"
-msgstr ""
+msgstr "Сообщения"
 
 #: main/views.py:48
 #, fuzzy
@@ -144,7 +140,7 @@ msgstr "контакты"
 
 #: main/views.py:58
 msgid "Your message was sent successfully!"
-msgstr ""
+msgstr "Ваше сообщение было успешно отправлено"
 
 #: main/views.py:103
 #, fuzzy
@@ -154,11 +150,11 @@ msgstr "Поиск"
 
 #: templates/admin/404.html:4 templates/admin/404.html:8
 msgid "Page not found"
-msgstr ""
+msgstr "Страница не найдена"
 
 #: templates/admin/404.html:10
 msgid "We're sorry, but the requested page could not be found."
-msgstr ""
+msgstr "Приносим извинения, но запрашиваемая страница не может быть найдена"
 
 #: templates/admin/500.html:6 templates/admin/app_index.html:9
 #: templates/admin/auth/user/change_password.html:13
@@ -168,19 +164,19 @@ msgstr ""
 #: templates/admin/delete_selected_confirmation.html:14
 #: templates/admin/invalid_setup.html:6 templates/admin/object_history.html:6
 msgid "Home"
-msgstr ""
+msgstr "Главная"
 
 #: templates/admin/500.html:7
 msgid "Server error"
-msgstr ""
+msgstr "Серверная ошибка"
 
 #: templates/admin/500.html:11
 msgid "Server error (500)"
-msgstr ""
+msgstr "Серверная ошибка (500)"
 
 #: templates/admin/500.html:14
 msgid "Server Error <em>(500)</em>"
-msgstr ""
+msgstr "Серверная ошибка <em>(500)</em>"
 
 #: templates/admin/500.html:15
 msgid ""
@@ -190,24 +186,24 @@ msgstr ""
 
 #: templates/admin/actions.html:4
 msgid "Run the selected action"
-msgstr ""
+msgstr "Запустить выбранное действие"
 
 #: templates/admin/actions.html:4
 msgid "Go"
-msgstr ""
+msgstr "Вперед"
 
 #: templates/admin/actions.html:10
 msgid "Click here to select the objects across all pages"
-msgstr ""
+msgstr "Нажмите здесь, чтобы выбрать объекты на всех страницах"
 
 #: templates/admin/actions.html:10
 #, python-format
 msgid "Select all %(total_count)s %(module_name)s"
-msgstr ""
+msgstr "Выбрать все  %(total_count)s %(module_name)s"
 
 #: templates/admin/actions.html:12
 msgid "Clear selection"
-msgstr ""
+msgstr "Отчистить выделенное"
 
 #: templates/admin/auth/user/add_form.html:6
 msgid ""
@@ -216,8 +212,10 @@ msgid ""
 msgstr ""
 
 #: templates/admin/auth/user/add_form.html:8
-msgid "Enter a username and password."
-msgstr ""
+#, fuzzy
+#| msgid "Enter a username and password."
+msgid "Enter a email and password."
+msgstr "Введите емайл и пароль."
 
 #: templates/admin/auth/user/change_password.html:17
 #: templates/admin/auth/user/change_password.html:55
@@ -265,7 +263,7 @@ msgstr ""
 #: templates/admin/change_form.html:21 templates/admin/change_list.html:49
 #, python-format
 msgid "Add %(name)s"
-msgstr ""
+msgstr "Добавить %(name)s"
 
 #: templates/admin/change_form.html:33 templates/admin/object_history.html:10
 msgid "History"
@@ -336,7 +334,7 @@ msgstr "Да, я уверен"
 #: templates/admin/delete_confirmation.html:48
 #: templates/admin/delete_selected_confirmation.html:51
 msgid "No, take me back"
-msgstr ""
+msgstr "Нет, вернуть"
 
 #: templates/admin/delete_selected_confirmation.html:17
 msgid "Delete multiple objects"
@@ -446,7 +444,7 @@ msgstr "Пользователь"
 
 #: templates/admin/object_history.html:24 users/models.py:85
 msgid "Action"
-msgstr ""
+msgstr "Действия"
 
 #: templates/admin/object_history.html:38
 msgid ""
@@ -532,7 +530,7 @@ msgstr "контакты"
 
 #: templates/header.html:30
 msgid "about"
-msgstr "О нас"
+msgstr "о нас"
 
 #: templates/header.html:65 users/models.py:71
 msgid "Language"
@@ -588,7 +586,7 @@ msgstr "отправить"
 
 #: templates/users/sidebar.html:4 users/models.py:86
 msgid "Actions"
-msgstr ""
+msgstr "Действия"
 
 #: users/models.py:12
 msgid "email address"
@@ -598,7 +596,7 @@ msgstr "Адрес электронной почты"
 #, fuzzy
 #| msgid "Password"
 msgid "password"
-msgstr "Пароль"
+msgstr "пароль"
 
 #: users/models.py:14
 msgid "first name"
@@ -646,11 +644,11 @@ msgstr ""
 
 #: users/views.py:24 users/views.py:62
 msgid "You are already logged in"
-msgstr ""
+msgstr "Вы уже залогинились"
 
 #: users/views.py:45
 msgid "You are login as {}"
-msgstr "Вы вошли как"
+msgstr "Вы вошли как {}"
 
 #: users/views.py:49
 msgid "User does not found"
@@ -677,22 +675,28 @@ msgstr ""
 "ссылку: {}/users/activate/{}"
 
 #: users/views.py:98
+#, fuzzy
+#| msgid ""
+#| "Sending an email for you, has failed. <a href='/contact/'>Contact</a> the "
+#| "administration"
 msgid ""
-"Sending an email for you, has failed. <a href='/contact/'>Contact</a> the "
-"administration"
+"Sending an email for you, has failed. Please <a href='/contacts/'>Contact</"
+"a> support"
 msgstr ""
+"Отправка электронной почты для вас не удалось. <a href='/"
+"contacts/'>Обратитесь</a> в службу поддержки."
 
 #: users/views.py:122
 msgid "Your account is already active"
-msgstr ""
+msgstr "Ваш аккаунт уже активен"
 
 #: users/views.py:126
 msgid "Your account was activated"
-msgstr ""
+msgstr "Ваш аккаунт был активирован"
 
 #: users/views.py:129
 msgid "Invalid verification code"
-msgstr ""
+msgstr "Неверный код активации"
 
 #: users/views.py:131
 #, fuzzy
@@ -702,7 +706,7 @@ msgstr "Пользователь не найден"
 
 #: users/views.py:140
 msgid "Profile"
-msgstr ""
+msgstr "Профиль"
 
 #: wzwz_ru/settings.py:144
 msgid "English"
@@ -711,6 +715,9 @@ msgstr "Английский"
 #: wzwz_ru/settings.py:145
 msgid "Russian"
 msgstr "Русский"
+
+#~ msgid "data"
+#~ msgstr "дата"
 
 #~ msgid "Remember me"
 #~ msgstr "Помнить меня"

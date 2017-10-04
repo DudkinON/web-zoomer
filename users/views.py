@@ -96,9 +96,9 @@ class RegisterUserView(View):
                         return redirect('/')
                     except BadHeaderError:
                         messages.error(request, _("Sending an email for you, "
-                                                  "has failed. <a "
-                                                  "href='/contact/'>Contact"
-                                                  "</a> the administration"))
+                                                  "has failed. Please <a "
+                                                  "href='/contacts/'>Contact"
+                                                  "</a> support"))
                         return render(request, self.template_name, args)
                 except Exception as e:
                     print(e)
@@ -138,8 +138,29 @@ class UserProfile(View):
     def get(self, request, uid):
         args = dict()
         args['title'] = _("Profile")
-        args['actions'] = Action.objects.all() or None
+        if '_language' in request.session:
+            language = request.session['_language']
+        else:
+            language = 'en'
+        args['actions'] = Action.objects.filter(language=language) or None
 
+        return render(request, self.template_name, args)
+
+
+class UserAction(View):
+    template_name = 'users/action.html'
+
+    def get(self, request, slug):
+
+        args = dict()
+        if '_language' in request.session:
+            language = request.session['_language']
+        else:
+            language = 'en'
+        args['title'] = Action.objects.filter(
+            language=language, slug=slug).first().name.capitalize() \
+            or _("Action")
+        args['actions'] = Action.objects.filter(language=language) or None
         return render(request, self.template_name, args)
 
 

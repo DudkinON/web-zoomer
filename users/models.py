@@ -19,7 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
-        help_text=_('Designates whether the user can log into this admin site'),
+        help_text=_('Designates whether the user can log into this admin site')
     )
 
     objects = UserManager()
@@ -60,12 +60,25 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
+class ActionSlug(models.Model):
+    slug = models.CharField(_('slug'), max_length=60, primary_key=True)
+
+    def __str__(self):
+
+        return "{}".format(self.slug)
+
+    class Meta:
+        verbose_name = _('Slug')
+        verbose_name_plural = _('Slugs')
+
+
 class ActionLanguage(models.Model):
-    name = models.CharField(max_length=4)
+    name = models.CharField(max_length=4, primary_key=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return _("Language: {}").format(self.name)
+        lang = _("Language")
+        return "{}: {}".format(lang, self.name)
 
     class Meta:
         verbose_name = _('Language')
@@ -73,13 +86,14 @@ class ActionLanguage(models.Model):
 
 
 class Action(models.Model):
-    name = models.CharField(_('name'), max_length=60, default=None)
-    slug = models.CharField(_('slug'), max_length=60, default=None)
+    name = models.CharField(_('name'), max_length=60, default=None, unique=True)
+    slug = models.ForeignKey(ActionSlug, max_length=60, default=None)
     language = models.ForeignKey(ActionLanguage, default=None)
     is_active = models.BooleanField(_('is active'), default=False)
 
     def __str__(self):
-        return _("Category: {}").format(self.name)
+        action = _("Action")
+        return "{}: {}".format(action, self.name)
 
     class Meta:
         verbose_name = _('Action')

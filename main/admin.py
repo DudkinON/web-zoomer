@@ -16,7 +16,7 @@ class PagesAdmin(admin.ModelAdmin):
     list_display = ["title",
                     "email",
                     "username",
-                    "data"]
+                    "date"]
 
     class Meta:
         model = Message
