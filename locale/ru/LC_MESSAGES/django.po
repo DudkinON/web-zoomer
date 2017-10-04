@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-27 07:06+0000\n"
+"POT-Creation-Date: 2017-10-04 02:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,137 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: main/views.py:27
+#: blog/models.py:12 users/models.py:76
+#, fuzzy
+#| msgid "Last name"
+msgid "name"
+msgstr "Фамилия"
+
+#: blog/models.py:13 main/models.py:10
+msgid "image"
+msgstr ""
+
+#: blog/models.py:14
+msgid "is main"
+msgstr ""
+
+#: blog/models.py:15 blog/models.py:29 users/models.py:17 users/models.py:79
+#, fuzzy
+#| msgid "active"
+msgid "is active"
+msgstr "активен"
+
+#: blog/models.py:23
+msgid "Photo"
+msgstr ""
+
+#: blog/models.py:24
+msgid "Photos"
+msgstr ""
+
+#: blog/models.py:28 blog/models.py:42 main/models.py:8 main/models.py:22
+msgid "title"
+msgstr ""
+
+#: blog/models.py:32 users/models.py:82
+#, fuzzy
+#| msgid "Categories"
+msgid "Category: {}"
+msgstr "Категории"
+
+#: blog/models.py:35
+#, fuzzy
+#| msgid "Categories"
+msgid "Category"
+msgstr "Категории"
+
+#: blog/models.py:36 templates/sidebar.html:4
+msgid "Categories"
+msgstr "Категории"
+
+#: blog/models.py:43
+msgid "key_words"
+msgstr ""
+
+#: blog/models.py:44
+msgid "description"
+msgstr ""
+
+#: blog/models.py:45 main/models.py:9 main/models.py:24
+msgid "text"
+msgstr ""
+
+#: blog/models.py:46
+msgid "date"
+msgstr ""
+
+#: blog/models.py:47
+msgid "author"
+msgstr ""
+
+#: blog/models.py:52 main/models.py:13
+msgid "Title: {}"
+msgstr ""
+
+#: blog/models.py:55
+#, fuzzy
+#| msgid "Last articles"
+msgid "Article"
+msgstr "Последние статьи"
+
+#: blog/models.py:56
+#, fuzzy
+#| msgid "Last articles"
+msgid "Articles"
+msgstr "Последние статьи"
+
+#: main/models.py:16
+msgid "Page"
+msgstr ""
+
+#: main/models.py:17
+msgid "Pages"
+msgstr ""
+
+#: main/models.py:21
+#, fuzzy
+#| msgid "user"
+msgid "username"
+msgstr "пользователь"
+
+#: main/models.py:23
+#, fuzzy
+#| msgid "Email"
+msgid "email"
+msgstr "Емайл"
+
+#: main/models.py:25
+msgid "data"
+msgstr ""
+
+#: main/models.py:34
+msgid "Message"
+msgstr ""
+
+#: main/models.py:35
+msgid "Messages"
+msgstr ""
+
+#: main/views.py:48
 #, fuzzy
 #| msgid "contacts"
-msgid "Contact"
+msgid "Contacts"
 msgstr "контакты"
+
+#: main/views.py:58
+msgid "Your message was sent successfully!"
+msgstr ""
+
+#: main/views.py:103
+#, fuzzy
+#| msgid "Search"
+msgid "Search results"
+msgstr "Поиск"
 
 #: templates/admin/404.html:4 templates/admin/404.html:8
 msgid "Page not found"
@@ -318,7 +444,7 @@ msgstr "Дата/время"
 msgid "User"
 msgstr "Пользователь"
 
-#: templates/admin/object_history.html:24
+#: templates/admin/object_history.html:24 users/models.py:85
 msgid "Action"
 msgstr ""
 
@@ -358,7 +484,7 @@ msgstr "Добавить %(model)s"
 msgid "Delete selected %(model)s"
 msgstr "Удалить выбранную %(model)s"
 
-#: templates/admin/search_form.html:7
+#: templates/admin/search_form.html:7 templates/header.html:36
 msgid "Search"
 msgstr "Поиск"
 
@@ -390,19 +516,25 @@ msgstr "Сохранить и продолжить редактирование"
 msgid "Read also"
 msgstr "Смотрите так же"
 
-#: templates/header.html:14
+#: templates/base.html:4
+#, fuzzy
+#| msgid "send"
+msgid "en"
+msgstr "отправить"
+
+#: templates/header.html:21
 msgid "home"
 msgstr "главная"
 
-#: templates/header.html:15
+#: templates/header.html:26
 msgid "contacts"
 msgstr "контакты"
 
-#: templates/header.html:16
+#: templates/header.html:30
 msgid "about"
 msgstr "О нас"
 
-#: templates/header.html:43
+#: templates/header.html:65 users/models.py:71
 msgid "Language"
 msgstr "Язык"
 
@@ -410,55 +542,53 @@ msgstr "Язык"
 msgid "About us - Web Zoomer"
 msgstr "О нас - Web Zoomer"
 
-#: templates/main/index.html:4
+#: templates/main/home.html:4
 msgid "Highscores - home - Web Zoomer"
 msgstr "Рекорды - главная - Web Zoomer"
 
-#: templates/main/index.html:27
+#: templates/main/home.html:27
 msgid "Last articles"
 msgstr "Последние статьи"
 
-#: templates/main/index.html:39
+#: templates/main/home.html:39
 msgid "Read..."
 msgstr "Читать..."
 
-#: templates/sidebar.html:4
-msgid "Categories"
-msgstr "Категории"
-
-#: templates/users/login.html:51 templates/users/login.html:56
-#: templates/users/register.html:16 templates/users/register.html:21
+#: templates/users/login.html:54 templates/users/register.html:19
 msgid "Email"
 msgstr "Емайл"
 
-#: templates/users/login.html:66 templates/users/login.html:72
-#: templates/users/register.html:61 templates/users/register.html:66
+#: templates/users/login.html:66 templates/users/register.html:56
 msgid "Password"
 msgstr "Пароль"
 
-#: templates/users/login.html:79 users/views.py:24 users/views.py:31
+#: templates/users/login.html:74 users/views.py:29 users/views.py:36
 msgid "Sign in"
 msgstr "Войти"
 
-#: templates/users/login.html:81
+#: templates/users/login.html:78
 msgid "Sign up"
 msgstr "Регистрация"
 
-#: templates/users/register.html:31 templates/users/register.html:36
+#: templates/users/register.html:32
 msgid "First name"
 msgstr "Имя"
 
-#: templates/users/register.html:46 templates/users/register.html:51
+#: templates/users/register.html:43
 msgid "Last name"
 msgstr "Фамилия"
 
-#: templates/users/register.html:72 templates/users/register.html:77
+#: templates/users/register.html:63
 msgid "Confirm password"
 msgstr "Повторить пароль"
 
-#: templates/users/register.html:83
+#: templates/users/register.html:68
 msgid "send"
 msgstr "отправить"
+
+#: templates/users/sidebar.html:4 users/models.py:86
+msgid "Actions"
+msgstr ""
 
 #: users/models.py:12
 msgid "email address"
@@ -482,10 +612,6 @@ msgstr "фамилия"
 msgid "date joined"
 msgstr "дата регистрации"
 
-#: users/models.py:17
-msgid "active"
-msgstr "активен"
-
 #: users/models.py:20
 msgid "staff status"
 msgstr "персонал"
@@ -502,34 +628,87 @@ msgstr "пользователь"
 msgid "users"
 msgstr "пользователи"
 
-#: users/views.py:40
+#: users/models.py:68
+#, fuzzy
+#| msgid "Language"
+msgid "Language: {}"
+msgstr "Язык"
+
+#: users/models.py:72
+#, fuzzy
+#| msgid "Language"
+msgid "Languages"
+msgstr "Язык"
+
+#: users/models.py:77
+msgid "slug"
+msgstr ""
+
+#: users/views.py:24 users/views.py:62
+msgid "You are already logged in"
+msgstr ""
+
+#: users/views.py:45
 msgid "You are login as {}"
 msgstr "Вы вошли как"
 
-#: users/views.py:44
+#: users/views.py:49
 msgid "User does not found"
 msgstr "Пользователь не найден"
 
-#: users/views.py:60 users/views.py:67
+#: users/views.py:67 users/views.py:74
 msgid "Create account"
 msgstr "Создать аккаунт"
 
-#: users/views.py:81
+#: users/views.py:88
 msgid "Registration on Web Zoomer"
 msgstr "Регистрация на Web Zoomer"
 
-#: users/views.py:82
+#: users/views.py:89
+#, fuzzy
+#| msgid ""
+#| "You was registered on Web ZoomerFor activation yor account click follow "
+#| "link: {}/users/activate/{}"
 msgid ""
 "You was registered on Web ZoomerFor activation yor account click follow "
-"link: {}/users/activate/{}"
+"link: {}/users/activate/{}/{}/"
 msgstr ""
-"Вы были зарегистрированы на Web Zoomer для активации акаунта нажмите "
-"эту ссылку: {}/users/activate/{}"
-#: w/settings.py:139
+"Вы были зарегистрированы на Web Zoomer для активации акаунта нажмите эту "
+"ссылку: {}/users/activate/{}"
+
+#: users/views.py:98
+msgid ""
+"Sending an email for you, has failed. <a href='/contact/'>Contact</a> the "
+"administration"
+msgstr ""
+
+#: users/views.py:122
+msgid "Your account is already active"
+msgstr ""
+
+#: users/views.py:126
+msgid "Your account was activated"
+msgstr ""
+
+#: users/views.py:129
+msgid "Invalid verification code"
+msgstr ""
+
+#: users/views.py:131
+#, fuzzy
+#| msgid "User does not found"
+msgid "User doesn't found"
+msgstr "Пользователь не найден"
+
+#: users/views.py:140
+msgid "Profile"
+msgstr ""
+
+#: wzwz_ru/settings.py:144
 msgid "English"
 msgstr "Английский"
 
-#: w/settings.py:140
+#: wzwz_ru/settings.py:145
 msgid "Russian"
 msgstr "Русский"
 

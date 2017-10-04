@@ -10,7 +10,7 @@ from django.views.generic import View
 from wzwz_ru.settings import SITE_URL
 
 from .forms import UserLoginForm, UserRegisterForm
-from .models import User
+from .models import User, Action
 
 app_name = 'users'
 
@@ -138,6 +138,8 @@ class UserProfile(View):
     def get(self, request, uid):
         args = dict()
         args['title'] = _("Profile")
+        args['actions'] = Action.objects.all() or None
+
         return render(request, self.template_name, args)
 
 

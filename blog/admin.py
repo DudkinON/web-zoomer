@@ -14,6 +14,7 @@ class BlogAdmin(admin.ModelAdmin):
     class Meta:
         model = Blog
 
+
 admin.site.register(Blog, BlogAdmin)
 
 
@@ -23,6 +24,7 @@ class CategoryAdmin(admin.ModelAdmin):
     class Meta:
         model = Category
 
+
 admin.site.register(Category, CategoryAdmin)
 
 
@@ -31,5 +33,6 @@ class ArticleImageAdmin(admin.ModelAdmin):
 
     class Meta:
         model = ArticleImage
+
 
 admin.site.register(ArticleImage, ArticleImageAdmin)

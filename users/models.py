@@ -14,7 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
-    is_active = models.BooleanField(_('active'), default=False)
+    is_active = models.BooleanField(_('is active'), default=False)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     is_staff = models.BooleanField(
         _('staff status'),
@@ -33,23 +33,54 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     def get_full_name(self):
-        '''
-        Returns the first_name plus the last_name, with a space in between.
-        '''
+        """Returns the first_name plus the last_name, with a space in between.
+
+        :return string:
+        """
         full_name = '{} {}'.format(self.first_name, self.last_name)
         return full_name.strip()
 
     def get_short_name(self):
-        '''
-        Returns the short name for the user.
-        '''
+        """Returns the short name for the user.
+
+        :return string:
+        """
         return self.first_name
 
     def email_user(self, subject, message, from_email=None, **kwargs):
-        '''
-        Sends an email to this User.
-        '''
+        """Sends an email to this User.
+
+        :param subject:
+        :param message:
+        :param from_email:
+        :param kwargs:
+        :return void:
+        """
         from django.core.mail import send_mail
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
+class ActionLanguage(models.Model):
+    name = models.CharField(max_length=4)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return _("Language: {}").format(self.name)
+
+    class Meta:
+        verbose_name = _('Language')
+        verbose_name_plural = _('Languages')
+
+
+class Action(models.Model):
+    name = models.CharField(_('name'), max_length=60, default=None)
+    slug = models.CharField(_('slug'), max_length=60, default=None)
+    language = models.ForeignKey(ActionLanguage, default=None)
+    is_active = models.BooleanField(_('is active'), default=False)
+
+    def __str__(self):
+        return _("Category: {}").format(self.name)
+
+    class Meta:
+        verbose_name = _('Action')
+        verbose_name_plural = _('Actions')

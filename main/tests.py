@@ -1,3 +1,4 @@
+# encoding: utf-8
 from django.test import TestCase, RequestFactory
 from users.models import User
 from blog.models import ArticleImage, Blog as Bg, Category as Cat
