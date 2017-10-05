@@ -1,10 +1,9 @@
 {% extends "main/main.html" %}
 {% load i18n %}
 {% get_available_languages as languages %}
-{% block title %}{% trans "Highscores - home - Web Zoomer" %}{% endblock %}
+{% block title %}{% trans "The best articles - Web Zoomer" %}{% endblock %}
 
 {% block content %}
-
 {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -24,8 +23,6 @@
         </ul>
     {% endif %}
     {% if articles %}
-        <h1 class="h3 text-center text-success">{% trans "Last articles" %}</h1>
-
         <div class="row">
             {% for article in articles %}
                 <div class="col-xs-12 col-sm-6 col-md-4">

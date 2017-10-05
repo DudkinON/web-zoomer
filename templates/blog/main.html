@@ -9,14 +9,11 @@
 {% block body %}
 <div class="container min-h-600">
     <div class="row">
-        <div class="col-lg-2">
-            {% include "sidebar.html" %}
-        </div>
-        <div class="col-lg-7">
+        <div class="col-lg-8">
             {% block content %}
             {% endblock %}
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             {% include 'banner-box.html' %}
         </div>
     </div>

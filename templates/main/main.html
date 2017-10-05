@@ -3,22 +3,21 @@
 {% get_available_languages as languages %}
 
 {% block base_title %}
-{% block title %}{% endblock %}
+    {% block title %}{% endblock %}
 {% endblock %}
 
 {% block body %}
-<div class="container min-h-600">
-    <div class="row">
-        <div class="col-lg-2">
-            {% include "sidebar.html" %}
-        </div>
-        <div class="col-lg-7">
-            {% block content %}
-            {% endblock %}
-        </div>
-        <div class="col-lg-3">
-            {% include 'banner-box.html' %}
+<section>
+    <div class="container min-h-600">
+        <div class="row">
+            <div class="col-lg-8">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div class="col-lg-4">
+                {% include 'sidebar.html' %}
+            </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}

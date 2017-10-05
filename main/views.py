@@ -18,11 +18,11 @@ def home(request):
     :param request:
     :return class:
     """
-    context = dict()
-    context['articles'] = Article.objects.filter(is_active=True).order_by(
+    args = dict()
+    args['articles'] = Article.objects.filter(is_active=True).order_by(
         "-created")[:3]
 
-    return render(request, 'main/home.html', context)
+    return render(request, 'main/home.html', args)
 
 
 def about(request):
@@ -31,9 +31,9 @@ def about(request):
     :param request:
     :return class:
     """
-    context = dict()
-    context['about'] = Pages.objects.filter(title='About us').first() or None
-    return render(request, 'main/about.html', context)
+    args = dict()
+    args['about'] = Pages.objects.filter(title='About us').first() or None
+    return render(request, 'main/about.html', args)
 
 
 def contacts(request):
