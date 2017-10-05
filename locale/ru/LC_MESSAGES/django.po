@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-04 03:59+0000\n"
+"POT-Creation-Date: 2017-10-05 01:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: blog/models.py:12 users/models.py:76
+#: blog/models.py:12 users/models.py:88
 #, fuzzy
 #| msgid "Last name"
 msgid "name"
@@ -34,7 +34,7 @@ msgstr "Изображение"
 msgid "is main"
 msgstr "главное(ая)"
 
-#: blog/models.py:15 blog/models.py:29 users/models.py:17 users/models.py:79
+#: blog/models.py:15 blog/models.py:29 users/models.py:17 users/models.py:91
 #, fuzzy
 #| msgid "active"
 msgid "is active"
@@ -52,7 +52,7 @@ msgstr "Фотографии"
 msgid "title"
 msgstr "Название"
 
-#: blog/models.py:32 users/models.py:82
+#: blog/models.py:32
 #, fuzzy
 #| msgid "Categories"
 msgid "Category: {}"
@@ -132,17 +132,17 @@ msgstr "Сообщение"
 msgid "Messages"
 msgstr "Сообщения"
 
-#: main/views.py:48
+#: main/views.py:49
 #, fuzzy
 #| msgid "contacts"
 msgid "Contacts"
 msgstr "контакты"
 
-#: main/views.py:58
+#: main/views.py:59
 msgid "Your message was sent successfully!"
 msgstr "Ваше сообщение было успешно отправлено"
 
-#: main/views.py:103
+#: main/views.py:104
 #, fuzzy
 #| msgid "Search"
 msgid "Search results"
@@ -442,7 +442,8 @@ msgstr "Дата/время"
 msgid "User"
 msgstr "Пользователь"
 
-#: templates/admin/object_history.html:24 users/models.py:85
+#: templates/admin/object_history.html:24 users/models.py:94 users/models.py:98
+#: users/views.py:166
 msgid "Action"
 msgstr "Действия"
 
@@ -514,12 +515,6 @@ msgstr "Сохранить и продолжить редактирование"
 msgid "Read also"
 msgstr "Смотрите так же"
 
-#: templates/base.html:4
-#, fuzzy
-#| msgid "send"
-msgid "en"
-msgstr "отправить"
-
 #: templates/header.html:21
 msgid "home"
 msgstr "главная"
@@ -532,7 +527,7 @@ msgstr "контакты"
 msgid "about"
 msgstr "о нас"
 
-#: templates/header.html:65 users/models.py:71
+#: templates/header.html:65 users/models.py:79 users/models.py:83
 msgid "Language"
 msgstr "Язык"
 
@@ -584,7 +579,7 @@ msgstr "Повторить пароль"
 msgid "send"
 msgstr "отправить"
 
-#: templates/users/sidebar.html:4 users/models.py:86
+#: templates/users/sidebar.html:5 users/models.py:99
 msgid "Actions"
 msgstr "Действия"
 
@@ -626,21 +621,23 @@ msgstr "пользователь"
 msgid "users"
 msgstr "пользователи"
 
-#: users/models.py:68
-#, fuzzy
-#| msgid "Language"
-msgid "Language: {}"
-msgstr "Язык"
+#: users/models.py:64
+msgid "slug"
+msgstr ""
 
-#: users/models.py:72
+#: users/models.py:70
+msgid "Slug"
+msgstr ""
+
+#: users/models.py:71
+msgid "Slugs"
+msgstr ""
+
+#: users/models.py:84
 #, fuzzy
 #| msgid "Language"
 msgid "Languages"
 msgstr "Язык"
-
-#: users/models.py:77
-msgid "slug"
-msgstr ""
 
 #: users/views.py:24 users/views.py:62
 msgid "You are already logged in"
@@ -704,17 +701,27 @@ msgstr "Неверный код активации"
 msgid "User doesn't found"
 msgstr "Пользователь не найден"
 
-#: users/views.py:140
+#: users/views.py:147
 msgid "Profile"
 msgstr "Профиль"
 
-#: wzwz_ru/settings.py:144
+#: wzwz_ru/settings.py:147
 msgid "English"
 msgstr "Английский"
 
-#: wzwz_ru/settings.py:145
+#: wzwz_ru/settings.py:148
 msgid "Russian"
 msgstr "Русский"
+
+#, fuzzy
+#~| msgid "send"
+#~ msgid "en"
+#~ msgstr "отправить"
+
+#, fuzzy
+#~| msgid "Language"
+#~ msgid "Language: {}"
+#~ msgstr "Язык"
 
 #~ msgid "data"
 #~ msgstr "дата"

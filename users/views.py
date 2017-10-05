@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import render, redirect
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, LANGUAGE_SESSION_KEY
 from django.views.generic import View
 from wzwz_ru.settings import SITE_URL
 
@@ -132,16 +132,20 @@ def user_activation(request, uid, code):
     return render(request, 'users/activate.html')
 
 
+def get_language_code(request):
+    if LANGUAGE_SESSION_KEY in request.session:
+        return request.session[LANGUAGE_SESSION_KEY]
+    else:
+        return 'en'
+
+
 class UserProfile(View):
     template_name = 'users/profile.html'
 
     def get(self, request, uid):
         args = dict()
         args['title'] = _("Profile")
-        if '_language' in request.session:
-            language = request.session['_language']
-        else:
-            language = 'en'
+        language = get_language_code(request)
         args['actions'] = Action.objects.filter(language=language) or None
 
         return render(request, self.template_name, args)
@@ -153,8 +157,8 @@ class UserAction(View):
     def get(self, request, slug):
 
         args = dict()
-        if '_language' in request.session:
-            language = request.session['_language']
+        if LANGUAGE_SESSION_KEY in request.session:
+            language = request.session[LANGUAGE_SESSION_KEY]
         else:
             language = 'en'
         args['title'] = Action.objects.filter(

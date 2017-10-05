@@ -1,7 +1,8 @@
 {% load i18n %}
 {% get_available_languages as languages %}
 <!DOCTYPE html>
-<html lang="{% trans "en" %}">
+<html lang="{% if request.session.lang %}{{ request.session.lang }}{% else %}en{% endif %}">
+
 <head>
     {% include 'head.html' %}
     <title>{% block base_title %}{% endblock %}</title>

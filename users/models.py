@@ -64,7 +64,6 @@ class ActionSlug(models.Model):
     slug = models.CharField(_('slug'), max_length=60, primary_key=True)
 
     def __str__(self):
-
         return "{}".format(self.slug)
 
     class Meta:

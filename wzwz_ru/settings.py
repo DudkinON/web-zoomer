@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from django.utils.translation import ugettext_lazy as _
+from django.utils import translation
 from keys import secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -129,6 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
+
+translation.LANGUAGE_SESSION_KEY = 'lang'
 
 LANGUAGE_CODE = 'en-us'
 

@@ -54,12 +54,12 @@ class MainTest(TestCase):
     def test_main_language_ru(self):
         response = self.client.get(reverse('language', kwargs={'lang': 'ru'}))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(self.client.session['_language'], 'ru')
+        self.assertEqual(self.client.session[LANGUAGE_SESSION_KEY], 'ru')
 
     def test_main_language_en(self):
         response = self.client.get(reverse('language', kwargs={'lang': 'en'}))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(self.client.session['_language'], 'en')
+        self.assertEqual(self.client.session[LANGUAGE_SESSION_KEY], 'en')
 
     def test_main_search(self):
         response = self.client.get('/search/?q=Article+title')

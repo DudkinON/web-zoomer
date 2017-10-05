@@ -5,7 +5,7 @@ from django.utils import translation
 from blog.models import Blog, Category
 from main.models import Pages, Message
 from main.forms import ContactForm
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, LANGUAGE_SESSION_KEY
 from re import findall, compile
 from django.contrib import messages
 
@@ -19,6 +19,7 @@ def home(request):
     :return class:
     """
     context = dict()
+    print(LANGUAGE_SESSION_KEY)
     context['articles'] = Blog.objects.filter(is_active=True).order_by(
         "-date")[:3]
     context['categories'] = Category.objects.filter(is_active=True) or None
@@ -77,7 +78,7 @@ def select_lang(request, lang):
     response = HttpResponseRedirect(go_next)
     if lang and translation.check_for_language(lang):
         if hasattr(request, 'session'):
-            request.session['_language'] = lang
+            request.session[LANGUAGE_SESSION_KEY] = lang
         else:
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
         translation.activate(lang)
