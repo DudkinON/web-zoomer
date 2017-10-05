@@ -19,7 +19,6 @@ def home(request):
     :return class:
     """
     context = dict()
-    print(LANGUAGE_SESSION_KEY)
     context['articles'] = Blog.objects.filter(is_active=True).order_by(
         "-date")[:3]
     context['categories'] = Category.objects.filter(is_active=True) or None

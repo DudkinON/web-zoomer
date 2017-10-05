@@ -111,7 +111,6 @@ def user_activation(request, uid, code):
     uid = int(uid) or None
     if uid is not None:
         user = User.objects.filter(id=uid).first()
-        print(user)
     else:
         user = None
     if user is not None:
