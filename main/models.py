@@ -4,6 +4,19 @@ from PIL import Image
 from main.functions import get_image_path
 
 
+class Languages(models.Model):
+    code = models.CharField(max_length=4, primary_key=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        lang = _("Language")
+        return "{}: {}".format(lang, self.code)
+
+    class Meta:
+        verbose_name = _('Language')
+        verbose_name_plural = _('Languages')
+
+
 class Pages(models.Model):
     title = models.CharField(_("title"), max_length=128, blank=True, null=True, default=None)
     text = models.TextField(_("text"), blank=True, null=True, default=None)

@@ -1,5 +1,17 @@
 from django.contrib import admin
-from .models import Pages, Message
+from .models import Pages, Message, Languages
+
+register = admin.site.register
+
+
+class UsersActionsLanguageAdmin(admin.ModelAdmin):
+    list_display = ['code', 'is_active']
+
+    class Meta:
+        model = Languages
+
+
+register(Languages, UsersActionsLanguageAdmin)
 
 
 class PageAdmin(admin.ModelAdmin):
@@ -9,7 +21,7 @@ class PageAdmin(admin.ModelAdmin):
         model = Pages
 
 
-admin.site.register(Pages, PageAdmin)
+register(Pages, PageAdmin)
 
 
 class PagesAdmin(admin.ModelAdmin):
@@ -22,4 +34,4 @@ class PagesAdmin(admin.ModelAdmin):
         model = Message
 
 
-admin.site.register(Message, PagesAdmin)
+register(Message, PagesAdmin)

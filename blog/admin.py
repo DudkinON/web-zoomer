@@ -1,31 +1,32 @@
 from django.contrib import admin
 
-from blog.models import Blog, Category, ArticleImage
+from blog.models import Article, ArticleTag, ArticleImage
 
 
-class BlogAdmin(admin.ModelAdmin):
+register = admin.site.register
+
+
+class ArticleAdmin(admin.ModelAdmin):
     list_display = ["title",
-                    "category",
-                    "key_words",
                     "author",
                     "is_active",
                     "views"]
 
     class Meta:
-        model = Blog
+        model = Article
 
 
-admin.site.register(Blog, BlogAdmin)
+register(Article, ArticleAdmin)
 
 
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Category._meta.fields]
+class ArticleTagAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in ArticleTag._meta.fields]
 
     class Meta:
-        model = Category
+        model = ArticleTag
 
 
-admin.site.register(Category, CategoryAdmin)
+register(ArticleTag, ArticleTagAdmin)
 
 
 class ArticleImageAdmin(admin.ModelAdmin):
@@ -35,4 +36,4 @@ class ArticleImageAdmin(admin.ModelAdmin):
         model = ArticleImage
 
 
-admin.site.register(ArticleImage, ArticleImageAdmin)
+register(ArticleImage, ArticleImageAdmin)

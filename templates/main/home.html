@@ -36,7 +36,7 @@
                                  class="img-rounded">
                             <p class="text-muted text-center">{{ article.description|truncatechars_html:110 }}</p>
                             <div class="div-article-btn">
-                                <a href="{% url "articles" %}{{ article.id }}" class="btn btn-success btn-article-item">{% trans "Read..." %}</a>
+                                <a href="{% url "blog:articles" %}{{ article.slug }}" class="btn btn-success btn-article-item">{% trans "Read..." %}</a>
                             </div>
                         </div>
                     </div>

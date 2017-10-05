@@ -1,31 +1,36 @@
 # encoding: utf-8
 from django.test import TestCase, RequestFactory
 from users.models import User
-from blog.models import ArticleImage, Blog as Bg, Category as Cat
+from blog.models import ArticleImage, Article, ArticleTag as Tag
 from django.urls import reverse
+from main.models import Languages as Lang
 from .views import *
 
 
 class MainTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+        self.lang = Lang.objects.create(code='en', is_active=True)
+        self.lang = Lang.objects.create(code='ru', is_active=True)
         self.user = User.objects.create_user(email='user@example.com',
                                              first_name='John',
                                              last_name='Doe',
                                              password='Super_password')
-        self.category = Cat.objects.create(title="test", is_active=True)
+        self.category = Tag.objects.create(tag="test", is_active=True,
+                                           language=Lang.objects.get(code='en'))
         self.image = ArticleImage.objects.create(name='Test',
                                                  image='path/to/image/',
                                                  is_main=True,
                                                  is_active=True)
-        self.acticle = Bg.objects.create(
-            category=Category.objects.get(title="test"),
+        self.article = Article.objects.create(
+            tags=Tag.objects.get(tag="test"),
             image=ArticleImage.objects.get(name='Test'),
             title='Article title',
             key_words='key, word',
             description='Short description',
+            slug='test-article',
             text='Short text',
-            author='Good author')
+            author=User.objects.get(email='user@example.com'))
 
     def test_main_home(self):
         response = self.client.get(reverse('home'))

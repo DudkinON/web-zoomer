@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Action, ActionLanguage, ActionSlug
+from .models import User, Action, ActionSlug
 
 register = admin.site.register
 
@@ -23,16 +23,6 @@ class UsersActionSlugAdmin(admin.ModelAdmin):
 
 
 register(ActionSlug, UsersActionSlugAdmin)
-
-
-class UsersActionsLanguageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'is_active']
-
-    class Meta:
-        model = ActionLanguage
-
-
-register(ActionLanguage, UsersActionsLanguageAdmin)
 
 
 class UsersActionsAdmin(admin.ModelAdmin):

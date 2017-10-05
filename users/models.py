@@ -5,6 +5,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 
+from main.models import Languages
 from .managers import UserManager
 
 
@@ -71,23 +72,10 @@ class ActionSlug(models.Model):
         verbose_name_plural = _('Slugs')
 
 
-class ActionLanguage(models.Model):
-    name = models.CharField(max_length=4, primary_key=True)
-    is_active = models.BooleanField(default=True)
-
-    def __str__(self):
-        lang = _("Language")
-        return "{}: {}".format(lang, self.name)
-
-    class Meta:
-        verbose_name = _('Language')
-        verbose_name_plural = _('Languages')
-
-
 class Action(models.Model):
     name = models.CharField(_('name'), max_length=60, default=None, unique=True)
     slug = models.ForeignKey(ActionSlug, max_length=60, default=None)
-    language = models.ForeignKey(ActionLanguage, default=None)
+    language = models.ForeignKey(Languages, default=None)
     is_active = models.BooleanField(_('is active'), default=False)
 
     def __str__(self):

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import translation
-from blog.models import Blog, Category
+from blog.models import Article, ArticleTag as Tag
 from main.models import Pages, Message
 from main.forms import ContactForm
 from django.utils.translation import ugettext_lazy as _, LANGUAGE_SESSION_KEY
@@ -19,9 +19,8 @@ def home(request):
     :return class:
     """
     context = dict()
-    context['articles'] = Blog.objects.filter(is_active=True).order_by(
-        "-date")[:3]
-    context['categories'] = Category.objects.filter(is_active=True) or None
+    context['articles'] = Article.objects.filter(is_active=True).order_by(
+        "-created")[:3]
 
     return render(request, 'main/home.html', context)
 
@@ -34,7 +33,6 @@ def about(request):
     """
     context = dict()
     context['about'] = Pages.objects.filter(title='About us').first() or None
-    context['categories'] = Category.objects.filter(is_active=True)
     return render(request, 'main/about.html', context)
 
 
@@ -98,8 +96,8 @@ def search(request):
     for word in query:
         q += '{} '.format(word)
     q = q.rstrip()
-    results_title = Blog.objects.filter(title=q).all() or None
-    results_text = Blog.objects.filter(text=q).all() or None
+    results_title = Article.objects.filter(title=q).all() or None
+    results_text = Article.objects.filter(text=q).all() or None
     args['title'] = _('Search results')
     args['results'] = [results_title, results_text]
     return render(request, 'main/search.html', args)
