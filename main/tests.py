@@ -22,15 +22,16 @@ class MainTest(TestCase):
                                                  image='path/to/image/',
                                                  is_main=True,
                                                  is_active=True)
+        self.tag = Tag.objects.create(
+            tag='tag', language=Lang.objects.get(code='en'))
         self.article = Article.objects.create(
-            tags=Tag.objects.get(tag="test"),
             image=ArticleImage.objects.get(name='Test'),
+            language=Lang.objects.get(code='en'),
             title='Article title',
-            key_words='key, word',
             description='Short description',
             slug='test-article',
             text='Short text',
-            author=User.objects.get(email='user@example.com'))
+            author=User.objects.get(pk=self.user.pk))
 
     def test_main_home(self):
         response = self.client.get(reverse('home'))
@@ -67,6 +68,7 @@ class MainTest(TestCase):
         self.assertEqual(self.client.session[LANGUAGE_SESSION_KEY], 'en')
 
     def test_main_search(self):
+
         response = self.client.get('/search/?q=Article+title')
         tmp = str(response.content)
         self.assertTrue(tmp.find('Article title') > -1)

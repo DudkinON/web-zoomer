@@ -1,0 +1,35 @@
+{% extends "main/base_search.html" %}
+{% load i18n %}
+{% get_available_languages as languages %}
+
+{% block base_title %}
+    {% block title %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="container min-h-600">
+            <div class="row">
+                <div class="col-12">
+                    <div class="search-container mt-20 mb-40">
+                        <form class="my-2 my-lg-0"
+                              action="{% url 'search' %}">
+                            <input class="form-control form-control-lg"
+                                   type="text"
+                                   placeholder="{% trans "Search" %}"
+                                   aria-label="Search"
+                                   name="q" id="search-input">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                <div class="col-lg-4">
+                    {% include 'sidebar.html' %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

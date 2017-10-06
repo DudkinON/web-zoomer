@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from blog.models import Article, ArticleTag, ArticleImage
+from blog.models import Article, ArticleTag, ArticleImage, ArticleViewsPerDay
 
 
 register = admin.site.register
@@ -37,3 +37,14 @@ class ArticleImageAdmin(admin.ModelAdmin):
 
 
 register(ArticleImage, ArticleImageAdmin)
+
+
+class ArticleViewsPerDayAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'date', 'views')  # отображаемые поля в админке
+    search_fields = ('__str__', )
+
+    class Meta:
+        model = ArticleViewsPerDay
+
+
+register(ArticleViewsPerDay, ArticleViewsPerDayAdmin)

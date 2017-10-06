@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'blog',
     # 'menu',
     'users.apps.UsersConfig',
+    'django.contrib.postgres',
 
     # Django apps
     'django.contrib.admin',

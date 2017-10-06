@@ -23,7 +23,8 @@ class Pages(models.Model):
     image = models.ImageField(_("image"), upload_to=get_image_path, max_length=255, blank=True, null=True, default=None)
 
     def __str__(self):
-        return _("Title: {}").format(self.title)
+        title = _("Title")
+        return "{}: {}".format(title, self.title)
 
     class Meta:
         verbose_name = _('Page')

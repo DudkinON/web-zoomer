@@ -6,6 +6,7 @@ from blog.models import Article, ArticleTag as Tag
 from main.models import Pages, Message
 from main.forms import ContactForm
 from django.utils.translation import ugettext_lazy as _, LANGUAGE_SESSION_KEY
+from django.contrib.postgres.search import SearchVector
 from re import findall, compile
 from django.contrib import messages
 
@@ -96,8 +97,11 @@ def search(request):
     for word in query:
         q += '{} '.format(word)
     q = q.rstrip()
-    results_title = Article.objects.filter(title=q).all() or None
-    results_text = Article.objects.filter(text=q).all() or None
+
+    results = Article.objects.annotate(
+        search=SearchVector('text', 'title'),
+    ).filter(search=q).order_by("-created")[:10] or None
+
     args['title'] = _('Search results')
-    args['results'] = [results_title, results_text]
+    args['results'] = results
     return render(request, 'main/search.html', args)

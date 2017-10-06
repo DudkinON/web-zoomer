@@ -1,5 +1,4 @@
 {% load i18n %}
-
 {% get_available_languages as languages %}
 
 
@@ -15,14 +14,12 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <li class="nav-item active">
                 <a class="nav-link" href="{% url 'blog:article_create' %}">
                     <span>{% trans "write a story" %}</span>
                     <span class="sr-only">(current)</span>
                 </a>
-            </li>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
@@ -33,12 +30,6 @@
                    href="{% url 'about' %}">{% trans "about" %}</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0 search-form mr-auto"
-              action="{% url 'search' %}">
-            <input class="form-control mr-sm-2" type="text"
-                   placeholder="{% trans "Search" %}" aria-label="Search"
-                   name="q" id="search-input">
-        </form>
 
         <ul class="nav navbar-nav navbar-right">
             {% if 'uid' in request.session %}
@@ -74,7 +65,6 @@
                            href="{% url 'language' 'ru' %}">русский</a>
                     </div>
                 </div>
-
             </li>
         </ul>
     </div>

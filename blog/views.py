@@ -1,7 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from blog.models import Article, ArticleLikes
-
 
 app_name = 'blog'
 
@@ -15,12 +14,16 @@ def articles(request):
     return render(request, 'blog/index.html', args)
 
 
-def article(request, article_id):
+def article(request, slug):
     args = dict()
+    current_article = get_object_or_404(Article, slug=slug)
+    # current_article = Article.objects.get(slug=slug)
     article_model = ArticleLikes.objects
-    current_article = Article.objects.get(id=article_id)
-    current_article.views += 1
-    current_article.save(update_fields='views')
+    print(current_article.views)
+    if 'viewed' not in request.session:
+        request.session['viewed'] = True
+        current_article.views += 1
+        current_article.save(update_fields=['views'])
     if 'uid' in request.session:
         uid = request.session['uid']
     else:
@@ -30,9 +33,9 @@ def article(request, article_id):
     args['dislikes'] = article_model.filter(
         like=False).all().count() or None
     args['articles'] = Article.objects.filter(
-        is_active=True).order_by("-date")[:4]
+        is_active=True).order_by('views')[:4]
     args['current_user_like'] = article_model.filter(
-        article=article_id, user=uid).first() or None
+        article=current_article.id, user=uid).first() or None
     args['article'] = current_article
 
     return render(request, 'blog/article.html', args)
@@ -40,6 +43,12 @@ def article(request, article_id):
 
 def tag_sort(request, tag):
     args = dict()
-    args['articles'] = Article.objects.filter(is_active=True,
-                                           tags=tag).order_by("-created")[:4]
+    args['articles'] = Article.objects.filter(
+        is_active=True,
+        tags=tag).order_by("-created")[:4]
+    return render(request, 'blog/category.html', args)
+
+
+def create_article(request):
+    args = dict()
     return render(request, 'blog/category.html', args)

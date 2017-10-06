@@ -6,7 +6,7 @@
     {% for article in articles %}
         <div class="thumbnail">
             <div class="article-item">
-                <a href="{% url "articles" %}{{ article.id }}">
+                <a href="{% url "blog:article" article.slug %}">
                     <h2 class="h5 text-center">{{ article.title }}</h2>
                     <img src="/media/{{ article.image.image }}" alt="{{ article.image.name }}"
                          class="img-rounded img-text-left img-w-50">

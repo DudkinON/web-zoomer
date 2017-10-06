@@ -1,0 +1,26 @@
+{% load i18n %}
+{% get_available_languages as languages %}
+<!DOCTYPE html>
+<html lang="{% if request.session.lang %}{{ request.session.lang }}{% else %}en{% endif %}">
+
+<head>
+    {% include 'head.html' %}
+    <title>{% block base_title %}{% endblock %}</title>
+</head>
+<body>
+<header class="header-box">
+    {% include 'main/header_search.html' %}
+</header>
+<section>
+    {% block body %}{% endblock %}
+</section>
+<footer class="top-line m-t-10">
+    {% include "footer.html" %}
+</footer>
+
+<script src="/static/js/jq.js"></script>
+<script src="/static/js/pp.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>
