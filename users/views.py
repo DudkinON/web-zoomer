@@ -1,10 +1,11 @@
 from hashlib import sha256 as hashed
-
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.utils import translation
 from django.utils.translation import ugettext_lazy as _, LANGUAGE_SESSION_KEY
 from django.views.generic import View
 from wzwz_ru.settings import SITE_URL
@@ -42,8 +43,7 @@ class UsersLoginFormView(View):
                 login(request, user)
                 full_name = user.first_name + ' ' + user.last_name
                 request.session['uid'] = user.id
-                messages.info(request, _("You are login as "
-                                         "{}".format(full_name)))
+                messages.info(request, _("You are login as ") + full_name)
                 return redirect('/')
             else:
                 messages.error(request, _("User does not found"))
@@ -80,28 +80,36 @@ class RegisterUserView(View):
                 new_user = form.save(commit=False)
                 new_user.password = make_password(password)
                 new_user.save()
-                try:
-                    new_user = User.objects.filter(email=email).first()
-                    user_code = hashed((new_user.email
-                                        + new_user.password).encode('utf-8')
-                                       ).hexdigest()
-                    subject = _('Registration on Web Zoomer')
-                    message = _("You was registered on Web Zoomer"
+                lang = translation.get_language()
+                print(lang)
+                translation.activate(lang)
+                subject_str = 'Registration on Web Zoomer'
+                print(subject_str)
+                message_str = _("You was registered on Web Zoomer"
                                 "For activation yor account click follow link:"
-                                " {}/users/activate/{}/{}/"
-                                "".format(SITE_URL, new_user.id, user_code))
-                    from_email = 'info@wzwz.ru'
-                    try:
-                        send_mail(subject, message, from_email, [email])
-                        return redirect('/')
-                    except BadHeaderError:
-                        messages.error(request, _("Sending an email for you, "
-                                                  "has failed. Please <a "
-                                                  "href='/contacts/'>Contact"
-                                                  "</a> support"))
-                        return render(request, self.template_name, args)
-                except Exception as e:
-                    print(e)
+                                ) + " {}/users/activate/{}/{}/"
+                new_user = User.objects.filter(email=email).first() or None
+                if new_user is None:
+                    messages.error(request, _("Error with create user"))
+                    return render(request, self.template_name, args)
+                user_code = hashed((new_user.email + new_user.password
+                                    ).encode('utf-8')).hexdigest()
+                subject = subject_str
+                message = message_str.format(SITE_URL, new_user.id,
+                                             user_code)
+                from_email = 'info@wzwz.ru'.encode('utf-8')
+                try:
+                    send_mail(subject, message, from_email, [email])
+                    messages.info(request,
+                                  _("A massage was sent to your email"))
+                    return redirect('/')
+                except BadHeaderError:
+                    messages.error(request, _("Sending an email for you, "
+                                              "has failed. Please <a "
+                                              "href='/contacts/'>Contact"
+                                              "</a> support"))
+                    return render(request, self.template_name, args)
+
             return render(request, self.template_name, args)
         else:
             return render(request, self.template_name, args)
@@ -123,7 +131,7 @@ def user_activation(request, uid, code):
                 user.is_active = True
                 user.save(update_fields=['is_active'])
                 messages.info(request, _("Your account was activated"))
-            return redirect('/users/profile/')
+            return redirect(reverse('users:login'))
         else:
             messages.error(request, _("Invalid verification code"))
     else:

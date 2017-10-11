@@ -6,6 +6,24 @@
 
 {% block content %}
     <h1 class="h3 text-success text-center">{{ form_title }}</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert
+                {% if message.tags == 'error' %} alert-danger
+                {% elif message.tags == 'warning' %} alert-warning
+                {% elif message.tags == 'info' %} alert-info
+                {% elif message.tags == 'success' %} alert-success
+                {% endif %}
+                alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="register-form mt-100">
         {{ form.non_field_errors }}
         <form action="" class="form-horizontal" method="post" role="form">

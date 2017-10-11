@@ -6,7 +6,7 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block content %}
-    <h1 class="h3 text-success text-center">{{ article.title }}</h1>
+    <h1 class="h3 text-center">{{ article.title }}</h1>
     <img class="img-rounded img-text-left" src="/media/{{ article.image.image }}" alt="{{ article.image }}">
     <p class="text-color-grey">{{ article.text|safe|escape }}</p>
     <div class="col-md-12 top-line p-10 text-color-grey">

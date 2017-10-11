@@ -1,0 +1,140 @@
+{% extends "blog/main.html" %}
+
+{% load i18n %}
+{% get_available_languages as languages %}
+
+{% block title %}{% trans "write a story" %}{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert
+                {% if message.tags == 'error' %} alert-danger
+                {% elif message.tags == 'warning' %} alert-warning
+                {% elif message.tags == 'info' %} alert-info
+                {% elif message.tags == 'success' %} alert-success
+                {% endif %}
+                alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="form-article-container">
+        <div id="upload-image-box">
+            <form enctype="multipart/form-data"
+                  action="{% url 'blog:create_article' %}" method="post">
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail img-article-thumb"
+                         style="width: 200px; height: 150px;">
+                        <img data-src="holder.js/100%x100%" alt="...">
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail"
+                         style="max-width: 200px; max-height: 150px;"></div>
+                    <div>
+                    <span class="btn btn-default btn-file"><span
+                            class="fileinput-new">{{ image_form.label }}</span><span
+                            class="fileinput-exists">{% trans "Change" %}</span><input
+                            type="file"
+                            name="{{ form.image.html_name }}"></span>
+                        <a href="#" class="btn btn-default fileinput-exists"
+                           data-dismiss="fileinput">{% trans "Remove" %}</a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <input type="submit" name="upload_image"
+                           value="{% trans "next" %}">
+                </div>
+            </form>
+        </div>
+    {% if image is not None %}
+        <div class="create-article-form">
+            <form action="{% url 'blog:create_article' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.language.id_for_label }}">{% trans "Language" %}</label>
+                    <select class="form-control"
+                            id="{{ form.language.id_for_label }}"
+                            name="{{ form.language.html_name }}">
+                        {% for item in form.language %}
+                            <option value="no" selected disabled
+                                    hidden>{% trans "choose a story language" %}</option>
+                            {{ item }}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}">{% trans "Title" %}</label>
+                    <input type="text" class="form-control"
+                           id="{{ form.title.id_for_label }}"
+                           placeholder="{% trans "Title" %}"
+                           name="{{ form.title.html_name }}"
+                           {% if form.title.value %}value="{{ form.title.value }}"{% endif %}
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}">{% trans "Description" %}</label>
+                    <textarea class="form-control"
+                              id="{{ form.description.id_for_label }}"
+                              rows="3"
+                              placeholder="{% trans "Description" %}"
+                              name="{{ form.description.html_name }}"
+                    >{% if form.description.value %}
+                        {{ form.description.value }}{% endif %}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.text.id_for_label }}">{% trans "A story text" %}</label>
+                    <textarea class="form-control"
+                              id="{{ form.text.id_for_label }}"
+                              rows="10"
+                              placeholder="{% trans "A story text" %}"
+                              name="{{ form.text.html_name }}"
+                    >{% if form.text.value %}
+                        {{ form.text.value }}{% endif %}</textarea>
+                </div>
+                <div class="form-group row upload-image-container">
+                    <input type="file" name="{{ form.image.html_name }}"
+                           id="{{ form.image.id_for_label }}"
+                           required {{ form.image.kl_vkbd_parsed }}
+                           onchange="getName(this.value);"/>
+                    <div class="col-sm-4 col-form-label">
+                        <div class="btn btn-success btn-hundred">
+                            {% trans "choose image" %}
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div id="file-form-label"></div>
+                    </div>
+                </div>
+
+                {% if temp_article %}
+                    <div class="form-group">
+                        <h1 class="h3 text-center">{{ temp_article.title }}</h1>
+                        <img src="{{ image }}" alt="">
+                    </div>
+                {% endif %}
+                <div class="form-group row">
+                    <div class="col-6">
+                        <button type="submit" name="preview"
+                                class="btn btn-success btn-hundred cursor-pointer">
+                            {% trans "preview" %}
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit"
+                                {% if 'update' in request.session %}name="update"
+                                {% else %}name="create"{% endif %}
+                                class="btn btn-success btn-hundred cursor-pointer">
+                            {% trans "submit" %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

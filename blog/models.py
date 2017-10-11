@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -8,10 +7,10 @@ from users.models import User
 
 
 class ArticleImage(models.Model):
-    name = models.CharField(_("name"), max_length=64)
+    name = models.CharField(_("name"), max_length=64, blank=True, null=True, default=None)
     image = models.ImageField(_("image"), upload_to=get_image_path,
-                              default=None)
-    is_main = models.BooleanField(_("is main"), default=False)
+                              default='/static/img/no_image.png')
+    user = models.ForeignKey(User)
     is_active = models.BooleanField(_("is active"), default=True)
     created = models.DateTimeField(verbose_name=_("created"),
                                    auto_now_add=True, auto_now=False)
@@ -81,7 +80,6 @@ class ArticleLikes(models.Model):
 
 
 class ArticleViewsPerDay(models.Model):
-
     article = models.ForeignKey(Article, verbose_name=_("article"))
     date = models.DateField(_('date'), default=timezone.now)
     views = models.IntegerField(_('views'), default=0)

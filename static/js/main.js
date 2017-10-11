@@ -19,9 +19,18 @@ jQuery(document).ready(function ($) {
     // share menu start
     $("#share-parent").on('mouseover', function () {
         $("#share-container").toggle("slow");
-    });
-    $("#share-parent").on('click', function () {
+    }).on('click', function () {
         $("#share-container").toggle("slow");
 
     });
+
 });
+
+function getName (str){
+    var slash = '';
+    if (str.lastIndexOf('\\')) slash = '\\';
+    else slash = '/';
+    var img = str.slice(str.lastIndexOf(slash) + 1);
+    if (img.length > 30) img = img.substr(0,15) + '.....' + img.substr(img.length - 7,img.length);
+    jQuery('#file-form-label').text(img);
+}

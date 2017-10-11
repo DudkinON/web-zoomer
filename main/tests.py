@@ -1,7 +1,7 @@
 # encoding: utf-8
 from django.test import TestCase, RequestFactory
 from users.models import User
-from blog.models import ArticleImage, Article, ArticleTag as Tag
+from blog.models import ArticleImage
 from django.urls import reverse
 from main.models import Languages as Lang
 from .views import *
@@ -16,8 +16,8 @@ class MainTest(TestCase):
                                              first_name='John',
                                              last_name='Doe',
                                              password='Super_password')
-        self.category = Tag.objects.create(tag="test", is_active=True,
-                                           language=Lang.objects.get(code='en'))
+        self.tag = Tag.objects.create(tag="test", is_active=True,
+                                      language=Lang.objects.get(code='en'))
         self.image = ArticleImage.objects.create(name='Test',
                                                  image='path/to/image/',
                                                  is_main=True,
@@ -29,7 +29,7 @@ class MainTest(TestCase):
             language=Lang.objects.get(code='en'),
             title='Article title',
             description='Short description',
-            slug='test-article',
+            slug='test_article',
             text='Short text',
             author=User.objects.get(pk=self.user.pk))
 
@@ -68,7 +68,6 @@ class MainTest(TestCase):
         self.assertEqual(self.client.session[LANGUAGE_SESSION_KEY], 'en')
 
     def test_main_search(self):
-
         response = self.client.get('/search/?q=Article+title')
         tmp = str(response.content)
         self.assertTrue(tmp.find('Article title') > -1)
