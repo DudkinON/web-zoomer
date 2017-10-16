@@ -961,6 +961,14 @@ a:hover > h2 {
     height: 150px;
 }
 
+.close-button {
+    color: #cbcbcb;
+}
+
+.close-button:hover {
+    color: red;
+}
+
 .red {
     color: red;
 }
@@ -1027,6 +1035,23 @@ a:hover > h2 {
     padding: 12px 0;
 }
 
+.tag-container {
+    cursor: default;
+    color: #a1a1a1;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    padding: 0 7px 0 10px;
+    margin: 2px;
+}
+
+.tag-container:hover {
+    color: #848484;
+    border: 1px solid #c2c2c2;
+    border-radius: 4px;
+    padding: 0 7px 0 10px;
+    margin: 2px;
+}
+
 #id_image {
     position: absolute;
     top: 0;
@@ -1038,6 +1063,10 @@ a:hover > h2 {
     cursor: pointer;
     height: 50px;
     z-index: 20;
+}
+
+.hide {
+    display: none;
 }
 
 /*@media screen and (max-width: 474px)*/

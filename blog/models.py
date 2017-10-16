@@ -1,15 +1,20 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from imagekit.models import ProcessedImageField, ImageSpecField
+from pilkit.processors import ResizeToFill
+
 from main.functions import get_image_path
 from main.models import Languages
 from users.models import User
 
 
 class ArticleImage(models.Model):
-    name = models.CharField(_("name"), max_length=64, blank=True, null=True, default=None)
-    image = models.ImageField(_("image"), upload_to=get_image_path,
-                              default='/static/img/no_image.png')
+    image = ProcessedImageField(verbose_name=_("image"),
+                                upload_to=get_image_path,
+                                processors=[ResizeToFill(1000, 800)],
+                                format='JPEG',
+                                options={'quality': 80})
     user = models.ForeignKey(User)
     is_active = models.BooleanField(_("is active"), default=True)
     created = models.DateTimeField(verbose_name=_("created"),
@@ -18,11 +23,11 @@ class ArticleImage(models.Model):
                                    auto_now_add=False, auto_now=True)
 
     def __str__(self):
-        return "{}".format(self.name)
+        return "user: {}, image id: {}".format(self.user.get_full_name, self.id)
 
     class Meta:
-        verbose_name = _('Photo')
-        verbose_name_plural = _('Photos')
+        verbose_name = _('Image')
+        verbose_name_plural = _('Images')
 
 
 class ArticleTag(models.Model):
@@ -62,7 +67,6 @@ class Article(models.Model):
                                    auto_now_add=False, auto_now=True)
 
     def __str__(self):
-
         return self.title
 
     class Meta:

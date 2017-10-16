@@ -18,10 +18,11 @@ class MainTest(TestCase):
                                              password='Super_password')
         self.tag = Tag.objects.create(tag="test", is_active=True,
                                       language=Lang.objects.get(code='en'))
-        self.image = ArticleImage.objects.create(name='Test',
-                                                 image='path/to/image/',
-                                                 is_main=True,
-                                                 is_active=True)
+        self.image = ArticleImage.objects.create(
+            name='Test',
+            user=User.objects.get(id=self.user.id),
+            image='path/to/image/',
+            is_active=True)
         self.tag = Tag.objects.create(
             tag='tag', language=Lang.objects.get(code='en'))
         self.article = Article.objects.create(

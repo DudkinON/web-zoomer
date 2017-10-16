@@ -21,7 +21,8 @@ def home(request):
     """
     args = dict()
     args['articles'] = Article.objects.filter(is_active=True).order_by(
-        "-created")[:3]
+        "-created")
+    print(args['articles'])
 
     return render(request, 'main/home.html', args)
 

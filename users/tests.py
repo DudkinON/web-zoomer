@@ -73,7 +73,7 @@ class UsersTest(TestCase):
         user = User.objects.filter(email="user@example.com").first() or None
         self.assertTrue(user.is_active)
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '/users/profile/')
+        self.assertEqual(response.url, '/users/login/')
 
     def test_users_profile(self):
         response = self.client.get(reverse('users:profile', kwargs={'uid': 1}))

@@ -20,3 +20,10 @@ class ImageForm(forms.Form):
     class Meta:
         model = ArticleImage
         fields = ['image']
+
+
+class EditArticleForm(forms.ModelForm):
+
+    class Meta:
+        model = Article
+        fields = ['language', 'description', 'title', 'text']

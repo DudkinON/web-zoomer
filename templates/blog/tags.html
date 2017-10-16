@@ -27,9 +27,9 @@
     <h1 class="h4 text-success text-center">{{ category.title }}</h1>
     {% for article in articles %}
         <h2 class="h4 text-color-grey"><a
-                href="{% url 'blog:article' article.id %}">{{ article.title }}</a>
+                href="{% url 'blog:article' article.slug %}">{{ article.title }}</a>
         </h2>
-        <a href="{% url 'blog:article' article.id %}">
+        <a href="{% url 'blog:article' article.slug %}">
             <img class="img-rounded img-text-left img-article-preview"
                  src="/media/{{ article.image.image }}"
                  alt="{{ article.image }}">

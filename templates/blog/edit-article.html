@@ -25,116 +25,127 @@
         </ul>
     {% endif %}
     <div class="form-article-container">
-        <div id="upload-image-box">
-            <form enctype="multipart/form-data"
-                  action="{% url 'blog:create_article' %}" method="post">
-                <div class="fileinput fileinput-new" data-provides="fileinput">
-                    <div class="fileinput-new thumbnail img-article-thumb"
-                         style="width: 200px; height: 150px;">
-                        <img data-src="holder.js/100%x100%" alt="...">
-                    </div>
-                    <div class="fileinput-preview fileinput-exists thumbnail"
-                         style="max-width: 200px; max-height: 150px;"></div>
-                    <div>
-                    <span class="btn btn-default btn-file"><span
-                            class="fileinput-new">{{ image_form.label }}</span><span
-                            class="fileinput-exists">{% trans "Change" %}</span><input
-                            type="file"
-                            name="{{ form.image.html_name }}"></span>
-                        <a href="#" class="btn btn-default fileinput-exists"
-                           data-dismiss="fileinput">{% trans "Remove" %}</a>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <input type="submit" name="upload_image"
-                           value="{% trans "next" %}">
-                </div>
-            </form>
-        </div>
-    {% if image is not None %}
-        <div class="create-article-form">
-            <form action="{% url 'blog:create_article' %}" method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="{{ form.language.id_for_label }}">{% trans "Language" %}</label>
-                    <select class="form-control"
-                            id="{{ form.language.id_for_label }}"
-                            name="{{ form.language.html_name }}">
-                        {% for item in form.language %}
-                            <option value="no" selected disabled
-                                    hidden>{% trans "choose a story language" %}</option>
-                            {{ item }}
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.title.id_for_label }}">{% trans "Title" %}</label>
-                    <input type="text" class="form-control"
-                           id="{{ form.title.id_for_label }}"
-                           placeholder="{% trans "Title" %}"
-                           name="{{ form.title.html_name }}"
-                           {% if form.title.value %}value="{{ form.title.value }}"{% endif %}
-                    >
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.description.id_for_label }}">{% trans "Description" %}</label>
-                    <textarea class="form-control"
-                              id="{{ form.description.id_for_label }}"
-                              rows="3"
-                              placeholder="{% trans "Description" %}"
-                              name="{{ form.description.html_name }}"
-                    >{% if form.description.value %}
-                        {{ form.description.value }}{% endif %}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.text.id_for_label }}">{% trans "A story text" %}</label>
-                    <textarea class="form-control"
-                              id="{{ form.text.id_for_label }}"
-                              rows="10"
-                              placeholder="{% trans "A story text" %}"
-                              name="{{ form.text.html_name }}"
-                    >{% if form.text.value %}
-                        {{ form.text.value }}{% endif %}</textarea>
-                </div>
-                <div class="form-group row upload-image-container">
-                    <input type="file" name="{{ form.image.html_name }}"
-                           id="{{ form.image.id_for_label }}"
-                           required {{ form.image.kl_vkbd_parsed }}
-                           onchange="getName(this.value);"/>
-                    <div class="col-sm-4 col-form-label">
-                        <div class="btn btn-success btn-hundred">
-                            {% trans "choose image" %}
-                        </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <div id="file-form-label"></div>
-                    </div>
-                </div>
+        {{ form.non_field_errors }}
+        {{ img_form.non_field_errors }}
+        {{ form.errors }}
+        {{ img_form.errors }}
+        <form enctype="multipart/form-data"
+              action="{% url 'blog:edit_article' article.slug %}"
+              method="post">
+            {% csrf_token %}
 
-                {% if temp_article %}
+            <div class="fileinput fileinput-new text-center pl-40 pr-40"
+                         data-provides="fileinput">
+                <div class="fileinput-new thumbnail">
+                    <img src="{{ media }}{{ image }}"
+                         alt="{{ form.title.value }}">
+                </div>
+                <div class="fileinput-preview fileinput-exists thumbnail"
+                     style="max-width: 600px; max-height: 450px;">
+                </div>
+                <div>
+                <span class="btn btn-default btn-file">
+                    <span class="fileinput-new">{% trans "Select an image" %}</span>
+                    <span class="fileinput-exists">{% trans "Change" %}</span>
+                    <input type="file" id="img-field"
+                           name="{{ img_form.image.name }}">
+                </span>
+                    <a href="#"
+                       class="btn btn-default fileinput-exists"
+                       data-dismiss="fileinput">{% trans "Remove" %}</a>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <button class="btn btn-success btn-hundred hide
+                cursor-pointer" id="img-btn" name="upload_image"
+                        type="submit">{% trans "save" %}</button>
+            </div>
+        </form>
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="tag_id">{% trans "Tags" %}<span
+                        class="red">*</span></label>
+                {% if article.tags is not None %}
                     <div class="form-group">
-                        <h1 class="h3 text-center">{{ temp_article.title }}</h1>
-                        <img src="{{ image }}" alt="">
+                        <div id="tags-container">
+                            {% for tag in tags %}
+                                <div class="tag-container inline">{{ tag }}
+                                    <i class="fa fa-times cursor-pointer close-button delete-tag"
+                                       aria-hidden="true"
+                                       data-tag-id="{{ tag.id }}"
+                                       data-csrf="{{ csrf_token }}"
+                                    ></i>
+                                </div>
+                            {% endfor %}
+                        </div>
+
                     </div>
                 {% endif %}
-                <div class="form-group row">
-                    <div class="col-6">
-                        <button type="submit" name="preview"
-                                class="btn btn-success btn-hundred cursor-pointer">
-                            {% trans "preview" %}
-                        </button>
-                    </div>
-                    <div class="col-6">
-                        <button type="submit"
-                                {% if 'update' in request.session %}name="update"
-                                {% else %}name="create"{% endif %}
-                                class="btn btn-success btn-hundred cursor-pointer">
-                            {% trans "submit" %}
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    {% endif %}
+                <input type="text" class="form-control"
+                       id="tag_id" name="tags"
+                       placeholder="{% trans "Tags" %}">
+            </div>
+            <div class="form-group">
+                <input type="submit"
+                       class="btn btn-success btn-hundred cursor-pointer"
+                       value="{% trans 'add' %}">
+            </div>
+        </form>
+        <form action="{% url 'blog:edit_article' article.slug %}"
+              method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">{% trans "Title" %}<span
+                        class="red">*</span></label>
+                <input type="text" class="form-control"
+                       id="{{ form.title.id_for_label }}"
+                       placeholder="{% trans "Title" %}"
+                       name="{{ form.title.name }}"
+                       value="{{ form.title.value }}"
+                >
+            </div>
+            <div class="form-group">
+                <label for="{{ form.language.id_for_label }}">{% trans "Language" %}<span
+                        class="red">*</span></label>
+                <select class="form-control"
+                        id="{{ form.language.id_for_label }}"
+                        name="{{ form.language.name }}">
+                    {% for item in form.language %}
+                        {{ item }}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">{% trans "Description" %}<span
+                        class="red">*</span></label>
+                <textarea class="form-control"
+                          id="{{ form.description.id_for_label }}"
+                          rows="3"
+                          placeholder="{% trans "Description" %}"
+                          name="{{ form.description.name }}"
+                >{{ form.description.value }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.text.id_for_label }}">{% trans "A story text" %}<span
+                        class="red">*</span></label>
+                <textarea class="form-control"
+                          id="{{ form.text.id_for_label }}"
+                          rows="10"
+                          placeholder="{% trans "A story text" %}"
+                          name="{{ form.text.name }}"
+                >{{ form.text.value }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-success btn-hundred
+                cursor-pointer" name="save">{% trans "save" %}</button>
+            </div>
+        </form>
+
     </div>
 {% endblock %}

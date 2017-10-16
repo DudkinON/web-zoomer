@@ -25,7 +25,7 @@
         </ul>
     {% endif %}
     <div class="form-article-container">
-        {% if 'image' not in request.session and 'temp_article' not in request.session %}
+        {% if 'image' not in request.session and 'article_id' not in request.session %}
             {{ image_form.non_field_errors }}
             {{ image_form.errors }}
             <div id="upload-image-box">
@@ -62,7 +62,7 @@
                     </div>
                 </form>
             </div>
-        {% elif 'image' in request.session and 'temp_article' not in reques.session %}
+        {% elif 'image' in request.session and 'article_id' not in request.session %}
             {{ form.non_field_errors }}
             {{ form.errors }}
             <div class="create-article-form">

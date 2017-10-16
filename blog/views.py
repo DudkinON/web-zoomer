@@ -1,13 +1,23 @@
+from __future__ import unicode_literals
+from django.middleware.csrf import get_token
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
+from django.db import connection
 from re import findall, compile
+from os import path, remove
 
-from blog.forms import ArticleForm, ImageForm
+from django.views import View
+
+from wzwz_ru.settings import MEDIA_ROOT
+
+from blog.forms import ArticleForm, ImageForm, EditArticleForm
 from blog.models import Article, ArticleLikes, ArticleTag, ArticleImage
 from users.models import User
 from main.models import Languages
+from wzwz_ru.settings import MEDIA_URL
 
 app_name = 'blog'
 
@@ -49,9 +59,6 @@ def article(request, slug):
 
 def tag_sort(request, tag):
     args = dict()
-    # args['articles'] = Article.objects.filter(
-    #     is_active=True,
-    #     tags=tag).order_by("-created")[:4]
     args['articles'] = ArticleTag.objects.get(tag=tag).article_set.all()
     return render(request, 'blog/tags.html', args)
 
@@ -60,7 +67,7 @@ def create_article(request):
     args = dict()
     if 'uid' not in request.session:
         messages.error(request, _("Only registered users can write stories"))
-        return redirect(reverse('blog:articles'))
+        return redirect(reverse('users:login'))
     user = User.objects.get(id=request.session['uid'])
     form = ArticleForm(None)
     pattern = r'([a-zA-Z0-9]+)'
@@ -113,7 +120,7 @@ def create_article(request):
             tags = request.POST['tags']
             current_article = Article.objects.get(
                 id=request.session['article_id'])
-            if len(tags) > 0:
+            if len(tags) > 1:
                 args['tags'] = tags
                 tags_list = list()
                 tags_tmp = findall(comp, tags.lower())
@@ -127,8 +134,9 @@ def create_article(request):
                 del request.session['image']
                 messages.info(request, "Your article was sent for review. You "
                                        "can edit article in your profile.")
-                return redirect(reverse('user:profile',
-                                kwargs={'uid': request.session['uid']}))
+                return redirect(reverse('users:profile',
+                                        kwargs={
+                                            'uid': request.session['uid']}))
 
             else:
                 messages.error(request, _("Tag can't be empty"))
@@ -138,11 +146,157 @@ def create_article(request):
     return render(request, 'blog/create.html', args)
 
 
-def edit_article(request, slug):
-    args = dict()
-    return render(request, 'blog/edit-article.html', args)
+class EditArticle(View):
+    template_name = 'blog/edit-article.html'
+    args = None
+    tags_list = list()
+    pattern = r'([a-zA-Z0-9]+)'
+    comp = compile(pattern=pattern)
+
+    def get(self, request, slug):
+        """ Response on get query
+
+        :param request:
+        :param slug:
+        :return:
+        """
+        if 'uid' not in request.session:
+            messages.error(request, _("Only registered users can edit stories"))
+            return redirect(reverse('users:login'))
+        user = User.objects.get(id=request.session['uid'])
+        img_form = ImageForm(None)
+        current_article = get_object_or_404(Article, slug=slug)
+        form = EditArticleForm(instance=current_article)
+        self.args = dict()
+        self.args['article'] = current_article
+        self.args['tags'] = current_article.tags.all()
+        self.args['media'] = MEDIA_URL
+        self.args['image'] = current_article.image.image
+        self.args['form'] = form
+        self.args['img_form'] = img_form
+
+        return render(request, self.template_name, self.args)
+
+    def post(self, request, slug):
+        """Update article data
+
+        :param request:
+        :param slug:
+        :return:
+        """
+        img_form = ImageForm(None)
+
+        print(request.POST)
+
+        if 'uid' not in request.session:
+            messages.error(request, _("Only registered users can edit stories"))
+            return redirect(reverse('users:login'))
+        user = User.objects.get(id=request.session['uid'])
+
+        current_article = get_object_or_404(Article, slug=slug)
+        form = EditArticleForm(instance=current_article)
+        self.args = dict()
+        self.args['img_form'] = img_form
+        self.args['article'] = current_article
+        self.args['tags'] = current_article.tags.all()
+        self.args['media'] = MEDIA_URL
+        self.args['image'] = current_article.image.image
+        self.args['form'] = form
+
+        if 'upload_image' in request.POST:
+            # handler for edit image
+            img_form = ImageForm(request.POST, request.FILES)
+            print(img_form.errors)
+            self.args['img_form'] = img_form
+            if img_form.is_valid():
+                image = ArticleImage.objects.create(
+                    image=img_form.cleaned_data['image'],
+                    user=user
+                )
+                if path.isfile(MEDIA_ROOT + '/' + str(self.args['image'])):
+                    remove(MEDIA_ROOT + '/' + str(self.args['image']))
+                image.save()
+                image_id = int(current_article.image.id)
+                current_article.image = ArticleImage.objects.get(id=image.id)
+                current_article.is_active = False
+                current_article.save(update_fields=['image'])
+
+                with connection.cursor() as c:
+                    c.execute("DELETE FROM blog_articleimage "
+                              "WHERE id=%s", [image_id])
+                return redirect(reverse('blog:edit_article',
+                                        kwargs={'slug': slug}))
+
+        if 'save' in request.POST:
+            # handler for edit article
+
+            form = EditArticleForm(request.POST, instance=current_article)
+            self.args['form'] = form
+            if form.is_valid():
+                current_article = form.save(commit=False)
+                current_article.is_active = False
+                current_article.save()
+                return redirect(reverse('blog:edit_article',
+                                        kwargs={'slug': slug}))
+        if 'tags' in request.POST:
+            # handler for add tag POST query
+            tags = request.POST['tags']
+
+            if len(tags) > 1:
+                tags_tmp = findall(self.comp, tags.lower())
+                for word in tags_tmp:
+                    self.tags_list.append(ArticleTag.objects.get_or_create(
+                        tag=word, language=Languages.objects.get(
+                            code=current_article.language.code))[0])
+
+                current_article.tags.add(*self.tags_list)
+                current_article.save()
+            else:
+                messages.error(request,
+                               _("You have to add minimum one tag"))
+
+        if 'remove_tag' in request.POST:
+            # handler for remove tag (AJAX POST query)
+
+            if request.POST['remove_tag'].isdigit():
+                tag_id = int(request.POST['remove_tag'])
+            else:
+                messages.error(request, _("Tag not found"))
+                return redirect(reverse('blog:edit_article',
+                                        kwargs={'slug': slug}))
+            articl_id = int(current_article.id)
+
+            with connection.cursor() as c:
+                c.execute(
+                    "SELECT id FROM public.blog_article_tags "
+                    "WHERE article_id=%(aid)s AND articletag_id=%(tid)s",
+                    {'aid': articl_id, 'tid': tag_id})
+                m2m = c.fetchone()[0]
+
+            if m2m > 0:
+                with connection.cursor() as c:
+                    c.execute("DELETE FROM blog_article_tags "
+                              "WHERE id=%s", [m2m])
+                    c.execute(
+                        """SELECT "blog_articletag"."id", 
+                        "blog_articletag"."tag"
+                        FROM "blog_articletag" INNER JOIN "blog_article_tags" 
+                        ON ("blog_articletag"."id" = 
+                        "blog_article_tags"."articletag_id") 
+                        WHERE "blog_articletag"."is_active"=TRUE AND 
+                        "blog_article_tags"."article_id"=%s""",
+                        [articl_id])
+                    response = c.fetchall()
+                    json_response_prepare = {
+                        'csrf': str(get_token(request)),
+                        'data': dict(response)
+                    }
+                return JsonResponse(dict(json_response_prepare))
+
+        return render(request, self.template_name, self.args)
 
 
 def delete_article(request, slug):
     args = dict()
+
     return render(request, 'blog/delete-article.html', args)

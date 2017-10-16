@@ -30,7 +30,7 @@ register(ArticleTag, ArticleTagAdmin)
 
 
 class ArticleImageAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in ArticleImage._meta.fields]
+    list_display = ['__str__',]
 
     class Meta:
         model = ArticleImage

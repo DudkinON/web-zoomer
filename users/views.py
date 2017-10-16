@@ -1,3 +1,4 @@
+# encoding: utf-8
 from hashlib import sha256 as hashed
 from django.contrib import messages
 from django.contrib.auth import login, logout
@@ -81,10 +82,8 @@ class RegisterUserView(View):
                 new_user.password = make_password(password)
                 new_user.save()
                 lang = translation.get_language()
-                print(lang)
                 translation.activate(lang)
                 subject_str = 'Registration on Web Zoomer'
-                print(subject_str)
                 message_str = _("You was registered on Web Zoomer"
                                 "For activation yor account click follow link:"
                                 ) + " {}/users/activate/{}/{}/"
