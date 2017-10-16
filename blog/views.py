@@ -163,11 +163,21 @@ class EditArticle(View):
         if 'uid' not in request.session:
             messages.error(request, _("Only registered users can edit stories"))
             return redirect(reverse('users:login'))
+
+        current_article = get_object_or_404(Article, slug=slug)
+
+        if int(current_article.author_id) != request.session['uid']:
+            messages.error(request,
+                           _("You don't have permission to edit this story"))
+            return redirect(reverse('users:profile',
+                                    kwargs={'uid': request.session['uid']}))
+
         user = User.objects.get(id=request.session['uid'])
         img_form = ImageForm(None)
-        current_article = get_object_or_404(Article, slug=slug)
+
         form = EditArticleForm(instance=current_article)
         self.args = dict()
+        self.args['user'] = user
         self.args['article'] = current_article
         self.args['tags'] = current_article.tags.all()
         self.args['media'] = MEDIA_URL
@@ -297,6 +307,39 @@ class EditArticle(View):
 
 
 def delete_article(request, slug):
+    """Delete an article
+
+    :param request:
+    :param slug:
+    :return:
+    """
+
+    if 'uid' not in request.session:
+        messages.error(request, _("Only registered users can delete stories"))
+        return redirect(reverse('users:login'))
+
+    current_article = get_object_or_404(Article, slug=slug)
+
+    if int(current_article.author_id) != request.session['uid']:
+        messages.error(request,
+                       _("You don't have permission to delete this story"))
+        return redirect(reverse('users:profile',
+                                kwargs={'uid': request.session['uid']}))
+
     args = dict()
+    args['media'] = MEDIA_URL
+    args['article'] = current_article
+    args['image'] = current_article.image.image
+
+    if request.method == 'POST' and 'title' in request.POST:
+        if request.POST['title'] == current_article.title:
+            title = str(request.POST['title'])
+            if path.isfile(MEDIA_ROOT + '/' + str(args['image'])):
+                remove(MEDIA_ROOT + '/' + str(args['image']))
+            current_article.delete()
+            message = _("The story was deleted. Story name: ") + title
+            messages.info(request, message)
+            return redirect(reverse('users:profile',
+                                    kwargs={'uid': request.session['uid']}))
 
     return render(request, 'blog/delete-article.html', args)

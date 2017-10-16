@@ -1,1 +1,50 @@
-<h1>DELETE ARTICLE</h1>
+{% extends "blog/main.html" %}
+
+{% load i18n %}
+{% get_available_languages as languages %}
+
+{% block title %}{% trans "write a story" %}{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert
+                {% if message.tags == 'error' %} alert-danger
+                {% elif message.tags == 'warning' %} alert-warning
+                {% elif message.tags == 'info' %} alert-info
+                {% elif message.tags == 'success' %} alert-success
+                {% endif %}
+                alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+<div class="delete-article">
+    <div class="h3 mb-30">{% trans "If you want to delete the story:" %}</div>
+
+    <div class="form-group">
+        <img src="{{ media }}{{ image }}" alt="" class="inline rounded img-w-50">
+        <div class="inline">{{ article.title }}</div>
+    </div>
+    <hr>
+    <div class="form-group">
+        <div class="h6">{% trans "Write the name of the story and press delete" %}</div>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" name="title" class="form-control"
+                   placeholder="{% trans "Story name" %}">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-danger btn-hundred cursor-pointer"
+                   value="{% trans "delete" %}">
+        </div>
+    </form>
+</div>
+{% endblock %}

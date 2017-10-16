@@ -25,12 +25,11 @@ class BlogTests(TestCase):
                                              password='Super_password')
         self.tag = Tag.objects.create(tag="test", is_active=True,
                                       language=Lang.objects.get(code='en'))
-        self.image = ArticleImage.objects.create(name='Test',
-                                                 user=self.user,
+        self.image = ArticleImage.objects.create(user=self.user,
                                                  image='path/to/image/',
                                                  is_active=True)
         self.article = Article.objects.create(
-            image=ArticleImage.objects.get(name='Test'),
+            image=ArticleImage.objects.get(id=self.image.id),
             language=Lang.objects.get(code='en'),
             title='Article title',
             description='Short description',
@@ -66,6 +65,5 @@ class BlogTests(TestCase):
         self.assertEqual(response_get.status_code, 200)
         response_post = self.client.post(reverse(
             'blog:create_article',
-            {'image': 'fl2345svs234t5svkmskmv'}
         ))
         self.assertEqual(response_post.status_code, 200)

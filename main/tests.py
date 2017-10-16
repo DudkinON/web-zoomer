@@ -19,14 +19,13 @@ class MainTest(TestCase):
         self.tag = Tag.objects.create(tag="test", is_active=True,
                                       language=Lang.objects.get(code='en'))
         self.image = ArticleImage.objects.create(
-            name='Test',
             user=User.objects.get(id=self.user.id),
             image='path/to/image/',
             is_active=True)
         self.tag = Tag.objects.create(
             tag='tag', language=Lang.objects.get(code='en'))
         self.article = Article.objects.create(
-            image=ArticleImage.objects.get(name='Test'),
+            image=ArticleImage.objects.get(id=self.image.id),
             language=Lang.objects.get(code='en'),
             title='Article title',
             description='Short description',
