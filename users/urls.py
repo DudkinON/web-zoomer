@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.conf.urls import url
 from .views import UsersLoginFormView, logout_view, RegisterUserView
 from .views import user_activation, UserProfile, UserAction

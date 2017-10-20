@@ -4,3 +4,4 @@ __pycache__/
 keys.py
 media/
 migrations/
+tmp/

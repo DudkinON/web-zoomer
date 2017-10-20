@@ -1,4 +1,4 @@
-# encoding: utf-8
+from __future__ import unicode_literals
 from django.test import TestCase, RequestFactory
 from users.models import User
 from blog.models import ArticleImage

@@ -841,6 +841,11 @@ a:focus, a:hover {
     padding: 10px;
 }
 
+
+.p-20 {
+    padding: 20px;
+}
+
 .min-h-400 {
     min-height: 400px;
 }
@@ -1067,6 +1072,51 @@ a:hover > h2 {
 
 .hide {
     display: none;
+}
+
+.liked {
+    color: #4cae4c;
+}
+
+.like:hover {
+    color: #4cae4c;
+}
+
+.disliked {
+    color: red;
+}
+
+.dislike:hover {
+    color: red;
+}
+
+.user-photo {
+    width: 40px;
+}
+
+.light-gray {
+    color: #c0c0c0;
+}
+
+.user-link {
+
+}
+
+.user-link:hover > img {
+    border: 1px solid #4cae4c;
+}
+
+.user-link:hover {
+    cursor: pointer;
+    color: #4cae4c;
+}
+
+.user-card {
+    min-width: 220px;
+}
+
+.dropup .dropdown-toggle::after {
+    border-bottom: 0 solid;
 }
 
 /*@media screen and (max-width: 474px)*/

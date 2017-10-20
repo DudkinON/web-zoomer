@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -22,7 +24,7 @@ def home(request):
     args = dict()
     args['articles'] = Article.objects.filter(is_active=True).order_by(
         "-created")
-    print(args['articles'])
+    request.session.set_test_cookie()
 
     return render(request, 'main/home.html', args)
 

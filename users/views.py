@@ -1,4 +1,5 @@
-# encoding: utf-8
+from __future__ import unicode_literals
+
 from hashlib import sha256 as hashed
 from django.contrib import messages
 from django.contrib.auth import login, logout

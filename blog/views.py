@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
+
 from django.middleware.csrf import get_token
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -22,56 +23,135 @@ from wzwz_ru.settings import MEDIA_URL
 app_name = 'blog'
 
 
+def get_slug(title):
+    """Generate slug by title
+
+    :param title:
+    :return string:
+    """
+    pattern = r'([a-zA-Zа-яА-Я0-9]+)'
+    comp = compile(pattern=pattern)
+
+    words = findall(comp, title.lower())
+    return '_'.join(words)
+
+
+def get_tags_list(string):
+    """Generate tags list
+
+    :param string:
+    :return list:
+    """
+    pattern = r'([a-zA-Zа-яА-Я0-9]+)'
+    comp = compile(pattern=pattern)
+    return findall(comp, string.lower())
+
+
 def articles(request):
+    """View list of the last active articles
+
+    :param request:
+    :return:
+    """
     args = dict()
     args['articles'] = Article.objects.filter(
-        is_active=True).order_by("-created")[:3]
-    args['title'] = 'Articles'
-    args['page'] = 'Blog page'
+        is_active=True).order_by("-created")[:10]
+    args['title'] = _('Articles')
+
     return render(request, 'blog/index.html', args)
 
 
 def article(request, slug):
+    """view the article by slug
+
+    :param request:
+    :param slug:
+    :return:
+    """
     args = dict()
     current_article = get_object_or_404(Article, slug=slug)
-    article_model = ArticleLikes.objects
 
-    if 'viewed' not in request.session:
-        request.session['viewed'] = True
-        current_article.views += 1
-        current_article.save(update_fields=['views'])
+    likes = ArticleLikes.objects.filter(
+        like=True, article=current_article.id).all()
+    dislikes = ArticleLikes.objects.filter(
+        like=False, article=current_article.id).all()
+    if request.session.test_cookie_worked():
+        if str(current_article.id) not in request.COOKIES:
+            request.session.delete_test_cookie()
+            current_article.views += 1
+            current_article.save(update_fields=['views'])
+            response = HttpResponse('view')
+            response.set_cookie(str(current_article.id), "True")
+
     if 'uid' in request.session:
         uid = request.session['uid']
     else:
         uid = None
-    args['likes'] = article_model.filter(
-        like=True).all().count() or None
-    args['dislikes'] = article_model.filter(
-        like=False).all().count() or None
+
+    if request.method == 'POST':
+        # print(request.POST)
+        print(bool(int(request.POST['like'][0])))
+        if 'uid' not in request.session:
+            messages.error(request, _("Only registered users can vote"))
+            return redirect(reverse('users:login'))
+        else:
+            try:
+                current_like, _created = ArticleLikes.objects.get_or_create(
+                    article=current_article,
+                    user=User.objects.get(id=uid))
+                current_like.like = bool(int(request.POST['like'][0]))
+                current_like.save()
+                json_response_prepare = {
+                    'csrf': str(get_token(request)),
+                    'likes': likes.count() or 0,
+                    'dislikes': dislikes.count() or 0
+                }
+                return JsonResponse(json_response_prepare)
+            except:
+                pass
+    current_user_like = ArticleLikes.objects.filter(
+        article=current_article.id, user=uid).first() or None
+    if current_user_like is not None:
+        current_user_like = int(current_user_like.like)
+
+    args['uid'] = uid
+    args['likes'] = likes.count() or 0
+    args['dislikes'] = dislikes.count() or 0
     args['articles'] = Article.objects.filter(
         is_active=True).order_by('views')[:4]
-    args['current_user_like'] = article_model.filter(
-        article=current_article.id, user=uid).first() or None
+    args['current_user_like'] = current_user_like
     args['article'] = current_article
+    args['published_stories'] = Article.objects.filter(
+        author=current_article.author).all().count() or 0
+    args['tags'] = current_article.tags.all()
 
     return render(request, 'blog/article.html', args)
 
 
 def tag_sort(request, tag):
+    """View articles by tag
+
+    :param request:
+    :param tag:
+    :return:
+    """
     args = dict()
     args['articles'] = ArticleTag.objects.get(tag=tag).article_set.all()
     return render(request, 'blog/tags.html', args)
 
 
 def create_article(request):
+    """Create new article
+
+    :param request:
+    :return:
+    """
     args = dict()
     if 'uid' not in request.session:
         messages.error(request, _("Only registered users can write stories"))
         return redirect(reverse('users:login'))
     user = User.objects.get(id=request.session['uid'])
     form = ArticleForm(None)
-    pattern = r'([a-zA-Z0-9]+)'
-    comp = compile(pattern=pattern)
     image = None
     image_form = ImageForm(None)
     args['form'] = form
@@ -94,11 +174,6 @@ def create_article(request):
             form = ArticleForm(request.POST)
             args['form'] = form
             if form.is_valid():
-                slug = ''
-                title = findall(comp, form.cleaned_data['title'].lower())
-                for word in title:
-                    slug += '{}_'.format(word)
-                slug = slug.rstrip('_')
                 new_article = Article.objects.create(
                     language=Languages.objects.get(
                         code=form.cleaned_data['language']),
@@ -108,14 +183,12 @@ def create_article(request):
                     description=form.cleaned_data['description'],
                     text=form.cleaned_data['text'],
                     author=user,
-                    slug=slug,
+                    slug=get_slug(form.cleaned_data['title']),
                     is_active=False
                 )
                 new_article.save()
                 request.session['article_id'] = int(new_article.id)
-                args['temp_article'] = Article.objects.get(
-                    id=request.session['article_id']) or None
-            return render(request, 'blog/create.html', args)
+
         elif 'finish' in request.POST:
             tags = request.POST['tags']
             current_article = Article.objects.get(
@@ -123,7 +196,7 @@ def create_article(request):
             if len(tags) > 1:
                 args['tags'] = tags
                 tags_list = list()
-                tags_tmp = findall(comp, tags.lower())
+                tags_tmp = get_tags_list(tags)
                 for word in tags_tmp:
                     tags_list.append(ArticleTag.objects.get_or_create(
                         tag=word, language=Languages.objects.get(
@@ -132,11 +205,12 @@ def create_article(request):
                 current_article.save()
                 del request.session['article_id']
                 del request.session['image']
-                messages.info(request, "Your article was sent for review. You "
-                                       "can edit article in your profile.")
-                return redirect(reverse('users:profile',
-                                        kwargs={
-                                            'uid': request.session['uid']}))
+                messages.info(request, _("Your article was sent for review. "
+                                         "You can edit article in your profile"
+                                         "."))
+
+                return redirect(reverse(
+                    'users:profile', kwargs={'uid': request.session['uid']}))
 
             else:
                 messages.error(request, _("Tag can't be empty"))
@@ -150,11 +224,9 @@ class EditArticle(View):
     template_name = 'blog/edit-article.html'
     args = None
     tags_list = list()
-    pattern = r'([a-zA-Z0-9]+)'
-    comp = compile(pattern=pattern)
 
     def get(self, request, slug):
-        """ Response on get query
+        """Response on get query
 
         :param request:
         :param slug:
@@ -196,8 +268,6 @@ class EditArticle(View):
         """
         img_form = ImageForm(None)
 
-        print(request.POST)
-
         if 'uid' not in request.session:
             messages.error(request, _("Only registered users can edit stories"))
             return redirect(reverse('users:login'))
@@ -216,7 +286,6 @@ class EditArticle(View):
         if 'upload_image' in request.POST:
             # handler for edit image
             img_form = ImageForm(request.POST, request.FILES)
-            print(img_form.errors)
             self.args['img_form'] = img_form
             if img_form.is_valid():
                 image = ArticleImage.objects.create(
@@ -237,50 +306,53 @@ class EditArticle(View):
                 return redirect(reverse('blog:edit_article',
                                         kwargs={'slug': slug}))
 
-        if 'save' in request.POST:
+        elif 'save' in request.POST:
             # handler for edit article
-
+            article_title = str(current_article.title)
             form = EditArticleForm(request.POST, instance=current_article)
             self.args['form'] = form
             if form.is_valid():
-                current_article = form.save(commit=False)
-                current_article.is_active = False
-                current_article.save()
+                update_article = form.save(commit=False)
+
+                # if title was changed change slug
+                if article_title != form.cleaned_data['title']:
+                    update_article.slug = get_slug(form.cleaned_data['title'])
+                update_article.is_active = False
+                update_article.save()
                 return redirect(reverse('blog:edit_article',
                                         kwargs={'slug': slug}))
-        if 'tags' in request.POST:
+        elif 'tags' in request.POST:
             # handler for add tag POST query
             tags = request.POST['tags']
 
             if len(tags) > 1:
-                tags_tmp = findall(self.comp, tags.lower())
-                for word in tags_tmp:
+                # generate tags
+                for word in get_tags_list(tags):
                     self.tags_list.append(ArticleTag.objects.get_or_create(
                         tag=word, language=Languages.objects.get(
                             code=current_article.language.code))[0])
-
+                # add tags to article
                 current_article.tags.add(*self.tags_list)
                 current_article.save()
             else:
                 messages.error(request,
                                _("You have to add minimum one tag"))
 
-        if 'remove_tag' in request.POST:
+        elif 'remove_tag' in request.POST:
             # handler for remove tag (AJAX POST query)
-
             if request.POST['remove_tag'].isdigit():
                 tag_id = int(request.POST['remove_tag'])
             else:
                 messages.error(request, _("Tag not found"))
                 return redirect(reverse('blog:edit_article',
                                         kwargs={'slug': slug}))
-            articl_id = int(current_article.id)
+            art_id = int(current_article.id)
 
             with connection.cursor() as c:
                 c.execute(
                     "SELECT id FROM public.blog_article_tags "
                     "WHERE article_id=%(aid)s AND articletag_id=%(tid)s",
-                    {'aid': articl_id, 'tid': tag_id})
+                    {'aid': art_id, 'tid': tag_id})
                 m2m = c.fetchone()[0]
 
             if m2m > 0:
@@ -295,7 +367,7 @@ class EditArticle(View):
                         "blog_article_tags"."articletag_id") 
                         WHERE "blog_articletag"."is_active"=TRUE AND 
                         "blog_article_tags"."article_id"=%s""",
-                        [articl_id])
+                        [art_id])
                     response = c.fetchall()
                     json_response_prepare = {
                         'csrf': str(get_token(request)),

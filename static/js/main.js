@@ -11,7 +11,6 @@ function updateTags(obj) {
         'csrfmiddlewaretoken': $(obj).data()['csrf']
     };
     $.post(url, data, function (r) {
-        console.log(r['csrf']);
         var tags = $('#tags-container');
 
         tags.html(function () {
@@ -29,32 +28,78 @@ function updateTags(obj) {
 
 jQuery(document).ready(function ($) {
 
-    // start search code
-    $("#search-icon").on('click', function () {
-        $("#search-button").css("display", "block");
-        $("#search-input").removeClass('hide');
-        $("#search-icon").on('click', function () {
-            var text = $("#search-icon").on('change', function (data) {
-                return data;
-            });
-        });
+    //tooltip
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
     });
+
+    // image button show
     $('#img-field').on('change', function () {
         $('#img-btn').show()
     });
+
     // share menu start
     $("#share-parent").on('mouseover', function () {
         $("#share-container").toggle("slow");
     }).on('click', function () {
         $("#share-container").toggle("slow");
     });
+
+    // delete tag
     $('.delete-tag').on('click', function () {
-            var obj = this;
-            updateTags(obj);
-        });
-}).ajaxComplete(function () {
-        jQuery('.delete-tag').on('click', function () {
-            var obj = this;
-            updateTags(obj);
-        });
+        updateTags(this);
     });
+
+    // like
+    $('.like').on('click', function () {
+        var like = $('.like');
+        var dislike = $('.dislike');
+        if (!like.hasClass('liked')) {
+            if ($(this).data()['uid'] !== 'None') {
+                var url = $(location).attr('href');
+                var data = {
+                    'csrfmiddlewaretoken': $(this).data()['csrf'],
+                    'like': 1
+                };
+                $.post(url, data, function (r) {
+                    if (dislike.hasClass('disliked')) dislike.removeClass('disliked');
+                    if (!like.hasClass('liked')) like.addClass('liked');
+                    like.data()['csrf'] = r['csrf'];
+                    dislike.data()['csrf'] = r['csrf'];
+                    $('#likes').text(r['likes']);
+                    $('#dislikes').text(r['dislikes']);
+                })
+            }
+        }
+
+    });
+
+    // dislike
+    $('.dislike').on('click', function () {
+        var like = $('.like');
+        var dislike = $('.dislike');
+        if (!dislike.hasClass('disliked')) {
+            if ($(this).data()['uid'] !== 'None') {
+                var url = $(location).attr('href');
+                var data = {
+                    'csrfmiddlewaretoken': $(this).data()['csrf'],
+                    'like': 0
+                };
+                $.post(url, data, function (r) {
+                    if (!dislike.hasClass('disliked')) dislike.addClass('disliked');
+                    if (like.hasClass('liked')) like.removeClass('liked');
+                    like.data()['csrf'] = r['csrf'];
+                    dislike.data()['csrf'] = r['csrf'];
+                    $('#likes').text(r['likes']);
+                    $('#dislikes').text(r['dislikes']);
+                })
+            }
+        }
+    })
+
+}).ajaxComplete(function () {
+    // update DOM delete tag
+    jQuery('.delete-tag').on('click', function () {
+        updateTags(this);
+    });
+});
