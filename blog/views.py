@@ -7,12 +7,12 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.db import connection
+from django.utils.translation import get_language
+from django.views import View
+from wzwz_ru.settings import MEDIA_ROOT
+
 from re import findall, compile
 from os import path, remove
-
-from django.views import View
-
-from wzwz_ru.settings import MEDIA_ROOT
 
 from blog.forms import ArticleForm, ImageForm, EditArticleForm
 from blog.models import Article, ArticleLikes, ArticleTag, ArticleImage
@@ -54,9 +54,52 @@ def articles(request):
     :return:
     """
     args = dict()
-    args['articles'] = Article.objects.filter(
-        is_active=True).order_by("-created")[:10]
-    args['title'] = _('Articles')
+    articles_quantity = Article.objects.filter(
+        is_active=True,
+        language=get_language()
+    ).order_by("views").all().count()
+    try:
+        page = int(request.GET['page']) or 1
+    except:
+        page = 1
+    if page == 1:
+        args['articles'] = Article.objects.filter(
+            is_active=True,
+            language=get_language()
+        ).order_by("-views")[:10]
+        args['page1'] = page
+        args['page2'] = page + 1
+        args['page3'] = page + 2
+    elif articles_quantity > 10 and articles_quantity % 10 != 0 and page == (
+                articles_quantity / 10) + 1:
+        args['page1'] = page - 2
+        args['page2'] = page - 1
+        args['page3'] = page
+        args['articles'] = Article.objects.filter(
+            is_active=True,
+            language=get_language()
+        ).order_by("-views")[page * 10 - 10:page * 10]
+    elif articles_quantity > 10 and articles_quantity % 10 == 0 and page == articles_quantity / 10:
+        args['page1'] = page - 2
+        args['page2'] = page - 1
+        args['page3'] = page
+        args['articles'] = Article.objects.filter(
+            is_active=True,
+            language=get_language()
+        ).order_by("-views")[page * 10 - 10:page * 10]
+    else:
+        args['page1'] = page - 1
+        args['page2'] = page
+        args['page3'] = page + 1
+        args['articles'] = Article.objects.filter(
+            is_active=True,
+            language=get_language()
+        ).order_by("-views")[page * 10 - 10:page * 10]
+    args['page'] = page
+    args['articles_quantity'] = articles_quantity
+
+    args['last_articles'] = Article.objects.filter(
+        is_active=True, language=get_language()).order_by("-created")[:6]
 
     return render(request, 'blog/index.html', args)
 
@@ -89,18 +132,23 @@ def article(request, slug):
         uid = None
 
     if request.method == 'POST':
-        # print(request.POST)
-        print(bool(int(request.POST['like'][0])))
         if 'uid' not in request.session:
             messages.error(request, _("Only registered users can vote"))
             return redirect(reverse('users:login'))
         else:
             try:
-                current_like, _created = ArticleLikes.objects.get_or_create(
-                    article=current_article,
-                    user=User.objects.get(id=uid))
-                current_like.like = bool(int(request.POST['like'][0]))
-                current_like.save()
+                current_like = ArticleLikes.objects.filter(
+                    article_id=int(current_article.id),
+                    user_id=uid).first() or None
+                if not current_like:
+                    ArticleLikes.objects.create(
+                        article_id=int(current_article.id),
+                        like=bool(int(request.POST['like'][0])),
+                        user_id=uid
+                    )
+                else:
+                    current_like.like = bool(int(request.POST['like'][0]))
+                    current_like.save()
                 json_response_prepare = {
                     'csrf': str(get_token(request)),
                     'likes': likes.count() or 0,
@@ -136,7 +184,9 @@ def tag_sort(request, tag):
     :return:
     """
     args = dict()
-    args['articles'] = ArticleTag.objects.get(tag=tag).article_set.all()
+    print(get_language())
+    args['articles'] = ArticleTag.objects.get(
+        tag=tag, language=get_language()).article_set.all()
     return render(request, 'blog/tags.html', args)
 
 
@@ -233,7 +283,8 @@ class EditArticle(View):
         :return:
         """
         if 'uid' not in request.session:
-            messages.error(request, _("Only registered users can edit stories"))
+            messages.error(request,
+                           _("Only registered users can edit stories"))
             return redirect(reverse('users:login'))
 
         current_article = get_object_or_404(Article, slug=slug)
@@ -269,7 +320,8 @@ class EditArticle(View):
         img_form = ImageForm(None)
 
         if 'uid' not in request.session:
-            messages.error(request, _("Only registered users can edit stories"))
+            messages.error(request,
+                           _("Only registered users can edit stories"))
             return redirect(reverse('users:login'))
         user = User.objects.get(id=request.session['uid'])
 
@@ -351,7 +403,7 @@ class EditArticle(View):
             with connection.cursor() as c:
                 c.execute(
                     "SELECT id FROM public.blog_article_tags "
-                    "WHERE article_id=%(aid)s AND articletag_id=%(tid)s",
+                    "WHERE article_id=%(aid)S AND articletag_id=%(tid)S",
                     {'aid': art_id, 'tid': tag_id})
                 m2m = c.fetchone()[0]
 

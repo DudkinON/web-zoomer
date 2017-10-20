@@ -47,6 +47,57 @@ class BlogTests(TestCase):
             reverse('blog:article', kwargs={'slug': self.article.slug}))
         self.assertEqual(response.status_code, 200)
 
+        # check post like with not logged user
+        response = self.client.post(reverse(
+            'blog:article', kwargs={'slug': self.article.slug}),
+            {'like': 1})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('users:login'))
+
+        # check post like with logged user
+        new_user = User.objects.create(email='example@example.com',
+                                       first_name='newJohn',
+                                       last_name='newDoe',
+                                       password='newSuper_password')
+        self.session['uid'] = int(new_user.id)
+        self.session.save()
+        response = self.client.post(reverse(
+            'blog:article', kwargs={'slug': self.article.slug}),
+            {'like': 1})
+        self.assertEqual(response.status_code, 200)
+
+        # check quantity of likes/dislikes after post query
+        likes = ArticleLikes.objects.filter(like=True).all().count()
+        dislikes = ArticleLikes.objects.filter(like=False).all().count()
+        self.assertEqual(int(likes), 1)
+        self.assertEqual(int(dislikes), 0)
+
+        # login new user and send post query
+        self.session['uid'] = int(self.user.id)
+        self.session.save()
+        response = self.client.post(reverse(
+            'blog:article', kwargs={'slug': self.article.slug}),
+            {'like': 1})
+        self.assertEqual(response.status_code, 200)
+
+        # check amount of likes/dislikes after add one more vote
+        likes = ArticleLikes.objects.filter(like=True).all().count()
+        dislikes = ArticleLikes.objects.filter(like=False).all().count()
+        self.assertEqual(int(likes), 2)
+        self.assertEqual(int(dislikes), 0)
+
+        # change vote on dislike
+        response = self.client.post(reverse(
+            'blog:article', kwargs={'slug': self.article.slug}),
+            {'like': 0})
+        self.assertEqual(response.status_code, 200)
+
+        # check amount of likes/dislikes after changes
+        likes = ArticleLikes.objects.filter(like=True).all().count()
+        dislikes = ArticleLikes.objects.filter(like=False).all().count()
+        self.assertEqual(int(likes), 1)
+        self.assertEqual(int(dislikes), 1)
+
     def test_blog_tag_sort(self):
         a = self.article
         a.tags.add(self.tag)

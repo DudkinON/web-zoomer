@@ -9,8 +9,16 @@
     <h1 class="h3 text-center">{{ article.title }}</h1>
     <img class="img-rounded img-text-left"
          src="/media/{{ article.image.image }}" alt="{{ article.image }}">
-    <p class="text-color-grey">{{ article.text|safe|escape }}</p>
-
+    <p class="text-color-grey">{{ article.text }}</p>
+    {% if tags %}
+        <div class="pt-10 pb-10 top-line">
+            {% for tag in tags %}
+                <div class="inline mr-10">
+                    <a href="{% url 'blog:tag' tag %}">{{ tag }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     <div class="col-md-12 top-line p-10 text-color-grey">
 
         <div class="inline">

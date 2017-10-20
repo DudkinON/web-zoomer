@@ -1086,8 +1086,22 @@ a:hover > h2 {
     color: red;
 }
 
+.page-link {
+    border: 0;
+    color: #959599;
+}
+
+.page-link:hover {
+    color: #4cae4c;
+}
+
 .dislike:hover {
     color: red;
+}
+
+.p-min-15 {
+    padding-left: 0!important;
+    padding-right: 0!important;
 }
 
 .user-photo {

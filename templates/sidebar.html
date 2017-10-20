@@ -1,3 +1,27 @@
 {% load i18n %}
 {% get_available_languages as languages %}
 
+{% if last_articles %}
+    <div class="last-articles">
+    {% for article in last_articles %}
+        <div class="article-item row">
+
+                <div class="h5 col-12">
+                    <a href="{% url "blog:article" article.slug %}" class="row">
+                    {{ article.title|truncatechars_html:26 }}
+                    </a>
+                </div>
+                <div class="col-3 p-min-15">
+                    <img src="/media/{{ article.image.image }}"
+                     alt="{{ article.image.name }}"
+                     class="img-rounded">
+                </div>
+                <div class="col-9">
+                    {{ article.description|truncatechars_html:60 }}
+                </div>
+
+
+        </div>
+    {% endfor %}
+    </div>
+{% endif %}

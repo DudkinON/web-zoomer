@@ -1,6 +1,9 @@
 {% extends "blog/main.html" %}
 
-{% block title %}{{ title }}{% endblock %}
+{% load i18n %}
+{% get_available_languages as languages %}
+
+{% block title %}{% trans "Popular stories" %}{% endblock %}
 
 {% block content %}
     {% if messages %}
@@ -22,61 +25,95 @@
         </ul>
     {% endif %}
     {% for article in articles %}
-        <div class="article-border">
-            <h3 class="h4 text-color-gray">
+        <div class="row">
+            <div class="h4 col-12 pl-0">
                 <a href="{% url 'blog:article' article.slug %}">
-                   {{ article.title }}
+                    {{ article.title }}
                 </a>
-            </h3>
-            <div class="article-body">
-                <a href="{% url 'blog:article' article.slug %}">
-                    <img src="/media/{{ article.image.image }}" alt="{{ article.title }}" class="article-img">
-                </a>
-                <p>{{ article.description }}</p>
             </div>
-            <hr class="hr-separator">
-            <div class="article-footer">
-                <div class="col-md-12 top-line p-10 text-color-grey">
+            <div class="col-2 p-min-15">
+                <a href="{% url 'blog:article' article.slug %}">
+                    <img src="/media/{{ article.image.image }}"
+                         alt="{{ article.title }}" class="">
+                </a>
+            </div>
+            <div class="col-10">
+                {{ article.description }}
+            </div>
+            <div class="col-12 pt-10 pl-0">
+                <div class="top-line p-10 text-color-grey">
                     <div class="inline">
-                        <i class="fa fa-calendar-o" aria-hidden="true"></i>
-                        <span>{{ article.date }}</span> |
-                    </div>
-                    <div class="inline">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        <span>{{ article.author }}</span> |
-                    </div>
-                    <div class="inline">
-                        <i class="fa fa-binoculars" aria-hidden="true"></i>
-                        <span>{{ article.views }}</span> |
-                    </div>
-                    <div class="inline" id="block-share">
-                        <div class="share-container thumbnail text-center" id="share-container">
-                            <div class="share-item inline">
-                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                            </div>
-                            <div class="share-item inline">
-                                <i class="fa fa-twitter" aria-hidden="true"></i>
-                            </div>
-                            <div class="share-item inline">
-                                <i class="fa fa-google-plus" aria-hidden="true"></i>
-                            </div>
-                            <div class="share-item inline">
-                                <i class="fa fa-vk" aria-hidden="true"></i>
-                            </div>
-                            <div class="share-item inline">
-                                <i class="fa fa-odnoklassniki" aria-hidden="true"></i>
-                            </div>
-                            <div class="share-item inline">
-                                <i class="fa fa-tumblr" aria-hidden="true"></i>
-                            </div>
-                            <div class="share-item inline">
-                                <i class="fa fa-telegram" aria-hidden="true"></i>
+                        <div class="btn-group dropup">
+                <span class="user-link dropdown-toggle" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                <img src="{{ article.author.avatar }}" alt=""
+                     class="rounded-circle user-photo">
+                <span>{{ article.author.first_name }} {{ article.author.last_name }}</span>
+                </span>
+                            <div class="dropdown-menu p-20 user-card">
+
+                                <img src="{{ article.author.avatar }}"
+                                     alt="{{ article.author.get_full_name }}"
+                                     class="rounded-circle user-photo">
+                                <span class="h6">{{ article.author.get_full_name }}</span>
+                                <hr>
+                                <span class="rating">{% trans "Raiting" %}: 0</span>
+                                <hr>
+                                <p>{% trans "published stories" %}: {{ published_stories }}</p>
+                                <p class="text-center"><a
+                                        href="{% url 'users:profile' article.author.id %}">watch
+                                    profile</a></p>
                             </div>
                         </div>
-                        <i class="fa fa-share-alt" aria-hidden="true" id="share-parent"></i>
+                        <span class="light-gray">| </span>
+                    </div>
+                    <div class="inline">
+                        <span data-toggle="tooltip"
+                              data-placement="top"
+                              title="{% trans "The published date of the story" %}">
+                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                        <span>{{ article.created }}</span>
+                        </span>
+                        <span class="light-gray"> | </span>
+                    </div>
+                    <div class="inline">
+                        <span class=""
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="{% trans "The story views" %}"
+                        >
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        <span>{{ article.views }}</span>
+                        </span>
                     </div>
                 </div>
             </div>
+
         </div>
     {% endfor %}
+    {% if articles_quantity > 1 %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#"
+                       tabindex="-1">{% trans "previous" %}</a>
+                </li>
+                <li class="page-item{% if page == page1 %} disabled{% endif %}">
+                    <a class="page-link"
+                       href="{% url 'blog:articles' %}?page={{ page1 }}">{{ page1 }}</a>
+                </li>
+                <li class="page-item{% if page == page2 %} disabled{% endif %}">
+                    <a class="page-link"
+                       href="{% url 'blog:articles' %}?page={{ page2 }}">{{ page2 }}</a>
+                </li>
+                <li class="page-item{% if page == page3 %} disabled{% endif %}">
+                    <a class="page-link"
+                       href="{% url 'blog:articles' %}?page={{ page3 }}">{{ page3 }}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">{% trans "next" %}</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock %}
