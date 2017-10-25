@@ -30,7 +30,6 @@
                 <span>{{ article.author.first_name }} {{ article.author.last_name }}</span>
                 </span>
                 <div class="dropdown-menu p-20 user-card">
-
                     <img src="{{ article.author.avatar }}"
                          alt="{{ article.author.get_full_name }}"
                          class="rounded-circle user-photo">
@@ -38,10 +37,10 @@
                     <hr>
                     <span class="rating">{% trans "Raiting" %}: 0</span>
                     <hr>
-                    <p>{% trans "published stories" %}: {{ published_stories }}</p>
-                    <p class="text-center"><a
-                            href="{% url 'users:profile' article.author.id %}">watch
-                        profile</a></p>
+                    <div>{% trans "published stories" %}: {{ published_stories }}</div>
+                    <div class="text-center">
+                        <a href="{% url 'users:profile' article.author.id %}">{% trans "profile" %}</a>
+                    </div>
                 </div>
             </div>
             <span class="light-gray">| </span>
@@ -56,8 +55,7 @@
             <span class="light-gray"> | </span>
         </div>
         <div class="inline">
-            <span class=""
-                  data-toggle="tooltip"
+            <span data-toggle="tooltip"
                   data-placement="top"
                   title="{% trans "The story views" %}"
             >

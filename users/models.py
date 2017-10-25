@@ -5,8 +5,11 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 
+from imagekit.models import ProcessedImageField
+
 from main.models import Languages
 from .managers import UserManager
+from main.functions import get_user_image_path
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -16,7 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     is_active = models.BooleanField(_('is active'), default=False)
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True,
+    avatar = ProcessedImageField(upload_to=get_user_image_path, null=True, blank=True,
                                default='/static/img/no-photo.gif')
     is_staff = models.BooleanField(
         _('staff status'),
@@ -43,7 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         full_name = '{} {}'.format(self.first_name, self.last_name)
         return full_name.strip()
 
-    def get_short_name(self):
+    @property
+    def get_first_name(self):
         """Returns the short name for the user.
 
         :return string:

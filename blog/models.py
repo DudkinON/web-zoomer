@@ -73,6 +73,14 @@ class Article(models.Model):
         verbose_name = _('Article')
         verbose_name_plural = _('Articles')
 
+    @property
+    def count_published_articles_by_author(self):
+        """Return amount of published articles
+
+        :return int:
+        """
+        return Article.objects.filter(author_id=self.author_id).all().count()
+
 
 class ArticleLikes(models.Model):
     user = models.ForeignKey(User, verbose_name=_("user"), )

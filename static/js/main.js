@@ -50,6 +50,15 @@ jQuery(document).ready(function ($) {
         updateTags(this);
     });
 
+    // // image background
+    // var articleItem = $('.article-item');
+    //
+    // articleItem.find('image-front').css("background-image",
+    //     "url(" + $(this).data('image-url') + ")").css("background-position",
+    //     "50% 50%!important");
+    // // var imgUrl = imgBox.data('image-url');
+    // // imgBox.css("background-image", "url(" + imgUrl + ")").css("background-position", "50% 50%!important");
+
     // like
     $('.like').on('click', function () {
         var like = $('.like');

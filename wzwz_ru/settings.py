@@ -170,3 +170,7 @@ SITE_URL = 'www.wzwz.ru'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+ARTICLE_IMG_ROOT = 'article_images'
+
+USER_AVATAR_ROOT = 'avatars'

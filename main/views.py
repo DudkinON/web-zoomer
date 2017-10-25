@@ -24,6 +24,8 @@ def home(request):
     args = dict()
     args['articles'] = Article.objects.filter(is_active=True).order_by(
         "-created")
+    # args['published_stories'] = Article.objects.filter(
+    #     author=current_article.author).all().count() or 0
     request.session.set_test_cookie()
 
     return render(request, 'main/home.html', args)

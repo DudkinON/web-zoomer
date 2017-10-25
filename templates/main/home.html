@@ -14,7 +14,8 @@
                 {% elif message.tags == 'success' %} alert-success
                 {% endif %}
                 alert-dismissible" role="alert">
-                    <button type="button" class="close cursor-pointer" data-dismiss="alert"
+                    <button type="button" class="close cursor-pointer"
+                            data-dismiss="alert"
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
                     <strong>{{ message }}</strong>
@@ -25,17 +26,61 @@
     {% if articles %}
         <div class="row">
             {% for article in articles %}
-                <div class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        <div class="article-item h-360">
-                            <h2 class="h4 text-center">{{ article.title }}</h2>
-                            <img src="/media/{{ article.image.image }}" alt="{{ article.image.name }}"
-                                 class="img-rounded">
-                            <p class="text-muted text-center">{{ article.description|truncatechars_html:110 }}</p>
-                            <div class="div-article-btn">
-                                <a href="{% url "blog:articles" %}{{ article.slug }}" class="btn btn-success btn-article-item">{% trans "Read..." %}</a>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="article-item h-250">
+                        <a href="{% url "blog:article" article.slug %}">
+                            <div class="image-front"
+                                 style="background-image: url('{{ article.image.image.url }}')"></div>
+                            <h2 class="h5 text-center pt-10"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{ article.description|truncatechars_html:110 }}"
+                            >{{ article.title }}</h2>
+                        </a>
+                        <div class="article-footer">
+                            <div class="bookmark-article"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="{% trans "Bookmark this story" %}">
+                                <i class="fa fa-bookmark-o"
+                                   aria-hidden="true"></i>
+                            </div>
+                            <div class="btn-group dropup">
+                            <span class="user-link dropdown-toggle"
+                                  data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ article.author.avatar }}" alt=""
+                                 class="rounded-circle user-photo">
+                            <span>{{ article.author.get_full_name }}</span>
+                            </span>
+                                <div class="dropdown-menu p-20 user-card">
+                                    <a href="{% url 'users:profile' article.author.id %}"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       title="{% trans "The Author's profile" %}">
+                                        <img src="{{ article.author.avatar }}"
+                                             alt="{{ article.author.get_full_name }}"
+                                             class="rounded-circle user-photo">
+                                        <span class="h6">{{ article.author.get_full_name }}</span>
+                                    </a>
+                                    <hr>
+                                    <div class="rating">{% trans "raiting" %}: 0</div>
+
+                                    <div>{% trans "published stories" %}: {{ article.count_published_articles_by_author }}</div>
+                                    <a href="#" class="">{% trans "author's stories" %}</a>
+                                    <div class="user-card-footer">
+                                        <span class="read-author"
+                                              data-toggle="tooltip"
+                                              data-placement="top"
+                                              title="{% trans "Read this Author" %}">
+                                            <i class="fa fa-book" aria-hidden="true"></i>
+                                        </span>
+                                        <div class="pt-10">readers: 0</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             {% endfor %}

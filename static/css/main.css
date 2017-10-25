@@ -783,6 +783,18 @@ a:focus, a:hover {
     margin: 160px 0;
 }
 
+.h-250 {
+    height: 250px;
+}
+
+.h-300 {
+    height: 300px;
+}
+
+.h-350 {
+    height: 350px;
+}
+
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
     color: #4cae4c;
 }
@@ -863,6 +875,10 @@ a:focus, a:hover {
     margin: 10px 0;
 }
 
+.article-item:hover > a > .image-front {
+    opacity: 1;
+}
+
 .img-text-left {
     float: left;
     margin: 5px 10px 5px 5px !important;
@@ -922,15 +938,6 @@ a:hover > h2 {
     color: gray;
 }
 
-.h-360 {
-    height: 360px;
-}
-
-.btn-article-item {
-    width: 100%;
-    bottom: 0px;
-    position: absolute;
-}
 
 .card {
     border: 1px solid #d5d5d5;
@@ -1133,7 +1140,44 @@ a:hover > h2 {
     border-bottom: 0 solid;
 }
 
-/*@media screen and (max-width: 474px)*/
+.image-front {
+    height: 150px;
+    background-position: 50% 50% !important;
+    background-size: cover!important;
+    opacity: 0.8;
+}
+
+.user-card-home {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.bookmark-article {
+    color: #acaead;
+    float: right;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.bookmark-article:hover {
+    color: #4cae4c;
+}
+
+.read-author {
+    font-size: 14px;
+    color: #9b9d9c;
+    float: right;
+    padding-top: 12px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+
+.read-author:hover {
+    color: #4cae4c;
+}
+
+
 @media screen and (max-width: 992px) {
     .search-form {
         display: none;
