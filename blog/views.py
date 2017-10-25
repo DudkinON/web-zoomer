@@ -430,6 +430,14 @@ class EditArticle(View):
         return render(request, self.template_name, self.args)
 
 
+def author_articles(request, uid):
+    user = get_object_or_404(User, id=int(uid))
+    args = dict()
+    args['author'] = user
+    args['articles'] = Article.objects.filter(author=user).all()
+    return render(request, 'blog/author_articles.html', args)
+
+
 def delete_article(request, slug):
     """Delete an article
 

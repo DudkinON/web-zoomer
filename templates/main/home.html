@@ -1,7 +1,7 @@
 {% extends "main/main.html" %}
 {% load i18n %}
 {% get_available_languages as languages %}
-{% block title %}{% trans "The best articles - Web Zoomer" %}{% endblock %}
+{% block title %}{% trans "The best stories - Web Zoomer" %}{% endblock %}
 
 {% block content %}
     {% if messages %}
@@ -67,7 +67,7 @@
                                     <div class="rating">{% trans "raiting" %}: 0</div>
 
                                     <div>{% trans "published stories" %}: {{ article.count_published_articles_by_author }}</div>
-                                    <a href="#" class="">{% trans "author's stories" %}</a>
+                                    <a href="{% url 'blog:author_articles' article.author.id %}" class="">{% trans "author's stories" %}</a>
                                     <div class="user-card-footer">
                                         <span class="read-author"
                                               data-toggle="tooltip"
@@ -80,7 +80,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             {% endfor %}

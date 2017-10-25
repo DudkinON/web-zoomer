@@ -1,0 +1,55 @@
+{% extends "main/main.html" %}
+{% load i18n %}
+{% get_available_languages as languages %}
+{% block title %}{{ author.get_full_name }} - {% trans "stories" %}{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert
+                {% if message.tags == 'error' %} alert-danger
+                {% elif message.tags == 'warning' %} alert-warning
+                {% elif message.tags == 'info' %} alert-info
+                {% elif message.tags == 'success' %} alert-success
+                {% endif %}
+                alert-dismissible" role="alert">
+                    <button type="button" class="close cursor-pointer"
+                            data-dismiss="alert"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if articles %}
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-xs-12 col-sm-6">
+                    <div class="article-item h-250">
+                        <a href="{% url "blog:article" article.slug %}">
+                            <div class="image-front"
+                                 style="background-image: url('{{ article.image.image.url }}')"></div>
+                            <h2 class="h5 pt-10"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{ article.description|truncatechars_html:110 }}"
+                            >{{ article.title }}</h2>
+                        </a>
+                        <div class="article-footer">
+                            <div class="bookmark-article"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="{% trans "Bookmark this story" %}">
+                                <i class="fa fa-bookmark-o"
+                                   aria-hidden="true"></i>
+                            </div>
+                            <div class="article_data">{{ article.created }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
