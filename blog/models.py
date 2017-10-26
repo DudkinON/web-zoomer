@@ -79,7 +79,8 @@ class Article(models.Model):
 
         :return int:
         """
-        return Article.objects.filter(author_id=self.author_id).all().count()
+        return Article.objects.filter(
+            author_id=self.author_id).all().count() or 0
 
 
 class ArticleLikes(models.Model):

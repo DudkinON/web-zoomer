@@ -19,8 +19,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     is_active = models.BooleanField(_('is active'), default=False)
-    avatar = ProcessedImageField(upload_to=get_user_image_path, null=True, blank=True,
-                               default='no-photo.gif')
+    avatar = ProcessedImageField(upload_to=get_user_image_path, null=True,
+                                 blank=True,
+                                 default='no-photo.gif')
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -79,7 +80,8 @@ class ActionSlug(models.Model):
 
 
 class Action(models.Model):
-    name = models.CharField(_('name'), max_length=60, default=None, unique=True)
+    name = models.CharField(_('name'), max_length=60, default=None,
+                            unique=True)
     slug = models.ForeignKey(ActionSlug, max_length=60, default=None)
     language = models.ForeignKey(Languages, default=None)
     is_active = models.BooleanField(_('is active'), default=False)
@@ -91,3 +93,16 @@ class Action(models.Model):
     class Meta:
         verbose_name = _('Action')
         verbose_name_plural = _('Actions')
+
+
+class Readers(models.Model):
+    author = models.ForeignKey(User, related_name=_("author"))
+    reader = models.ForeignKey(User, related_name=_("reader"))
+
+    @property
+    def count_readers(self):
+        """Return quantity of readers by author
+
+        :return int:
+        """
+        return Readers.objects.filter(author=self.author).all().count() or 0

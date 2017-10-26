@@ -82,8 +82,9 @@ class UsersTest(TestCase):
 
     def test_users_action_en(self):
         slug = Action.objects.filter(slug='test').first().slug
-        self.client.get(reverse('language', kwargs={'lang': 'en'}))
-        response = self.client.get(reverse('users:action', kwargs={'slug': slug}))# '/users/profile/action/{}/'.format(slug))
+        self.client.get(reverse('main:language', kwargs={'lang': 'en'}))
+        response = self.client.get(reverse(
+            'users:action', kwargs={'slug': slug}))
         tmp = str(response.content)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(tmp.find('test') > -1)
@@ -91,7 +92,7 @@ class UsersTest(TestCase):
 
     def test_users_action_ru(self):
         slug = Action.objects.filter(slug='test').first().slug
-        self.client.get(reverse('language', kwargs={'lang': 'ru'}))
+        self.client.get(reverse('main:language', kwargs={'lang': 'ru'}))
         response = self.client.get('/users/profile/action/{}/'.format(slug))
         tmp = str(response.content.decode('utf-8'))
         self.assertEqual(response.status_code, 200)

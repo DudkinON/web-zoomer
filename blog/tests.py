@@ -210,6 +210,11 @@ class BlogTests(TestCase):
         self.assertEqual(new_article.language.code, 'ru')
         self.assertEqual(new_article.slug, 'новое_название')
 
+    def test_blog_author_articles(self):
+        response = self.client.get(reverse(
+            'blog:author_articles', kwargs={'uid': self.user.id}))
+        self.assertEqual(response.status_code, 200)
+
     def test_blog_delete_article(self):
 
         # check access to page not logged user

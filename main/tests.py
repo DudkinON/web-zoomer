@@ -34,11 +34,11 @@ class MainTest(TestCase):
             author=User.objects.get(pk=self.user.pk))
 
     def test_main_home(self):
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('main:home'))
         self.assertEqual(response.status_code, 200)
 
     def test_main_about(self):
-        response = self.client.get(reverse('about'))
+        response = self.client.get(reverse('main:about'))
         self.assertEqual(response.status_code, 200)
 
     def test_main_contacts(self):
@@ -47,8 +47,11 @@ class MainTest(TestCase):
                 "title": "Test",
                 "text": "Test text message"}
 
-        response_get = self.client.get(reverse('contacts'))
-        response_post = self.client.post(path=reverse('contacts'), data=data)
+        response_get = self.client.get(reverse('main:contacts'))
+        response_post = self.client.post(reverse(
+            'main:contacts'),
+            data
+        )
         message = Message.objects.get(email="user@example.com") or None
         self.assertEqual(message.email, data['email'])
         self.assertEqual(message.title, data['title'])
@@ -58,12 +61,14 @@ class MainTest(TestCase):
         self.assertEqual(response_post.status_code, 302)
 
     def test_main_language_ru(self):
-        response = self.client.get(reverse('language', kwargs={'lang': 'ru'}))
+        response = self.client.get(reverse(
+            'main:language', kwargs={'lang': 'ru'}))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(self.client.session[LANGUAGE_SESSION_KEY], 'ru')
 
     def test_main_language_en(self):
-        response = self.client.get(reverse('language', kwargs={'lang': 'en'}))
+        response = self.client.get(reverse(
+            'main:language', kwargs={'lang': 'en'}))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(self.client.session[LANGUAGE_SESSION_KEY], 'en')
 
