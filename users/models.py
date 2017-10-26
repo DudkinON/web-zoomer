@@ -20,7 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     is_active = models.BooleanField(_('is active'), default=False)
     avatar = ProcessedImageField(upload_to=get_user_image_path, null=True, blank=True,
-                               default='/static/img/no-photo.gif')
+                               default='no-photo.gif')
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,

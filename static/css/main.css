@@ -1177,6 +1177,16 @@ a:hover > h2 {
     color: #4cae4c;
 }
 
+.article-data {
+    padding-top: 10px;
+}
+
+.author-img {
+    float: right;
+    width: 100px;
+}
+
+
 
 @media screen and (max-width: 992px) {
     .search-form {

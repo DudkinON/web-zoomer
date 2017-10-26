@@ -49,7 +49,7 @@
                             <span class="user-link dropdown-toggle"
                                   data-toggle="dropdown"
                                   aria-haspopup="true" aria-expanded="false">
-                            <img src="{{ article.author.avatar }}" alt=""
+                            <img src="{{ article.author.avatar.url }}" alt=""
                                  class="rounded-circle user-photo">
                             <span>{{ article.author.get_full_name }}</span>
                             </span>
@@ -58,13 +58,13 @@
                                        data-toggle="tooltip"
                                        data-placement="top"
                                        title="{% trans "The Author's profile" %}">
-                                        <img src="{{ article.author.avatar }}"
+                                        <img src="{{ article.author.avatar.url }}"
                                              alt="{{ article.author.get_full_name }}"
                                              class="rounded-circle user-photo">
                                         <span class="h6">{{ article.author.get_full_name }}</span>
                                     </a>
                                     <hr>
-                                    <div class="rating">{% trans "raiting" %}: 0</div>
+                                    <div class="rating">{% trans "rating" %}: 0</div>
 
                                     <div>{% trans "published stories" %}: {{ article.count_published_articles_by_author }}</div>
                                     <a href="{% url 'blog:author_articles' article.author.id %}" class="">{% trans "author's stories" %}</a>

@@ -1,27 +1,55 @@
 {% load i18n %}
 {% get_available_languages as languages %}
 
+{% if author %}
+    <div class="author-card">
+
+        <div class="author-img inline">
+            <img class="rounded-circle" src="{{ author.avatar.url }}"
+                 alt="{{ author.get_full_name }}">
+        </div>
+        <div class="author-header">
+            <div class="h5">{{ author.get_full_name }}</div>
+            <div><strong>{% trans "rating" %}:</strong> {% if author_rating %}{{ author_rating }}{% endif %}</div>
+            <div>
+                <span><strong>{% trans "published stories" %}:</strong> </span>
+                <span>{% if published_stories_by_author %}{{ published_stories_by_author }}{% endif %}</span>
+            </div>
+            <div><strong>{% trans "rank" %}:</strong> junior writer</div>
+            <div class="author-website"><strong>{% trans "website:" %}</strong> <a href="#">www.oleg-dudkin.com</a></div>
+        </div>
+        <hr>
+        <div class="author-body">
+            <div class="author-slogan">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In nesciunt tempora unde velit! Ab accusantium eius facilis libero minima minus modi nesciunt nisi quaerat, quisquam quod quos repellat sunt. Itaque.</p>
+                {% if author_slogan %}{{ author_slogan }}{% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 {% if last_articles %}
     <div class="last-articles">
-    {% for article in last_articles %}
-        <div class="article-item row">
+        {% for article in last_articles %}
+            <div class="article-item row">
 
                 <div class="h5 col-12">
-                    <a href="{% url "blog:article" article.slug %}" class="row">
-                    {{ article.title|truncatechars_html:26 }}
+                    <a href="{% url "blog:article" article.slug %}"
+                       class="row">
+                        {{ article.title|truncatechars_html:26 }}
                     </a>
                 </div>
                 <div class="col-3 p-min-15">
                     <img src="/media/{{ article.image.image }}"
-                     alt="{{ article.image.name }}"
-                     class="img-rounded">
+                         alt="{{ article.image.name }}"
+                         class="img-rounded">
                 </div>
                 <div class="col-9">
                     {{ article.description|truncatechars_html:60 }}
                 </div>
 
 
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 {% endif %}

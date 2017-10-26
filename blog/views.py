@@ -432,9 +432,11 @@ class EditArticle(View):
 
 def author_articles(request, uid):
     user = get_object_or_404(User, id=int(uid))
+    stories = Article.objects.filter(author=user).all()
     args = dict()
     args['author'] = user
-    args['articles'] = Article.objects.filter(author=user).all()
+    args['published_stories_by_author'] = stories.count()
+    args['articles'] = stories
     return render(request, 'blog/author_articles.html', args)
 
 
