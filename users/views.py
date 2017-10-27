@@ -5,15 +5,18 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail, BadHeaderError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _, LANGUAGE_SESSION_KEY
+from django.utils.translation import get_language
 from django.views.generic import View
+
+from blog.models import Article
 from wzwz_ru.settings import SITE_URL
 
 from .forms import UserLoginForm, UserRegisterForm
-from .models import User, Action
+from .models import User
 
 app_name = 'users'
 
@@ -151,27 +154,12 @@ class UserProfile(View):
 
     def get(self, request, uid):
         args = dict()
+        author = get_object_or_404(User, id=uid)
         args['title'] = _("Profile")
-        language = get_language_code(request)
-        args['actions'] = Action.objects.filter(language=language) or None
+        args['author'] = author
+        args['published_stories_by_author'] = Article.objects.filter(
+            author=author).all().count()
 
-        return render(request, self.template_name, args)
-
-
-class UserAction(View):
-    template_name = 'users/action.html'
-
-    def get(self, request, slug):
-
-        args = dict()
-        if LANGUAGE_SESSION_KEY in request.session:
-            language = request.session[LANGUAGE_SESSION_KEY]
-        else:
-            language = 'en'
-        args['title'] = Action.objects.filter(
-            language=language, slug=slug).first().name.capitalize() \
-            or _("Action")
-        args['actions'] = Action.objects.filter(language=language) or None
         return render(request, self.template_name, args)
 
 

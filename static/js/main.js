@@ -50,15 +50,12 @@ jQuery(document).ready(function ($) {
         updateTags(this);
     });
 
-    // // image background
-    // var articleItem = $('.article-item');
-    //
-    // articleItem.find('image-front').css("background-image",
-    //     "url(" + $(this).data('image-url') + ")").css("background-position",
-    //     "50% 50%!important");
-    // // var imgUrl = imgBox.data('image-url');
-    // // imgBox.css("background-image", "url(" + imgUrl + ")").css("background-position", "50% 50%!important");
-
+    // edit profile control
+    $('.edit-name').on('click', function () {
+        $('#user-full-name').toggle();
+        $('#first-name').toggle().focus();
+        $('#last-name').toggle();
+    });
     // like
     $('.like').on('click', function () {
         var like = $('.like');

@@ -25,13 +25,16 @@
         </ul>
     {% endif %}
     <h1 class="h4 text-success text-center">{{ category.title }}</h1>
+    {% if not articles %}
+    <p>{% trans "This tag is not available" %}</p>
+    {% else %}
     {% for article in articles %}
-        <h2 class="h4 text-color-grey"><a
-                href="{% url 'blog:article' article.slug %}">{{ article.title }}</a>
+        <h2 class="h4 text-color-grey">
+            <a href="{% url 'blog:article' article.slug %}">{{ article.title }}</a>
         </h2>
         <a href="{% url 'blog:article' article.slug %}">
             <img class="img-rounded img-text-left img-article-preview"
-                 src="/media/{{ article.image.image }}"
+                 src="{{ article.image.image.url }}"
                  alt="{{ article.image }}">
         </a>
         <p class="text-color-grey">{{ article.description|safe|escape }}</p>
@@ -78,4 +81,5 @@
             </div>
         </div>
     {% endfor %}
+    {% endif %}
 {% endblock %}

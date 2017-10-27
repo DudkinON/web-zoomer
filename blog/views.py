@@ -118,13 +118,12 @@ def article(request, slug):
         like=True, article=current_article.id).all()
     dislikes = ArticleLikes.objects.filter(
         like=False, article=current_article.id).all()
-    if request.session.test_cookie_worked():
-        if str(current_article.id) not in request.COOKIES:
-            request.session.delete_test_cookie()
-            current_article.views += 1
-            current_article.save(update_fields=['views'])
-            response = HttpResponse('view')
-            response.set_cookie(str(current_article.id), "True")
+
+    if str(current_article.id) not in request.COOKIES:
+        current_article.views += 1
+        current_article.save(update_fields=['views'])
+        response = HttpResponse('view')
+        response.set_cookie(str(current_article.id), "True")
 
     if 'uid' in request.session:
         uid = request.session['uid']
@@ -171,7 +170,7 @@ def article(request, slug):
     args['article'] = current_article
     args['published_stories'] = Article.objects.filter(
         author=current_article.author).all().count() or 0
-    args['tags'] = current_article.tags.all()
+    args['tags'] = current_article.tags.filter(is_active=True).all()
 
     return render(request, 'blog/article.html', args)
 
@@ -184,9 +183,14 @@ def tag_sort(request, tag):
     :return:
     """
     args = dict()
-    print(get_language())
-    args['articles'] = ArticleTag.objects.get(
-        tag=tag, language=get_language()).article_set.all()
+    current_tag = ArticleTag.objects.filter(
+        tag=tag, language=get_language(),
+        is_active=True).first() or None
+    if current_tag is not None:
+        args['articles'] = current_tag.article_set.filter(
+            is_active=True).all() or None
+    else:
+        args['articles'] = None
     return render(request, 'blog/tags.html', args)
 
 
@@ -249,15 +253,16 @@ def create_article(request):
                 tags_tmp = get_tags_list(tags)
                 for word in tags_tmp:
                     tags_list.append(ArticleTag.objects.get_or_create(
-                        tag=word, language=Languages.objects.get(
+                        tag=word, is_active=True,
+                        language=Languages.objects.get(
                             code=current_article.language.code))[0])
                 current_article.tags.add(*tags_list)
                 current_article.save()
                 del request.session['article_id']
                 del request.session['image']
-                messages.info(request, _("Your article was sent for review. "
-                                         "You can edit article in your profile"
-                                         "."))
+                messages.info(request, _("Your story was sent for review. "
+                                         "You can edit this story in your "
+                                         "profile."))
 
                 return redirect(reverse(
                     'users:profile', kwargs={'uid': request.session['uid']}))

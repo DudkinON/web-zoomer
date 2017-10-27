@@ -8,9 +8,12 @@ from blog.models import Article, ArticleTag as Tag
 from main.models import Pages, Message
 from main.forms import ContactForm
 from django.utils.translation import ugettext_lazy as _, LANGUAGE_SESSION_KEY
+from django.utils.translation import get_language
 from django.contrib.postgres.search import SearchVector
 from re import findall, compile
 from django.contrib import messages
+
+from users.models import Readers
 
 app_name = 'main'
 
@@ -22,10 +25,10 @@ def home(request):
     :return class:
     """
     args = dict()
-    args['articles'] = Article.objects.filter(is_active=True).order_by(
+    args['articles'] = Article.objects.filter(
+        is_active=True, language=get_language()).order_by(
         "-created")
-
-    request.session.set_test_cookie()
+    print(get_language())
 
     return render(request, 'main/home.html', args)
 

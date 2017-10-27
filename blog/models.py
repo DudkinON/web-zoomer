@@ -6,7 +6,7 @@ from pilkit.processors import ResizeToFill
 
 from main.functions import get_image_path
 from main.models import Languages
-from users.models import User
+from users.models import User, Readers
 
 
 class ArticleImage(models.Model):
@@ -80,6 +80,15 @@ class Article(models.Model):
         :return int:
         """
         return Article.objects.filter(
+            author_id=self.author_id).all().count() or 0
+
+    @property
+    def count_readers(self):
+        """Return amount of readers by author
+
+        :return int:
+        """
+        return Readers.objects.filter(
             author_id=self.author_id).all().count() or 0
 
 

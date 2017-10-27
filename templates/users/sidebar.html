@@ -1,11 +1,108 @@
 {% load i18n %}
 {% get_available_languages as languages %}
 
-{% if actions %}
-    <h1 class="h3 text-success text-center">{% trans "Actions" %}</h1>
-    <ul class="list-unstyled m-l-20">
-        {% for action in actions %}
-            <li><a href="{% url 'users:action' action.slug %}">{{ action.name }}</a></li>
-        {% endfor %}
-    </ul>
+
+{% if author %}
+    {% if 'uid' in request.session and request.session.uid == author.id %}
+        <div class="author-card">
+            <div class="author-image-container">
+                <div id="upload-image-box">
+                    <form enctype="multipart/form-data"
+                          action="{% url 'users:profile' request.session.uid %}"
+                          method="post">
+                        {% csrf_token %}
+                        <div class="fileinput fileinput-new text-center"
+                             data-provides="fileinput">
+                            <div class="fileinput-new">
+                                <img width="100" class="rounded-circle"
+                                     src="{{ author.avatar.url }}"
+                                     alt="{{ author.get_full_name }}">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists user-avatar text-center"></div>
+                            <div class="w-100">
+                        <span class="btn btn-default btn-file">
+                            <span class="fileinput-new">{% trans "Select an image" %}</span>
+                            <span class="fileinput-exists">{% trans "Change" %}</span>
+                            <input type="file"
+                                   name="{{ image_form.image.html_name }}">
+                        </span>
+                                <a href="#"
+                                   class="btn btn-default fileinput-exists"
+                                   data-dismiss="fileinput">{% trans "Remove" %}</a>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <input type="submit" name="upload_image"
+                                   class="btn btn-success btn-hundred cursor-pointer hide"
+                                   value="{% trans "next" %}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="author-header">
+                <form action="{% url 'users:profile' request.session.uid %}"
+                      method="post">
+                    <div class="h5 edit-name-container">
+                        <span class="edit-name">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" value="{{ author.first_name }}" name="first_name" id="first-name"
+                               placeholder="{% trans "first name" %}" class="field-profile hide">
+                        <input type="text" value="{{ author.last_name }}" name="last_name" id="last-name"
+                               placeholder="{% trans "last name" %}" class="field-profile hide">
+                        <span id="user-full-name">{{ author.get_full_name }}</span>
+
+                    </div>
+                    <div><strong>{% trans "rating" %}:</strong>
+                        {% if author_rating %}{{ author_rating }}{% endif %}
+                    </div>
+                    <div>
+                        <span><strong>{% trans "published stories" %}:</strong> </span>
+                        <span>{% if published_stories_by_author %}
+                            {{ published_stories_by_author }}{% endif %}</span>
+                    </div>
+                    <div><strong>{% trans "rank" %}:</strong> junior writer
+                    </div>
+                    <div class="author-website">
+                        <strong>{% trans "website:" %}</strong> <a href="#">www.oleg-dudkin.com</a>
+                    </div>
+                </form>
+
+            </div>
+            <hr>
+            <div class="author-body">
+                <div class="author-slogan">
+                    {% if author_slogan %}{{ author_slogan }}{% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="author-card">
+            <div class="author-img inline">
+                <img class="rounded-circle" src="{{ author.avatar.url }}"
+                     alt="{{ author.get_full_name }}">
+            </div>
+            <div class="author-header">
+                <div class="h5">{{ author.get_full_name }}</div>
+                <div><strong>{% trans "rating" %}:</strong>
+                    {% if author_rating %}{{ author_rating }}{% endif %}</div>
+                <div>
+                    <span><strong>{% trans "published stories" %}:</strong> </span>
+                    <span>{% if published_stories_by_author %}
+                        {{ published_stories_by_author }}{% endif %}</span>
+                </div>
+                <div><strong>{% trans "rank" %}:</strong> junior writer</div>
+                <div class="author-website">
+                    <strong>{% trans "website:" %}</strong> <a href="#">www.oleg-dudkin.com</a>
+                </div>
+            </div>
+            <hr>
+            <div class="author-body">
+                <div class="author-slogan">
+                    {% if author_slogan %}{{ author_slogan }}{% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endif %}
+
