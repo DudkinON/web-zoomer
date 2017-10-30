@@ -15,7 +15,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'blog:create_article' %}">
                     <span>{% trans "write a story" %}</span>
@@ -24,21 +24,19 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{% url 'main:contacts' %}">{% trans "contacts" %} </a>
+                   href="#">{% trans "popularity" %} </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{% url 'main:about' %}">{% trans "about" %}</a>
+                   href="#">{% trans "rating" %}</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0 search-form mr-auto"
-              action="{% url 'main:search' %}">
-            <input class="form-control mr-sm-2" type="text"
-                   placeholder="{% trans "Search" %}" aria-label="Search"
-                   name="q" id="search-input">
-        </form>
+
 
         <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a class="nav-link" href="{% url 'main:search' %}"><i class="fa fa-search" aria-hidden="true"></i></a>
+            </li>
             {% if 'uid' in request.session %}
                 <li>
                     <a class="nav-link"

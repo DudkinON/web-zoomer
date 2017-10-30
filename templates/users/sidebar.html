@@ -23,7 +23,7 @@
                         <span class="btn btn-default btn-file">
                             <span class="fileinput-new">{% trans "Select an image" %}</span>
                             <span class="fileinput-exists">{% trans "Change" %}</span>
-                            <input type="file"
+                            <input type="file" id="img-field"
                                    name="{{ image_form.image.html_name }}">
                         </span>
                                 <a href="#"
@@ -32,9 +32,9 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <input type="submit" name="upload_image"
-                                   class="btn btn-success btn-hundred cursor-pointer hide"
-                                   value="{% trans "next" %}">
+                            <input type="submit" name="update_image" id="img-btn"
+                                   class="btn btn-success btn-hundred cursor-pointer hide mb-25"
+                                   value="{% trans "save" %}">
                         </div>
                     </form>
                 </div>

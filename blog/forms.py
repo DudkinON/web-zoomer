@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from django import forms
 from .models import Article, ArticleImage
-from wzwz_ru.settings import LANGUAGES
+from web_zoomer_com.settings import LANGUAGES
 
 
 class ArticleForm(forms.Form):

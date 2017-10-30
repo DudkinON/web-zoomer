@@ -8,7 +8,6 @@ from django.utils.six import text_type
 from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from .views import *
-from .models import ActionSlug as Slug, Action
 from main.models import Languages as Lang
 
 
@@ -20,13 +19,6 @@ class UsersTest(TestCase):
             password='Super_password')
         self.lang = Lang.objects.create(code='en', is_active=True)
         self.lang = Lang.objects.create(code='ru', is_active=True)
-        self.slug = Slug.objects.create(slug='test')
-        self.action = Action.objects.create(slug=Slug.objects.get(slug='test'),
-                                            language=Lang.objects.get(code='en'),
-                                            name='test')
-        self.action = Action.objects.create(slug=Slug.objects.get(slug='test'),
-                                            language=Lang.objects.get(code='ru'),
-                                            name='тест')
 
     def test_users_login(self):
         response_get = self.client.get(path='/users/login/')

@@ -3,7 +3,7 @@
 
 
 <nav class="container navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url 'home' %}">
+    <a class="navbar-brand" href="{% url 'main:home' %}">
         <img src="/static/img/logo.png" alt="" width="50px">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -16,18 +16,18 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'blog:article_create' %}">
+                <a class="nav-link" href="{% url 'blog:create_article' %}">
                     <span>{% trans "write a story" %}</span>
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{% url 'contacts' %}">{% trans "contacts" %} </a>
+                   href="#">{% trans "popularity" %} </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{% url 'about' %}">{% trans "about" %}</a>
+                   href="#">{% trans "rating" %}</a>
             </li>
         </ul>
 
@@ -60,9 +60,9 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item"
-                           href="{% url 'language' 'en' %}">english</a>
+                           href="{% url 'main:language' 'en' %}">english</a>
                         <a class="dropdown-item"
-                           href="{% url 'language' 'ru' %}">русский</a>
+                           href="{% url 'main:language' 'ru' %}">русский</a>
                     </div>
                 </div>
             </li>

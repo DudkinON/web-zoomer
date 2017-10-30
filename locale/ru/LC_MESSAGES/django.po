@@ -884,11 +884,11 @@ msgstr "Пользователь не найден"
 msgid "Profile"
 msgstr "Профиль"
 
-#: wzwz_ru/settings.py:148
+#: web_zoomer_com/settings.py:148
 msgid "English"
 msgstr "Английский"
 
-#: wzwz_ru/settings.py:149
+#: web_zoomer_com/settings.py:149
 msgid "Russian"
 msgstr "Русский"
 

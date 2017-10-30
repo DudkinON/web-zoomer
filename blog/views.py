@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.db import connection
 from django.utils.translation import get_language
 from django.views import View
-from wzwz_ru.settings import MEDIA_ROOT
+from web_zoomer_com.settings import MEDIA_ROOT
 
 from re import findall, compile
 from os import path, remove
@@ -18,7 +18,7 @@ from blog.forms import ArticleForm, ImageForm, EditArticleForm
 from blog.models import Article, ArticleLikes, ArticleTag, ArticleImage
 from users.models import User
 from main.models import Languages
-from wzwz_ru.settings import MEDIA_URL
+from web_zoomer_com.settings import MEDIA_URL
 
 app_name = 'blog'
 
@@ -119,7 +119,7 @@ def article(request, slug):
     dislikes = ArticleLikes.objects.filter(
         like=False, article=current_article.id).all()
 
-    if str(current_article.id) not in request.COOKIES:
+    if current_article.id not in request.COOKIES:
         current_article.views += 1
         current_article.save(update_fields=['views'])
         response = HttpResponse('view')

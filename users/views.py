@@ -13,7 +13,7 @@ from django.utils.translation import get_language
 from django.views.generic import View
 
 from blog.models import Article
-from wzwz_ru.settings import SITE_URL
+from web_zoomer_com.settings import SITE_URL
 
 from .forms import UserLoginForm, UserRegisterForm
 from .models import User
@@ -161,6 +161,10 @@ class UserProfile(View):
             author=author).all().count()
 
         return render(request, self.template_name, args)
+
+    def post(self, request, uid):
+        if 'update_image' in request.POST:
+            pass
 
 
 def logout_view(request):

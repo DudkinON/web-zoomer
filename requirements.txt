@@ -1,0 +1,5 @@
+Pillow
+django
+psycopg2
+django-imagekit
+django-tinymce

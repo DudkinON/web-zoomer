@@ -28,6 +28,9 @@ function updateTags(obj) {
 
 jQuery(document).ready(function ($) {
 
+    //search focus
+    $('#search-input').focus();
+
     //tooltip
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -56,6 +59,7 @@ jQuery(document).ready(function ($) {
         $('#first-name').toggle().focus();
         $('#last-name').toggle();
     });
+
     // like
     $('.like').on('click', function () {
         var like = $('.like');

@@ -22,13 +22,12 @@ def home(request):
     """The home page
 
     :param request:
-    :return class:
+    :return:
     """
     args = dict()
     args['articles'] = Article.objects.filter(
         is_active=True, language=get_language()).order_by(
         "-created")
-    print(get_language())
 
     return render(request, 'main/home.html', args)
 
@@ -37,7 +36,7 @@ def about(request):
     """The about us page
 
     :param request:
-    :return class:
+    :return:
     """
     args = dict()
     args['about'] = Pages.objects.filter(title='About us').first() or None
@@ -48,7 +47,7 @@ def contacts(request):
     """The contact page
 
     :param request:
-    :return class:
+    :return:
     """
     args = dict()
     args['title'] = _('Contacts')
@@ -77,7 +76,7 @@ def select_lang(request, lang):
 
     :param request:
     :param lang:
-    :return class:
+    :return:
     """
     go_next = request.META.get('HTTP_REFERER', '/')
     response = HttpResponseRedirect(go_next)
@@ -91,24 +90,25 @@ def select_lang(request, lang):
 
 
 def search(request):
-    """The view for search, (unfinished)
+    """The view for search
 
     :param request:
-    :return class:
+    :return:
     """
     args = dict()
     q = ''
     pattern = r'([a-zA-Z0-9]+)'
     comp = compile(pattern=pattern)
-    query = findall(comp, request.GET['q'])
-    for word in query:
-        q += '{} '.format(word)
-    q = q.rstrip()
-
-    results = Article.objects.annotate(
-        search=SearchVector('text', 'title'),
-    ).filter(search=q).order_by("-created")[:10] or None
-
+    if 'q' in request.GET:
+        query = findall(comp, request.GET['q'])
+        for word in query:
+            q += '{} '.format(word)
+        q = q.rstrip()
+        results = Article.objects.annotate(
+            search=SearchVector('text', 'title'),
+        ).filter(search=q).order_by("-created")[:10] or None
+    else:
+        results = None
     args['title'] = _('Search results')
     args['results'] = results
     return render(request, 'main/search.html', args)

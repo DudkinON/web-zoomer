@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import hashlib
 import os
 from random import random
-from wzwz_ru.settings import ARTICLE_IMG_ROOT, USER_AVATAR_ROOT
+from web_zoomer_com.settings import ARTICLE_IMG_ROOT, USER_AVATAR_ROOT
 
 
 def get_path(instance, filename, folder):
