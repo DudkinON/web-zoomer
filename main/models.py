@@ -20,9 +20,12 @@ class Languages(models.Model):
 
 
 class Pages(models.Model):
-    title = models.CharField(_("title"), max_length=128, blank=True, null=True, default=None)
+    title = models.CharField(_("title"), max_length=128, blank=True, null=True,
+                             default=None)
     text = models.TextField(_("text"), blank=True, null=True, default=None)
-    image = models.ImageField(_("image"), upload_to=get_image_path, max_length=255, blank=True, null=True, default=None)
+    image = models.ImageField(_("image"), upload_to=get_image_path,
+                              max_length=255, blank=True, null=True,
+                              default=None)
 
     def __str__(self):
         title = _("Title")
@@ -43,7 +46,7 @@ class Message(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __str__(self):
-        return "{}".format(self.username)
+        return self.email
 
     class Meta:
         db_table = 'main_message'

@@ -17,7 +17,7 @@
 
     {% else %}
         <img class="img-rounded img-text-left"
-             src="{{ article.image.image.url }}" alt="{{ article.image }}">
+             src="{{ article.image.image.url }}" alt="{{ article.title }}">
         <p class="text-color-grey">{{ article.text }}</p>
         {% if tags %}
             <div class="pt-10 pb-10 top-line">
@@ -34,12 +34,12 @@
                 <div class="btn-group dropup">
                 <span class="user-link dropdown-toggle" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
-                <img src="{{ article.author.avatar }}" alt=""
+                <img src="{{ article.author.avatar.url }}" alt=""
                      class="rounded-circle user-photo">
                 <span>{{ article.author.first_name }} {{ article.author.last_name }}</span>
                 </span>
                     <div class="dropdown-menu p-20 user-card">
-                        <img src="{{ article.author.avatar }}"
+                        <img src="{{ article.author.avatar.url }}"
                              alt="{{ article.author.get_full_name }}"
                              class="rounded-circle user-photo">
                         <span class="h6">{{ article.author.get_full_name }}</span>

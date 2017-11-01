@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import translation
@@ -13,7 +14,7 @@ from django.contrib.postgres.search import SearchVector
 from re import findall, compile
 from django.contrib import messages
 
-from users.models import Readers
+from web_zoomer_com.settings import AMOUNT_SEARCH_RESULT
 
 app_name = 'main'
 
@@ -96,19 +97,32 @@ def search(request):
     :return:
     """
     args = dict()
-    q = ''
-    pattern = r'([a-zA-Z0-9]+)'
-    comp = compile(pattern=pattern)
+    pattern = r"[а-я\w\d]+"
+    comp = compile(pattern)
     if 'q' in request.GET:
-        query = findall(comp, request.GET['q'])
-        for word in query:
-            q += '{} '.format(word)
-        q = q.rstrip()
+        query = comp.findall(request.GET['q'].lower())
+        q = ' '.join(query)
+
         results = Article.objects.annotate(
             search=SearchVector('text', 'title'),
-        ).filter(search=q).order_by("-created")[:10] or None
+        ).filter(search=q).order_by("-created").all()
+
     else:
-        results = None
-    args['title'] = _('Search results')
-    args['results'] = results
+        results = []
+
+    # Pagination
+    paginator = Paginator(results, AMOUNT_SEARCH_RESULT)
+    if 'page' in request.GET:
+        page = request.GET.get('page')
+    else:
+        page = 1
+    print(page)
+    try:
+        args['search_results'] = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        args['search_results'] = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        args['search_results'] = paginator.page(paginator.num_pages)
     return render(request, 'main/search.html', args)

@@ -50,10 +50,13 @@
                                placeholder="{% trans "first name" %}" class="field-profile hide">
                         <input type="text" value="{{ author.last_name }}" name="last_name" id="last-name"
                                placeholder="{% trans "last name" %}" class="field-profile hide">
-                        <span id="user-full-name">{{ author.get_full_name }}</span>
+                        <span id="user-full-name">
+                            <span id="first-name-output">{{ author.first_name }}</span>
+                            <span id="last-name-output">{{ author.last_name }}</span>
+                        </span>
 
                     </div>
-                    <div><strong>{% trans "rating" %}:</strong>
+                    <div class="w-100"><strong>{% trans "rating" %}:</strong>
                         {% if author_rating %}{{ author_rating }}{% endif %}
                     </div>
                     <div>
@@ -63,9 +66,12 @@
                     </div>
                     <div><strong>{% trans "rank" %}:</strong> junior writer
                     </div>
+                {% if author.website is not None %}
                     <div class="author-website">
-                        <strong>{% trans "website:" %}</strong> <a href="#">www.oleg-dudkin.com</a>
+                    <span></span>
+                        <strong>{% trans "website:" %}</strong> <a target="_blank" href="http://{{ author.website }}">{{ author.website }}</a>
                     </div>
+                {% endif %}
                 </form>
 
             </div>
@@ -87,13 +93,18 @@
                 <div><strong>{% trans "rating" %}:</strong>
                     {% if author_rating %}{{ author_rating }}{% endif %}</div>
                 <div>
-                    <span><strong>{% trans "published stories" %}:</strong> </span>
+                    <span><strong>{% trans "stories" %}:</strong> </span>
                     <span>{% if published_stories_by_author %}
                         {{ published_stories_by_author }}{% endif %}</span>
                 </div>
                 <div><strong>{% trans "rank" %}:</strong> junior writer</div>
                 <div class="author-website">
-                    <strong>{% trans "website:" %}</strong> <a href="#">www.oleg-dudkin.com</a>
+                    <span></span>
+                    <div>
+                        {% if author.website is not None %}
+                        <strong>{% trans "website:" %}</strong> <a target="_blank" href="http://{{ author.website }}">{{ author.website }}</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             <hr>

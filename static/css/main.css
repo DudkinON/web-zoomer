@@ -1250,7 +1250,15 @@ a:hover > h2 {
 
 .edit-name-container {
     display: block;
-    min-height: 40px;
+    min-height: 50px;
+}
+
+.tag-view-footer {
+    font-size: 14px;
+}
+
+.story-preview-footer {
+    font-size: 14px;
 }
 
 @media screen and (max-width: 992px) {

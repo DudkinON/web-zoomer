@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-27 06:35+0000\n"
+"POT-Creation-Date: 2017-10-31 05:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,12 +20,11 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: blog/models.py:13 blog/models.py:52 main/models.py:25
+#: blog/models.py:13 blog/models.py:52 main/models.py:26
 msgid "image"
 msgstr "изображение"
 
-#: blog/models.py:19 blog/models.py:37 blog/models.py:61 users/models.py:21
-#: users/models.py:87
+#: blog/models.py:19 blog/models.py:37 blog/models.py:61 users/models.py:23
 msgid "is active"
 msgstr "активен"
 
@@ -49,7 +48,7 @@ msgstr "Изображения"
 msgid "tag"
 msgstr "тэг"
 
-#: blog/models.py:35 blog/models.py:48 templates/header.html:67
+#: blog/models.py:35 blog/models.py:48 templates/header.html:65
 #: templates/main/header_search.html:59
 msgid "language"
 msgstr "язык"
@@ -68,7 +67,7 @@ msgstr "Тэги"
 msgid "tags"
 msgstr "тэги"
 
-#: blog/models.py:54 main/models.py:23 main/models.py:38
+#: blog/models.py:54 main/models.py:23 main/models.py:41
 msgid "title"
 msgstr "Название"
 
@@ -76,15 +75,15 @@ msgstr "Название"
 msgid "description"
 msgstr "описание"
 
-#: blog/models.py:57 main/models.py:24 main/models.py:40
+#: blog/models.py:57 main/models.py:25 main/models.py:43
 msgid "text"
 msgstr "текст"
 
-#: blog/models.py:58 blog/models.py:96 users/models.py:38
+#: blog/models.py:58 blog/models.py:96 users/models.py:40
 msgid "user"
 msgstr "пользователь"
 
-#: blog/models.py:59 users/models.py:72
+#: blog/models.py:59
 msgid "slug"
 msgstr "слаг"
 
@@ -104,7 +103,7 @@ msgstr "статья"
 msgid "like"
 msgstr "лайк"
 
-#: blog/models.py:106 main/models.py:41
+#: blog/models.py:106 main/models.py:44
 msgid "date"
 msgstr "дата"
 
@@ -112,51 +111,51 @@ msgstr "дата"
 msgid "views"
 msgstr "просмотры"
 
-#: blog/views.py:135 templates/blog/article.html:112
+#: blog/views.py:110 templates/blog/article.html:112
 #: templates/blog/article.html:127
 msgid "Only registered users can vote"
 msgstr "Только зарегистрированные пользователи могут голосовать"
 
-#: blog/views.py:205
+#: blog/views.py:193
 msgid "Only registered users can write stories"
 msgstr "Только зарегистрированные пользователи могут писать истории"
 
-#: blog/views.py:263
+#: blog/views.py:251
 msgid ""
 "Your story was sent for review. You can edit this story in your profile."
 msgstr ""
 "Ваша история была отправлена на проверку. Вы можете редактировать эту "
 "историю в своем профиле."
 
-#: blog/views.py:271
+#: blog/views.py:259
 msgid "Tag can't be empty"
 msgstr "Тэг не может быть пустым"
 
-#: blog/views.py:292 blog/views.py:329
+#: blog/views.py:280 blog/views.py:317
 msgid "Only registered users can edit stories"
 msgstr "Только зарегистрированные пользователи могут редактировать истории"
 
-#: blog/views.py:299
+#: blog/views.py:287
 msgid "You don't have permission to edit this story"
 msgstr "У Вас нет разрешения на редактирование этой истории"
 
-#: blog/views.py:396
+#: blog/views.py:384
 msgid "You have to add minimum one tag"
 msgstr "Вы должны добавить как минимум один тэг"
 
-#: blog/views.py:403
+#: blog/views.py:391
 msgid "Tag not found"
 msgstr "Тэг не найден"
 
-#: blog/views.py:457
+#: blog/views.py:445
 msgid "Only registered users can delete stories"
 msgstr "Только зарегистрированные пользователи могут удалять истории"
 
-#: blog/views.py:464
+#: blog/views.py:452
 msgid "You don't have permission to delete this story"
 msgstr "У Вас нет разрешения на удаление этой истории"
 
-#: blog/views.py:479
+#: blog/views.py:467
 msgid "The story was deleted. Story name: "
 msgstr "История была удалена. Имя истории: "
 
@@ -169,41 +168,41 @@ msgstr "Язык"
 msgid "Languages"
 msgstr "Языки"
 
-#: main/models.py:28 templates/blog/create.html:84
+#: main/models.py:31 templates/blog/create.html:84
 #: templates/blog/create.html:87 templates/blog/edit-article.html:102
 #: templates/blog/edit-article.html:106
 msgid "Title"
 msgstr "Название"
 
-#: main/models.py:32
+#: main/models.py:35
 msgid "Page"
 msgstr "Страница"
 
-#: main/models.py:33
+#: main/models.py:36
 msgid "Pages"
 msgstr "Страницы"
 
-#: main/models.py:37
+#: main/models.py:40
 msgid "username"
 msgstr "пользователь"
 
-#: main/models.py:39
+#: main/models.py:42
 msgid "email"
 msgstr "емайл"
 
-#: main/models.py:50
+#: main/models.py:53
 msgid "Message"
 msgstr "Сообщение"
 
-#: main/models.py:51
+#: main/models.py:54
 msgid "Messages"
 msgstr "Сообщения"
 
-#: main/views.py:54
+#: main/views.py:53
 msgid "Contacts"
 msgstr "Контакты"
 
-#: main/views.py:64
+#: main/views.py:63
 msgid "Your message was sent successfully!"
 msgstr "Ваше сообщение было успешно отправлено"
 
@@ -428,6 +427,7 @@ msgstr ""
 #: templates/admin/related_widget_wrapper.html:10
 #: templates/admin/widgets/related_widget_wrapper.html:10
 #: templates/blog/create.html:47 templates/blog/edit-article.html:49
+#: templates/users/sidebar.html:25
 msgid "Change"
 msgstr "Изменить"
 
@@ -504,8 +504,7 @@ msgstr "Дата/время"
 msgid "User"
 msgstr "Пользователь"
 
-#: templates/admin/object_history.html:24 users/models.py:90 users/models.py:94
-#: users/views.py:173
+#: templates/admin/object_history.html:24
 msgid "Action"
 msgstr "Действия"
 
@@ -545,8 +544,7 @@ msgstr "Добавить %(model)s"
 msgid "Delete selected %(model)s"
 msgstr "Удалить выбранную %(model)s"
 
-#: templates/admin/search_form.html:7 templates/header.html:37
-#: templates/main/main_search.html:19
+#: templates/admin/search_form.html:7 templates/main/main_search.html:18
 msgid "Search"
 msgstr "Поиск"
 
@@ -592,11 +590,13 @@ msgstr ""
 "профиле."
 
 #: templates/blog/article.html:47 templates/blog/index.html:60
+#: templates/blog/list.html:60
 msgid "Rating"
 msgstr "Рейтинг"
 
 #: templates/blog/article.html:49 templates/blog/index.html:62
-#: templates/main/home.html:69 templates/sidebar.html:15
+#: templates/blog/list.html:62 templates/main/home.html:69
+#: templates/sidebar.html:15 templates/users/sidebar.html:63
 msgid "published stories"
 msgstr "историй"
 
@@ -605,14 +605,16 @@ msgid "profile"
 msgstr "профиль"
 
 #: templates/blog/article.html:60 templates/blog/index.html:73
+#: templates/blog/list.html:73
 msgid "The published date of the story"
 msgstr "Дата публикации истории"
 
 #: templates/blog/article.html:69 templates/blog/index.html:83
+#: templates/blog/list.html:83
 msgid "The story views"
 msgstr "Кол-во просмотров"
 
-#: templates/blog/author_articles.html:4
+#: templates/blog/author_articles.html:4 templates/users/sidebar.html:96
 msgid "stories"
 msgstr "истории"
 
@@ -631,15 +633,18 @@ msgid "not selected an image"
 msgstr "Изображение не выбранно"
 
 #: templates/blog/create.html:46 templates/blog/edit-article.html:48
+#: templates/users/sidebar.html:24
 msgid "Select an image"
 msgstr "Выберете изображение"
 
 #: templates/blog/create.html:53 templates/blog/edit-article.html:55
+#: templates/users/sidebar.html:31
 msgid "Remove"
 msgstr "Удалить"
 
 #: templates/blog/create.html:61 templates/blog/create.html:120
-#: templates/blog/index.html:114
+#: templates/blog/index.html:114 templates/blog/list.html:121
+#: templates/blog/list.html:125
 msgid "next"
 msgstr "далее"
 
@@ -678,6 +683,7 @@ msgid "delete"
 msgstr "удалить"
 
 #: templates/blog/edit-article.html:63 templates/blog/edit-article.html:146
+#: templates/users/sidebar.html:37
 msgid "save"
 msgstr "сохранить"
 
@@ -685,25 +691,36 @@ msgstr "сохранить"
 msgid "add"
 msgstr "добавить"
 
-#: templates/blog/index.html:6
+#: templates/blog/index.html:6 templates/blog/list.html:6
 msgid "Popular stories"
 msgstr "Популярные истории"
 
-#: templates/blog/index.html:99
+#: templates/blog/index.html:99 templates/blog/list.html:100
+#: templates/blog/list.html:109
 msgid "previous"
-msgstr "предпросмотр"
+msgstr "назад"
+
+#: templates/blog/list.html:113
+msgid "page"
+msgstr "страница"
+
+#: templates/blog/list.html:113
+msgid "of"
+msgstr "из"
 
 #: templates/blog/tags.html:29
 msgid "This tag is not available"
 msgstr "Этот тэг не доступен"
 
 #: templates/header.html:27 templates/main/header_search.html:26
-msgid "contacts"
-msgstr "контакты"
+msgid "popularity"
+msgstr "популярное"
 
 #: templates/header.html:31 templates/main/header_search.html:30
-msgid "about"
-msgstr "о нас"
+#: templates/main/home.html:67 templates/sidebar.html:13
+#: templates/users/sidebar.html:59 templates/users/sidebar.html:93
+msgid "rating"
+msgstr "рейтинг"
 
 #: templates/main/about.html:6
 msgid "About us - Web Zoomer"
@@ -717,10 +734,6 @@ msgstr "Лучшие статьи - Web Zoomer"
 msgid "The Author's profile"
 msgstr "Профиль автора"
 
-#: templates/main/home.html:67 templates/sidebar.html:13
-msgid "rating"
-msgstr "рейтинг"
-
 #: templates/main/home.html:70
 msgid "author's stories"
 msgstr "истории автора"
@@ -729,11 +742,13 @@ msgstr "истории автора"
 msgid "Read this Author"
 msgstr "Читать этого Автора"
 
-#: templates/sidebar.html:18
+#: templates/sidebar.html:18 templates/users/sidebar.html:67
+#: templates/users/sidebar.html:100
 msgid "rank"
 msgstr "звание"
 
-#: templates/sidebar.html:19
+#: templates/sidebar.html:19 templates/users/sidebar.html:72
+#: templates/users/sidebar.html:105
 msgid "website:"
 msgstr "вэб сайт:"
 
@@ -745,7 +760,7 @@ msgstr "Емайл"
 msgid "Password"
 msgstr "Пароль"
 
-#: templates/users/login.html:74 users/views.py:32 users/views.py:39
+#: templates/users/login.html:74 users/views.py:35 users/views.py:42
 msgid "Sign in"
 msgstr "Войти"
 
@@ -769,9 +784,13 @@ msgstr "Повторить пароль"
 msgid "send"
 msgstr "отправить"
 
-#: templates/users/sidebar.html:5 users/models.py:95
-msgid "Actions"
-msgstr "Действия"
+#: templates/users/sidebar.html:50 users/models.py:18
+msgid "first name"
+msgstr "имя"
+
+#: templates/users/sidebar.html:52 users/models.py:19
+msgid "last name"
+msgstr "фамилия"
 
 #: users/models.py:16
 msgid "email address"
@@ -781,82 +800,68 @@ msgstr "Адрес электронной почты"
 msgid "password"
 msgstr "пароль"
 
-#: users/models.py:18
-msgid "first name"
-msgstr "имя"
-
-#: users/models.py:19
-msgid "last name"
-msgstr "фамилия"
-
 #: users/models.py:20
+#, fuzzy
+#| msgid "website:"
+msgid "website"
+msgstr "вэб сайт:"
+
+#: users/models.py:22
 msgid "date joined"
 msgstr "дата регистрации"
 
-#: users/models.py:26
+#: users/models.py:28
 msgid "staff status"
 msgstr "персонал"
 
-#: users/models.py:28
+#: users/models.py:30
 msgid "Designates whether the user can log into this admin site"
 msgstr ""
 
-#: users/models.py:39
+#: users/models.py:41
 msgid "users"
 msgstr "пользователи"
 
-#: users/models.py:78
-msgid "Slug"
-msgstr "Слаг"
-
-#: users/models.py:79
-msgid "Slugs"
-msgstr "Слаги"
-
-#: users/models.py:83
-msgid "name"
-msgstr "имя"
-
-#: users/models.py:99
+#: users/models.py:74
 msgid "author"
 msgstr "автор"
 
-#: users/models.py:100
+#: users/models.py:75
 msgid "reader"
 msgstr "читатель"
 
-#: users/views.py:27 users/views.py:64
+#: users/views.py:30 users/views.py:67
 msgid "You are already logged in"
 msgstr "Вы уже залогинились"
 
-#: users/views.py:48
+#: users/views.py:51
 msgid "You are login as "
 msgstr "Вы вошли как "
 
-#: users/views.py:51
+#: users/views.py:54
 msgid "User does not found"
 msgstr "Пользователь не найден"
 
-#: users/views.py:69 users/views.py:76
+#: users/views.py:72 users/views.py:79
 msgid "Create account"
 msgstr "Создать аккаунт"
 
-#: users/views.py:88
+#: users/views.py:91
 msgid ""
 "You was registered on Web ZoomerFor activation yor account click follow link:"
 msgstr ""
 "Вы были зарегистрированы на Web Zoomer для активации акаунта нажмите эту "
 "ссылку:"
 
-#: users/views.py:93
+#: users/views.py:96
 msgid "Error with create user"
 msgstr "Ошибка создания пользователя"
 
-#: users/views.py:104
+#: users/views.py:107
 msgid "A massage was sent to your email"
 msgstr "Сообщение было отправленно на Ваш емайл"
 
-#: users/views.py:107
+#: users/views.py:110
 msgid ""
 "Sending an email for you, has failed. Please <a href='/contacts/'>Contact</"
 "a> support"
@@ -864,33 +869,51 @@ msgstr ""
 "Отправка электронной почты для вас не удалось. <a href='/"
 "contacts/'>Обратитесь</a> в службу поддержки."
 
-#: users/views.py:129
+#: users/views.py:132
 msgid "Your account is already active"
 msgstr "Ваш аккаунт уже активен"
 
-#: users/views.py:133
+#: users/views.py:136
 msgid "Your account was activated"
 msgstr "Ваш аккаунт был активирован"
 
-#: users/views.py:136
+#: users/views.py:139
 msgid "Invalid verification code"
 msgstr "Неверный код активации"
 
-#: users/views.py:138
+#: users/views.py:141
 msgid "User doesn't found"
 msgstr "Пользователь не найден"
 
-#: users/views.py:154
+#: users/views.py:158
 msgid "Profile"
 msgstr "Профиль"
 
-#: web_zoomer_com/settings.py:148
+#: web_zoomer_com/settings.py:144
 msgid "English"
 msgstr "Английский"
 
-#: web_zoomer_com/settings.py:149
+#: web_zoomer_com/settings.py:145
 msgid "Russian"
 msgstr "Русский"
+
+#~ msgid "contacts"
+#~ msgstr "контакты"
+
+#~ msgid "about"
+#~ msgstr "о нас"
+
+#~ msgid "Actions"
+#~ msgstr "Действия"
+
+#~ msgid "Slug"
+#~ msgstr "Слаг"
+
+#~ msgid "Slugs"
+#~ msgstr "Слаги"
+
+#~ msgid "name"
+#~ msgstr "имя"
 
 #~ msgid "Read..."
 #~ msgstr "Читать..."

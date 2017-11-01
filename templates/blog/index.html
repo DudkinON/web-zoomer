@@ -46,9 +46,9 @@
                         <div class="btn-group dropup">
                 <span class="user-link dropdown-toggle" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
-                <img src="{{ article.author.avatar }}" alt=""
+                <img src="{{ article.author.avatar.url }}" alt="{{ article.author.get_full_name }}"
                      class="rounded-circle user-photo">
-                <span>{{ article.author.first_name }} {{ article.author.last_name }}</span>
+                <span>{{ article.author.get_full_name }}</span>
                 </span>
                             <div class="dropdown-menu p-20 user-card">
 

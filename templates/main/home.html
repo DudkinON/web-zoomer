@@ -46,13 +46,13 @@
                                    aria-hidden="true"></i>
                             </div>
                             <div class="btn-group dropup">
-                            <span class="user-link dropdown-toggle"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true" aria-expanded="false">
-                            <img src="{{ article.author.avatar.url }}" alt=""
-                                 class="rounded-circle user-photo">
-                            <span>{{ article.author.get_full_name }}</span>
-                            </span>
+                                <span class="user-link dropdown-toggle"
+                                      data-toggle="dropdown"
+                                      aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ article.author.avatar.url }}" alt=""
+                                     class="rounded-circle user-photo">
+                                <span>{{ article.author.get_full_name }}</span>
+                                </span>
                                 <div class="dropdown-menu p-20 user-card">
                                     <a href="{% url 'users:profile' article.author.id %}"
                                        data-toggle="tooltip"

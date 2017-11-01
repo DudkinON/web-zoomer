@@ -10,6 +10,7 @@ from django.db import connection
 from django.utils.translation import get_language
 from django.views import View
 from web_zoomer_com.settings import MEDIA_ROOT
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from re import findall, compile
 from os import path, remove
@@ -18,7 +19,8 @@ from blog.forms import ArticleForm, ImageForm, EditArticleForm
 from blog.models import Article, ArticleLikes, ArticleTag, ArticleImage
 from users.models import User
 from main.models import Languages
-from web_zoomer_com.settings import MEDIA_URL
+from web_zoomer_com.settings import AMOUNT_ARTICLES_LIST as NUM
+from web_zoomer_com.settings import AMOUNT_TAG_RESULT as TAGS_NUM
 
 app_name = 'blog'
 
@@ -57,51 +59,22 @@ def articles(request):
     articles_quantity = Article.objects.filter(
         is_active=True,
         language=get_language()
-    ).order_by("views").all().count()
-    try:
-        page = int(request.GET['page']) or 1
-    except:
-        page = 1
-    if page == 1:
-        args['articles'] = Article.objects.filter(
-            is_active=True,
-            language=get_language()
-        ).order_by("-views")[:10]
-        args['page1'] = page
-        args['page2'] = page + 1
-        args['page3'] = page + 2
-    elif articles_quantity > 10 and articles_quantity % 10 != 0 and page == (
-                articles_quantity / 10) + 1:
-        args['page1'] = page - 2
-        args['page2'] = page - 1
-        args['page3'] = page
-        args['articles'] = Article.objects.filter(
-            is_active=True,
-            language=get_language()
-        ).order_by("-views")[page * 10 - 10:page * 10]
-    elif articles_quantity > 10 and articles_quantity % 10 == 0 and page == articles_quantity / 10:
-        args['page1'] = page - 2
-        args['page2'] = page - 1
-        args['page3'] = page
-        args['articles'] = Article.objects.filter(
-            is_active=True,
-            language=get_language()
-        ).order_by("-views")[page * 10 - 10:page * 10]
-    else:
-        args['page1'] = page - 1
-        args['page2'] = page
-        args['page3'] = page + 1
-        args['articles'] = Article.objects.filter(
-            is_active=True,
-            language=get_language()
-        ).order_by("-views")[page * 10 - 10:page * 10]
-    args['page'] = page
-    args['articles_quantity'] = articles_quantity
-
+    ).order_by("views").all()
+    paginator = Paginator(articles_quantity, NUM)
     args['last_articles'] = Article.objects.filter(
         is_active=True, language=get_language()).order_by("-created")[:6]
 
-    return render(request, 'blog/index.html', args)
+    page = request.GET.get('page')
+    try:
+        args['articles_list'] = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        args['articles_list'] = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        args['articles_list'] = paginator.page(paginator.num_pages)
+
+    return render(request, 'blog/list.html', args)
 
 
 def article(request, slug):
@@ -185,12 +158,23 @@ def tag_sort(request, tag):
     args = dict()
     current_tag = ArticleTag.objects.filter(
         tag=tag, language=get_language(),
-        is_active=True).first() or None
-    if current_tag is not None:
-        args['articles'] = current_tag.article_set.filter(
-            is_active=True).all() or None
+        is_active=True).first()
+    if not current_tag:
+        articles_list = []
     else:
-        args['articles'] = None
+        articles_list = current_tag.article_set.filter(is_active=True).all()
+    args['tag'] = tag
+    paginator = Paginator(articles_list, TAGS_NUM)
+    page = request.GET.get('page')
+    try:
+        args['articles_list'] = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        args['articles_list'] = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        args['articles_list'] = paginator.page(paginator.num_pages)
+
     return render(request, 'blog/tags.html', args)
 
 
@@ -308,7 +292,6 @@ class EditArticle(View):
         self.args['user'] = user
         self.args['article'] = current_article
         self.args['tags'] = current_article.tags.all()
-        self.args['media'] = MEDIA_URL
         self.args['image'] = current_article.image.image
         self.args['form'] = form
         self.args['img_form'] = img_form
@@ -336,7 +319,6 @@ class EditArticle(View):
         self.args['img_form'] = img_form
         self.args['article'] = current_article
         self.args['tags'] = current_article.tags.all()
-        self.args['media'] = MEDIA_URL
         self.args['image'] = current_article.image.image
         self.args['form'] = form
 
@@ -466,7 +448,6 @@ def delete_article(request, slug):
                                 kwargs={'uid': request.session['uid']}))
 
     args = dict()
-    args['media'] = MEDIA_URL
     args['article'] = current_article
     args['image'] = current_article.image.image
 

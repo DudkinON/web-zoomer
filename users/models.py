@@ -7,7 +7,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from imagekit.models import ProcessedImageField
 
-from main.models import Languages
 from .managers import UserManager
 from main.functions import get_user_image_path
 
@@ -81,3 +80,6 @@ class Readers(models.Model):
         :return int:
         """
         return Readers.objects.filter(author=self.author).all().count() or 0
+
+
+

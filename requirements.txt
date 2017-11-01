@@ -3,3 +3,4 @@ django
 psycopg2
 django-imagekit
 django-tinymce
+argon2-cffi

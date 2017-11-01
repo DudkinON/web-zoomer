@@ -26,6 +26,7 @@ class ArticleImage(models.Model):
         return "user: {}, image id: {}".format(self.user.get_full_name, self.id)
 
     class Meta:
+        # db_table = "article_image"
         verbose_name = _('Image')
         verbose_name_plural = _('Images')
 
@@ -40,6 +41,7 @@ class ArticleTag(models.Model):
         return self.tag
 
     class Meta:
+        # db_table = "article_tag"
         verbose_name = _('Tag')
         verbose_name_plural = _('Tags')
 
@@ -111,3 +113,8 @@ class ArticleViewsPerDay(models.Model):
 
     class Meta:
         db_table = "article_views_per_day"
+
+
+class Bookmarks(models.Model):
+    reader = models.ForeignKey(User, related_name=_("user"))
+    article = models.ForeignKey(Article, related_name=_("article"))

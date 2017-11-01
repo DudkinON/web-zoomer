@@ -60,6 +60,19 @@ jQuery(document).ready(function ($) {
         $('#last-name').toggle();
     });
 
+    // edit first and last name user
+    $('#first-name').on('change', function () {
+        var firstName = $(this).val();
+        $('#first-name-output').text(firstName);
+    });
+    $('#last-name').on('change', function () {
+        var lastName = $(this).val();
+        $('#last-name-output').text(lastName);
+    });
+
+    //edit edit website
+
+
     // like
     $('.like').on('click', function () {
         var like = $('.like');

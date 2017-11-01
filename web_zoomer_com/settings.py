@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'web_zoomer_com.urls'
@@ -173,3 +173,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 ARTICLE_IMG_ROOT = 'article_images'
 
 USER_AVATAR_ROOT = 'avatars'
+
+# Amount articles per page on list of articles page
+AMOUNT_ARTICLES_LIST = 10
+
+# Amount search results per page
+AMOUNT_SEARCH_RESULT = 10
+
+# Amount results by tag
+AMOUNT_TAG_RESULT = 10
