@@ -26,7 +26,7 @@ class ArticleImage(models.Model):
         return "user: {}, image id: {}".format(self.user.get_full_name, self.id)
 
     class Meta:
-        # db_table = "article_image"
+        db_table = "article_image"
         verbose_name = _('Image')
         verbose_name_plural = _('Images')
 
@@ -41,7 +41,7 @@ class ArticleTag(models.Model):
         return self.tag
 
     class Meta:
-        # db_table = "article_tag"
+        db_table = "article_tag"
         verbose_name = _('Tag')
         verbose_name_plural = _('Tags')
 

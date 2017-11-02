@@ -26,6 +26,29 @@ function updateTags(obj) {
     });
 }
 
+function bookmark(obj) {
+    var e = obj;
+    var url = $(location).attr('href');
+    var bookmark;
+    if ($(e).data("bookmark") === 0) bookmark = 1;
+    else bookmark = 0;
+    var data = {
+        "csrfmiddlewaretoken": $(e).data("csrf"),
+        "article_id": $(e).data("article-id"),
+        "bookmark": bookmark
+    };
+    $.post(url, data, function (callback) {
+        $(e).attr('data-csrf', callback['csrf']);
+        $(e).attr('data-bookmark', bookmark);
+        if ($(e).hasClass('green')) {
+            $(e).removeClass('green');
+        }
+        else {
+            $(e).addClass('green');
+        }
+    });
+}
+
 jQuery(document).ready(function ($) {
 
     //search focus
@@ -70,7 +93,10 @@ jQuery(document).ready(function ($) {
         $('#last-name-output').text(lastName);
     });
 
-    //edit edit website
+    // add/remove bookmark
+    $('.bookmark-article').on('click', function () {
+        bookmark(this);
+    });
 
 
     // like
@@ -78,7 +104,7 @@ jQuery(document).ready(function ($) {
         var like = $('.like');
         var dislike = $('.dislike');
         if (!like.hasClass('liked')) {
-            if ($(this).data()['uid'] !== 'None') {
+            if ($(this).data('uid') !== 'None') {
                 var url = $(location).attr('href');
                 var data = {
                     'csrfmiddlewaretoken': $(this).data()['csrf'],
@@ -87,8 +113,8 @@ jQuery(document).ready(function ($) {
                 $.post(url, data, function (r) {
                     if (dislike.hasClass('disliked')) dislike.removeClass('disliked');
                     if (!like.hasClass('liked')) like.addClass('liked');
-                    like.data()['csrf'] = r['csrf'];
-                    dislike.data()['csrf'] = r['csrf'];
+                    like.attr('data-csrf', r['csrf']);
+                    dislike.attr('data-csrf', r['csrf']);
                     $('#likes').text(r['likes']);
                     $('#dislikes').text(r['dislikes']);
                 })
@@ -102,27 +128,29 @@ jQuery(document).ready(function ($) {
         var like = $('.like');
         var dislike = $('.dislike');
         if (!dislike.hasClass('disliked')) {
-            if ($(this).data()['uid'] !== 'None') {
+            if ($(this).data('uid') !== 'None') {
                 var url = $(location).attr('href');
                 var data = {
-                    'csrfmiddlewaretoken': $(this).data()['csrf'],
+                    'csrfmiddlewaretoken': $(this).data('csrf'),
                     'like': 0
                 };
                 $.post(url, data, function (r) {
                     if (!dislike.hasClass('disliked')) dislike.addClass('disliked');
                     if (like.hasClass('liked')) like.removeClass('liked');
-                    like.data()['csrf'] = r['csrf'];
-                    dislike.data()['csrf'] = r['csrf'];
+                    like.attr('data-csrf', r['csrf']);
+                    dislike.attr('data-csrf', r['csrf']);
                     $('#likes').text(r['likes']);
                     $('#dislikes').text(r['dislikes']);
-                })
+                });
             }
         }
-    })
-
+    });
 }).ajaxComplete(function () {
     // update DOM delete tag
     jQuery('.delete-tag').on('click', function () {
         updateTags(this);
+    });
+    jQuery('.bookmark-article').on('click', function () {
+        bookmark(this);
     });
 });

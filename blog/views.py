@@ -340,7 +340,7 @@ class EditArticle(View):
                 current_article.save(update_fields=['image'])
 
                 with connection.cursor() as c:
-                    c.execute("DELETE FROM blog_articleimage "
+                    c.execute("DELETE FROM article_image "
                               "WHERE id=%s", [image_id])
                 return redirect(reverse('blog:edit_article',
                                         kwargs={'slug': slug}))

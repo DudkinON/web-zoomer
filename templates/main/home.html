@@ -38,9 +38,12 @@
                             >{{ article.title }}</h2>
                         </a>
                         <div class="article-footer">
-                            <div class="bookmark-article"
+                            <div class="bookmark-article{% if article.id in bookmarks %} green{% endif %}"
+                                 data-article-id="{{ article.id }}"
+                                 data-csrf="{{ csrf_token }}"
                                  data-toggle="tooltip"
                                  data-placement="top"
+                                 data-bookmark="{% if article.id in bookmarks %}1{% else %}0{% endif %}"
                                  title="{% trans "Bookmark this story" %}">
                                 <i class="fa fa-bookmark-o"
                                    aria-hidden="true"></i>

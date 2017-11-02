@@ -1221,6 +1221,9 @@ a:hover > h2 {
 .edit-name:hover {
     color: #4cae4c;
 }
+.green {
+    color: #4cae4c;
+}
 
 .user-avatar {
     position: relative;
@@ -1241,7 +1244,6 @@ a:hover > h2 {
 .author-image-container {
     width: 100%;
     display: block;
-
 }
 
 .author-data {

@@ -2,18 +2,22 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.utils import translation
-from blog.models import Article, ArticleTag as Tag
-from main.models import Pages, Message
-from main.forms import ContactForm
 from django.utils.translation import ugettext_lazy as _, LANGUAGE_SESSION_KEY
 from django.utils.translation import get_language
 from django.contrib.postgres.search import SearchVector
-from re import findall, compile
+from django.db import connection
 from django.contrib import messages
 
+from re import findall, compile
+
+from blog.models import Article, ArticleTag as Tag, Bookmarks
+from main.models import Pages, Message
+from main.forms import ContactForm
 from web_zoomer_com.settings import AMOUNT_SEARCH_RESULT
 
 app_name = 'main'
@@ -26,9 +30,51 @@ def home(request):
     :return:
     """
     args = dict()
+
+    # get articles list
     args['articles'] = Article.objects.filter(
         is_active=True, language=get_language()).order_by(
         "-created")
+
+    # define bookmarks list with articles ids
+    if 'uid' in request.session:
+        with connection.cursor() as c:
+            c.execute("SELECT article_id FROM blog_bookmarks "
+                      "WHERE reader_id=%s", [int(request.session['uid'])])
+            bookmarks = [item[0] for item in c.fetchall()]
+        args['bookmarks'] = bookmarks
+    else:
+        args['bookmarks'] = []
+
+    # get csrf token
+    csrf = str(get_token(request))
+
+    if 'bookmark' in request.POST:
+
+        if 'uid' not in request.session:
+            return redirect(reverse('users:login'))
+        print(request.POST, csrf)
+        article_id = int(request.POST['article_id'])
+        print(type(request.POST['bookmark']))
+        if request.POST['bookmark'] == '1':
+            print(request.POST['bookmark'], 'if')
+            Bookmarks.objects.get_or_create(
+                reader_id=request.session['uid'],
+                article_id=article_id
+            )
+        else:
+            print(request.POST['bookmark'], 'else')
+            with connection.cursor() as c:
+                c.execute("DELETE FROM blog_bookmarks "
+                          "WHERE reader_id=%s AND article_id=%s",
+                          [request.session['uid'], article_id])
+
+        # json preparation
+        json_response_prepare = {
+            'csrf': csrf,
+            'bookmark': int(request.POST['bookmark'])
+        }
+        return JsonResponse(dict(json_response_prepare))
 
     return render(request, 'main/home.html', args)
 
