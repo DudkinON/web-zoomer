@@ -38,14 +38,14 @@ function bookmark(obj) {
         "bookmark": bookmark
     };
     $.post(url, data, function (callback) {
+        console.log(callback['title']);
         $(e).attr('data-csrf', callback['csrf']);
-        $(e).attr('data-bookmark', bookmark);
-        if ($(e).hasClass('green')) {
-            $(e).removeClass('green');
-        }
-        else {
-            $(e).addClass('green');
-        }
+        $(e).attr('data-bookmark', callback['bookmark']);
+        $(e).tooltip('dispose');
+        $(e).attr('title', callback['title']);
+        $(e).tooltip('show');
+        if ($(e).hasClass('green')) {$(e).removeClass('green');}
+        else {$(e).addClass('green');}
     });
 }
 

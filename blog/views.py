@@ -89,10 +89,11 @@ def article(request, slug):
 
     likes = ArticleLikes.objects.filter(
         like=True, article=current_article.id).all()
-    dislikes = ArticleLikes.objects.filter(
+    dislikes = ArticleLikes.    objects.filter(
         like=False, article=current_article.id).all()
 
     if current_article.id not in request.COOKIES:
+
         current_article.views += 1
         current_article.save(update_fields=['views'])
         response = HttpResponse('view')
@@ -389,9 +390,9 @@ class EditArticle(View):
 
             with connection.cursor() as c:
                 c.execute(
-                    "SELECT id FROM public.blog_article_tags "
-                    "WHERE article_id=%(aid)S AND articletag_id=%(tid)S",
-                    {'aid': art_id, 'tid': tag_id})
+                    "SELECT id FROM blog_article_tags "
+                    "WHERE article_id=%s AND articletag_id=%s",
+                    [art_id, tag_id])
                 m2m = c.fetchone()[0]
 
             if m2m > 0:
@@ -399,12 +400,12 @@ class EditArticle(View):
                     c.execute("DELETE FROM blog_article_tags "
                               "WHERE id=%s", [m2m])
                     c.execute(
-                        """SELECT "blog_articletag"."id", 
-                        "blog_articletag"."tag"
-                        FROM "blog_articletag" INNER JOIN "blog_article_tags" 
-                        ON ("blog_articletag"."id" = 
+                        """SELECT "article_tag"."id", 
+                        "article_tag"."tag"
+                        FROM "article_tag" INNER JOIN "blog_article_tags" 
+                        ON ("article_tag"."id" = 
                         "blog_article_tags"."articletag_id") 
-                        WHERE "blog_articletag"."is_active"=TRUE AND 
+                        WHERE "article_tag"."is_active"=TRUE AND 
                         "blog_article_tags"."article_id"=%s""",
                         [art_id])
                     response = c.fetchall()

@@ -53,17 +53,17 @@ def home(request):
 
         if 'uid' not in request.session:
             return redirect(reverse('users:login'))
-        print(request.POST, csrf)
+
         article_id = int(request.POST['article_id'])
-        print(type(request.POST['bookmark']))
+
         if request.POST['bookmark'] == '1':
-            print(request.POST['bookmark'], 'if')
+            title = _("remove from bookmarks")
             Bookmarks.objects.get_or_create(
                 reader_id=request.session['uid'],
                 article_id=article_id
             )
         else:
-            print(request.POST['bookmark'], 'else')
+            title = _("Bookmark this story")
             with connection.cursor() as c:
                 c.execute("DELETE FROM blog_bookmarks "
                           "WHERE reader_id=%s AND article_id=%s",
@@ -72,7 +72,8 @@ def home(request):
         # json preparation
         json_response_prepare = {
             'csrf': csrf,
-            'bookmark': int(request.POST['bookmark'])
+            'bookmark': int(request.POST['bookmark']),
+            'title': title
         }
         return JsonResponse(dict(json_response_prepare))
 

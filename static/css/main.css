@@ -1225,6 +1225,10 @@ a:hover > h2 {
     color: #4cae4c;
 }
 
+.green:hover {
+    color: red!important;
+}
+
 .user-avatar {
     position: relative;
 }

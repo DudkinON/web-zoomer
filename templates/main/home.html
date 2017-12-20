@@ -44,9 +44,8 @@
                                  data-toggle="tooltip"
                                  data-placement="top"
                                  data-bookmark="{% if article.id in bookmarks %}1{% else %}0{% endif %}"
-                                 title="{% trans "Bookmark this story" %}">
-                                <i class="fa fa-bookmark-o"
-                                   aria-hidden="true"></i>
+                                 title="{% if article.id in bookmarks %}{% trans "remove from bookmarks" %}{% else %}{% trans "Bookmark this story" %}{% endif %}">
+                                <i class="fa fa-bookmark-o" aria-hidden="true"></i>
                             </div>
                             <div class="btn-group dropup">
                                 <span class="user-link dropdown-toggle"
