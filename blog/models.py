@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -30,6 +31,16 @@ class ArticleImage(models.Model):
         db_table = "article_image"
         verbose_name = _('Image')
         verbose_name_plural = _('Images')
+
+    @property
+    def serialize(self):
+        return {
+            'image': self.image,
+            'user': self.user.serialize,
+            'is_active': self.is_active,
+            'created': self.created,
+            'updated': self.updated
+        }
 
 
 class ArticleTag(models.Model):
@@ -85,11 +96,14 @@ class Article(models.Model):
         verbose_name = _('Article')
         verbose_name_plural = _('Articles')
 
+    def get_tags(self):
+        return [tag.serialize for tag in self.tags.all()]
+
     @property
     def serialise(self):
         return {
             'language': self.language.serialize,
-            'tags': self.tags,
+            'tags': self.get_tags(),
             'image': self.image,
             'title': self.title,
             'description': self.description,
