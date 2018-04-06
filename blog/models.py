@@ -78,6 +78,23 @@ class Article(models.Model):
         verbose_name_plural = _('Articles')
 
     @property
+    def serialise(self):
+        return {
+            'language': self.language,
+            'tags': self.tags,
+            'image': self.image,
+            'title': self.title,
+            'description': self.description,
+            'text': self.text,
+            'author': self.author,
+            'slug': self.slug,
+            'is_active': self.is_active,
+            'views': self.views,
+            'created': self.created,
+            'updated': self.updated
+        }
+
+    @property
     def count_published_articles_by_author(self):
         """Return amount of published articles
 
