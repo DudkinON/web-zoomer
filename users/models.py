@@ -70,8 +70,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Readers(models.Model):
-    author = models.ForeignKey(User, related_name=_("author"))
-    reader = models.ForeignKey(User, related_name=_("reader"))
+    author = models.ForeignKey(User, related_name=_("author"),
+                               on_delete=models.DO_NOTHING)
+    reader = models.ForeignKey(User, related_name=_("reader"),
+                               on_delete=models.DO_NOTHING)
 
     @property
     def count_readers(self):

@@ -15,7 +15,7 @@ class ArticleImage(models.Model):
                                 processors=[ResizeToFill(1000, 800)],
                                 format='JPEG',
                                 options={'quality': 80})
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     is_active = models.BooleanField(_("is active"), default=True)
     created = models.DateTimeField(verbose_name=_("created"),
                                    auto_now_add=True, auto_now=False)
@@ -34,7 +34,7 @@ class ArticleImage(models.Model):
 class ArticleTag(models.Model):
     tag = models.CharField(_("tag"), max_length=65, default=None)
     language = models.ForeignKey(Languages, verbose_name=_("language"),
-                                 default=None)
+                                 default=None, on_delete=models.DO_NOTHING)
     is_active = models.BooleanField(_("is active"), default=True)
 
     def __str__(self):
