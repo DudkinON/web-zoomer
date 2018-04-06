@@ -46,6 +46,14 @@ class ArticleTag(models.Model):
         verbose_name = _('Tag')
         verbose_name_plural = _('Tags')
 
+    @property
+    def serialize(self):
+        return {
+            'tag': self.tag,
+            'language': self.language.serialize,
+            'is_active': self.is_active
+        }
+
 
 class Article(models.Model):
     language = models.ForeignKey(Languages, verbose_name=_("language"),
@@ -80,7 +88,7 @@ class Article(models.Model):
     @property
     def serialise(self):
         return {
-            'language': self.language,
+            'language': self.language.serialize,
             'tags': self.tags,
             'image': self.image,
             'title': self.title,
