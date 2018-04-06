@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import hashlib
 import os
 from random import random
+from json import dumps
 from web_zoomer_com.settings import ARTICLE_IMG_ROOT, USER_AVATAR_ROOT
 from random import choice
 from string import ascii_uppercase as uppercase, digits
@@ -53,3 +54,6 @@ def get_unique_str(amount):
     """
     return ''.join(choice(uppercase + digits) for x in range(amount))
 
+
+def get_json(data):
+    return dumps(data, ensure_ascii=False)
