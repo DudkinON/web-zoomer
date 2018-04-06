@@ -5,7 +5,7 @@ from web_zoomer_com.settings import LANGUAGES
 
 
 class ArticleForm(forms.Form):
-    language = forms.ChoiceField(LANGUAGES)
+    language = forms.ChoiceField(choices=LANGUAGES)
     title = forms.CharField(max_length=255)
     description = forms.CharField(max_length=255)
     text = forms.CharField(max_length=5000, widget=forms.Textarea)

@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from imagekit.models import ProcessedImageField, ImageSpecField
+from imagekit.models import ProcessedImageField
 from pilkit.processors import ResizeToFill
 
 from main.functions import get_image_path
@@ -23,7 +23,8 @@ class ArticleImage(models.Model):
                                    auto_now_add=False, auto_now=True)
 
     def __str__(self):
-        return "user: {}, image id: {}".format(self.user.get_full_name, self.id)
+        return "user: {}, image id: {}".format(
+            self.user.get_full_name, self.id)
 
     class Meta:
         db_table = "article_image"
@@ -48,16 +49,17 @@ class ArticleTag(models.Model):
 
 class Article(models.Model):
     language = models.ForeignKey(Languages, verbose_name=_("language"),
-                                 default=None)
+                                 default=None, on_delete=models.DO_NOTHING)
     tags = models.ManyToManyField(ArticleTag, verbose_name=_("tags"),
                                   default=None)
     image = models.ForeignKey(ArticleImage, verbose_name=_("image"),
-                              default=None)
+                              default=None, on_delete=models.DO_NOTHING)
     title = models.CharField(_("title"), max_length=255, default=None,
                              unique=True)
     description = models.TextField(_("description"), default=None)
     text = models.TextField(_("text"), default=None)
-    author = models.ForeignKey(User, verbose_name=_("user"), default=None)
+    author = models.ForeignKey(User, verbose_name=_("user"), default=None,
+                               on_delete=models.DO_NOTHING)
     slug = models.CharField(_("slug"), max_length=255, default=None,
                             unique=True)
     is_active = models.BooleanField(_("is active"), default=True)
@@ -95,8 +97,12 @@ class Article(models.Model):
 
 
 class ArticleLikes(models.Model):
-    user = models.ForeignKey(User, verbose_name=_("user"), )
-    article = models.ForeignKey(Article, verbose_name=_("article"), )
+    user = models.ForeignKey(User,
+                             verbose_name=_("user"),
+                             on_delete=models.DO_NOTHING)
+    article = models.ForeignKey(Article,
+                                verbose_name=_("article"),
+                                on_delete=models.DO_NOTHING)
     like = models.BooleanField(verbose_name=_("like"))
 
     class Meta:
@@ -104,7 +110,9 @@ class ArticleLikes(models.Model):
 
 
 class ArticleViewsPerDay(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("article"))
+    article = models.ForeignKey(Article,
+                                verbose_name=_("article"),
+                                on_delete=models.DO_NOTHING)
     date = models.DateField(_('date'), default=timezone.now)
     views = models.IntegerField(_('views'), default=0)
 
@@ -116,5 +124,9 @@ class ArticleViewsPerDay(models.Model):
 
 
 class Bookmarks(models.Model):
-    reader = models.ForeignKey(User, related_name=_("user"))
-    article = models.ForeignKey(Article, related_name=_("article"))
+    reader = models.ForeignKey(User,
+                               related_name=_("user"),
+                               on_delete=models.DO_NOTHING)
+    article = models.ForeignKey(Article,
+                                related_name=_("article"),
+                                on_delete=models.DO_NOTHING)
