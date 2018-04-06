@@ -68,6 +68,20 @@ class User(AbstractBaseUser, PermissionsMixin):
         from django.core.mail import send_mail
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'website': self.website,
+            'date_joined': self.date_joined,
+            'is_active': self.is_active,
+            'avatar': self.avatar,
+            'is_staff': self.is_staff
+        }
+
 
 class Readers(models.Model):
     author = models.ForeignKey(User, related_name=_("author"),
