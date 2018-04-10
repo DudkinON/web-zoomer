@@ -18,6 +18,13 @@ class Languages(models.Model):
         verbose_name = _('Language')
         verbose_name_plural = _('Languages')
 
+    @property
+    def serialize(self):
+        return {
+            'code': self.code,
+            'is_active': self.is_active
+        }
+
 
 class Pages(models.Model):
     title = models.CharField(_("title"), max_length=128, blank=True, null=True,
